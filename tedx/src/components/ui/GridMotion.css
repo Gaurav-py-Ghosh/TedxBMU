@@ -1,0 +1,65 @@
+.noscroll {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.intro {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.gridMotion-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+  will-change: transform;
+}
+
+.row__item {
+  flex: 0 0 auto;
+  width: 250px;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.row__item-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row__item-img {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.row__item-content {
+  color: white;
+  font-size: 0.8rem;
+  opacity: 0.4;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.fullview {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
