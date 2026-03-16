@@ -39,6 +39,19 @@ const testimonials = [
     text: "TEDxBMU brought together voices that needed to be heard. Powerful, diverse, and deeply relevant to our generation.",
     avatar: "AN",
   },
+  {
+    name: "Ananya Singh",
+    role: "Journalist",
+    text: "TEDxBMU brought together voices that needed to be heard. Powerful, diverse, and deeply relevant to our generation.",
+    avatar: "AN",
+  },
+  {
+    name: "Ananya Singh",
+    role: "Journalist",
+    text: "TEDxBMU brought together voices that needed to be heard. Powerful, diverse, and deeply relevant to our generation.",
+    avatar: "AN",
+  }
+
 ];
 
 function TestimonialCard({ testimonial, index }) {
@@ -73,10 +86,10 @@ function TestimonialCard({ testimonial, index }) {
         transition: "opacity 0.7s ease, transform 0.7s ease",
         animation: visible ? `float-card ${floatDuration}s ease-in-out ${floatDelay}s infinite alternate` : "none",
       }}
-      className="group bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col gap-4
-        hover:border-[#e62b1e] hover:bg-[#e62b1e]/10
-        hover:shadow-[0_0_40px_rgba(230,43,30,0.3),inset_0_0_30px_rgba(230,43,30,0.05)]
-        transition-all duration-500 cursor-default"
+      className="group bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col gap-4 min-h-[320px]
+  hover:border-[#e62b1e] hover:bg-[#e62b1e]/10
+  hover:shadow-[0_0_40px_rgba(230,43,30,0.3),inset_0_0_30px_rgba(230,43,30,0.05)]
+  transition-all duration-500 cursor-default"
     >
       {/* Quote icon */}
       <div className="text-[#e62b1e]/40 group-hover:text-[#e62b1e] text-4xl font-black leading-none transition-colors duration-300">"</div>
@@ -150,8 +163,8 @@ export default function Testimonials() {
 </div>
 
         {/* Cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">          
+  {testimonials.map((t, i) => (
             <TestimonialCard key={t.name} testimonial={t} index={i} />
           ))}
         </div>

@@ -40,10 +40,11 @@ export default function Navbar() {
         {/* Nav Links */}
         <ul className="flex items-center gap-8">
   <li><NavLink label="Home" href="/" /></li>
-  <li><NavLink label="Speakers" href="/speakers" /></li>
+  <li><NavLink label="Events" href="/events" /></li>
   <li><NavLink label="Team" href="/team" /></li>
   <li><NavLink label="About" href="/about" /></li>
   <li><NavLink label="Contact Us" href="/contact" /></li>
+  
   <li>
     <a
       href="https://www.bmu.edu.in/"
@@ -54,6 +55,9 @@ export default function Navbar() {
       BMU
     </a>
   </li>
+
+    <li><NavLink label="Register Now" href="#" /></li>
+
 </ul>
 
       </div>

@@ -26,14 +26,6 @@ export default function ThemeDetail() {
         {/* TOP — Theme label + title */}
         <div className={`flex flex-col items-center gap-4 text-center transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
 
-          {/* Label pill */}
-          <div className="flex items-center gap-2 px-4 py-1.5 border border-white/20 rounded-full text-white/50 text-xs tracking-widest uppercase">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="#e62b1e">
-              <circle cx="5" cy="5" r="5"/>
-            </svg>
-            2026 Theme
-          </div>
-
           {/* Big title */}
           <h1 className="text-6xl lg:text-7xl font-black tracking-tight uppercase leading-none">
             <span className="text-white">THE </span>

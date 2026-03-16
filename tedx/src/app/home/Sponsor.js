@@ -20,14 +20,7 @@ export default function Sponsor() {
       <div className="max-w-7xl mx-auto px-16 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
         {/* LEFT — Text */}
-        <div className={`flex flex-col gap-8 transition-all duration-1000 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
-
-          {/* Label */}
-          <div className="inline-flex">
-            <span className="px-4 py-1.5 border border-white/20 rounded-full text-white/60 text-xs tracking-widest uppercase">
-              Sponsor Us
-            </span>
-          </div>
+        <div className={`flex flex-col gap-8 mt-4 transition-all duration-1000 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
 
           {/* Title */}
           <h2 className="text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
