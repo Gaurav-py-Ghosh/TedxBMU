@@ -1,28 +1,30 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Navbar from "./home/Navbar";
 import Footer from "./home/Footer";
 import Loader from "./home/Loader";
 
 export default function ClientWrapper({ children }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const pathname = usePathname();
-  const isFirst = useRef(true);
 
   useEffect(() => {
-    if (isFirst.current) {
-      isFirst.current = false;
-      return;
+    const hasLoaded = sessionStorage.getItem("tedxbmu_loaded");
+    if (!hasLoaded) {
+      setLoading(true);
     }
-    // On route change — show loader
-    setLoading(true);
-  }, [pathname]);
+  }, []); // ← empty array — only runs ONCE on first mount ever
+
+  const handleDone = () => {
+    sessionStorage.setItem("tedxbmu_loaded", "true");
+    setLoading(false);
+  };
 
   return (
     <>
-      {loading && <Loader onDone={() => setLoading(false)} />}
+      {loading && <Loader onDone={handleDone} />}
       <Navbar />
       {children}
       <Footer />

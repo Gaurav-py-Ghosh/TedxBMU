@@ -123,7 +123,7 @@ export default function SpeakerSection() {
 
        {/* HEADER */}
 <div className={`relative z-10 max-w-7xl mt-8 px-16 pt-16 w-full flex flex-row items-end justify-between transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-  <h2 className="text-6xl lg:text-8xl font-black leading-none tracking-tight uppercase">
+  <h2 className="text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
     <span className="text-white">OUR</span>{" "}
     <span className="text-[#e62b1e]">SPEAK</span>
     <span className="text-white">ERS</span>
@@ -134,7 +134,7 @@ export default function SpeakerSection() {
 </div>
 
         {/* CONTENT */}
-        <div className="relative z-10 max-w-7xl mx-auto px-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center flex-1 py-4">
+        <div className="relative z-10 max-w-7xl px-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center flex-1 py-4">
 
           {/* LEFT — Speaker info */}
           <div
@@ -142,7 +142,7 @@ export default function SpeakerSection() {
             style={{ animation: "fadeSlideIn 0.7s ease forwards" }}
             className="flex flex-col gap-4"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mb-5">
               <div className="h-px w-8 bg-[#e62b1e]" />
               <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">
                 Speakers · {speaker.number} of 0{speakers.length}

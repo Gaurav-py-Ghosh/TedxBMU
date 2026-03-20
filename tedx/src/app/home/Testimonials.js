@@ -145,7 +145,7 @@ export default function Testimonials() {
   {/* Left — Big bold title */}
   <div className="flex flex-col gap-2">
     <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light mb-2">Testimonials</span>
-    <h2 className="text-6xl lg:text-8xl font-black leading-none tracking-tight uppercase">
+    <h2 className="text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
       <span className="text-[#e62b1e]">WHAT</span>{" "}
       <span className="text-white">OUR</span>
       <br />

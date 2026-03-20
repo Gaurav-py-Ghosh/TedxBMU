@@ -1,174 +1,159 @@
 "use client";
+import { useState, useRef, useEffect } from "react";
+import TiltedCard from "@/components/ui/TiltedCard";
 
-import ChromaGrid from "@/components/ui/ChromaGrid";
+// ADD THIS HOOK
+function useVisible(threshold = 0.1) {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+  return [ref, visible];
+}
 
 const teamMembers = [
-  {
-    image: "/team/anisha.jpg",
-    title: "Akshat Kabra",
-    subtitle: "Organizer",
-    handle: "linkedin.com/in/anisha",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(145deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/anisha.jpg",
-    title: "Rhea Sud",
-    subtitle: "Co-organizer",
-    handle: "linkedin.com/in/anisha",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(145deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/anisha.jpg",
-    title: "Gaurav Ghosh",
-    subtitle: "Website Lead",
-    handle: "linkedin.com/in/anisha",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(145deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/anisha.jpg",
-    title: "Bhavyanshi Singh",
-    subtitle: "Curation Lead",
-    handle: "linkedin.com/in/anisha",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(145deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/anisha.jpg",
-    title: "Aryan Nair",
-    subtitle: "Curation Lead",
-    handle: "linkedin.com/in/anisha",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(145deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/lakshay.jpg",
-    title: "Tanuj Dhakad",
-    subtitle: "Event Management Lead",
-    handle: "linkedin.com/in/lakshay",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(210deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/bhawesh.jpg",
-    title: "Sanyam Jain",
-    subtitle: "Event Management Lead",
-    handle: "linkedin.com/in/bhawesh",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(165deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/debajit.jpg",
-    title: "Bayyapureddy Vibhugnan",
-    subtitle: "Marketing Lead",
-    handle: "linkedin.com/in/debajit",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(195deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/madhav.jpg",
-    title: "Sanvee Sharma",
-    subtitle: "Marketing Lead",
-    handle: "linkedin.com/in/madhav",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(225deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/rachit.jpg",
-    title: "Priyal Khullar",
-    subtitle: "Content Lead",
-    handle: "linkedin.com/in/rachit",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(135deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/sanjana.jpg",
-    title: "Dhiren",
-    subtitle: "Video Editing and Production Lead",
-    handle: "linkedin.com/in/sanjana",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(155deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/bhavya.jpg",
-    title: "Yakshita",
-    subtitle: "Design Lead",
-    handle: "linkedin.com/in/bhavya",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(175deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/bhavya.jpg",
-    title: "Radhika Goel",
-    subtitle: "Design Lead",
-    handle: "linkedin.com/in/bhavya",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(175deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    image: "/team/anisha.jpg",
-    title: "Ansh Gagneja",
-    subtitle: "Sponsorship Lead",
-    handle: "linkedin.com/in/anisha",
-    borderColor: "#e62b1e",
-    gradient: "linear-gradient(145deg, #e62b1e22, #000)",
-    url: "https://linkedin.com/in/",
-  },
+  { image: "/gallery/Akshat Kabra_ Licensee .jpg", name: "Akshat Kabra", role: "Organizer", linkedin: "https://linkedin.com/in/" },
+  { image: "/gallery/Rhea Singh Sud_Co-Licensee.jpg", name: "Rhea Singh Sud", role: "Co-Organizer", linkedin: "https://linkedin.com/in/" },
+  { image: "/gallery/Gaurav Ghosh_Website Lead.jpg", name: "Gaurav Ghosh", role: "Website Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "/gallery/Bhavyanshi Singh_Curation Lead.jpg", name: "Bhavyanshi Singh", role: "Curation Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "gallery/Aryan Nair_Curation.jpeg", name: "Aryan Nair", role: "Curation Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "/gallery/Tanuj Dhakad _event management_.jpg", name: "Tanuj Dhakad", role: "Event Management Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "/gallery/Sanyam Jain_event management_.jpg", name: "Sanyam Jain", role: "Event Management Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "gallery/BayyapureddyVibhugnan_Marketing.jpg", name: "Bayyapureddy Vibhugnan", role: "Marketing Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "/gallery/Sanvee Sharma_Marketing Lead.jpg", name: "Sanvee Sharma", role: "Marketing Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "gallery/Priyal Khullar_Content.JPG", name: "Priyal Khullar", role: "Content Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "gallery/Dhiren_Video_Production.jpg", name: "Dhiren", role: "Video Editing & Production Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "gallery/YakshitaYadav_Design.heif", name: "Yakshita", role: "Design Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "gallery/Radhika Goel_Design.jpg", name: "Radhika Goel", role: "Design Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "/gallery/anisha.jpg", name: "Ansh Gagneja", role: "Sponsorship Lead", linkedin: "https://linkedin.com/in/" },
 ];
 
+function MemberCard({ member, index = 0 }) {
+  const [hovered, setHovered] = useState(false);
+  // ADD THESE TWO LINES
+  const [cardRef, cardVisible] = useVisible(0.1);
+
+  return (
+    // ADD ref AND style TO THIS DIV ONLY
+    <div
+      ref={cardRef}
+      className="flex flex-col items-center gap-3"
+      style={{
+        opacity: cardVisible ? 1 : 0,
+        transform: cardVisible ? "translateY(0)" : "translateY(40px)",
+        transition: `opacity 0.7s ease ${(index % 4) * 100}ms, transform 0.7s ease ${(index % 4) * 100}ms`,
+      }}
+    >
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="relative rounded-2xl transition-all duration-300"
+        style={{
+          boxShadow: hovered
+            ? "0 0 30px rgba(230,43,30,0.5), 0 0 60px rgba(230,43,30,0.2)"
+            : "none",
+        }}
+      >
+        <div
+          className="absolute inset-0 rounded-2xl border-2 transition-all duration-300 pointer-events-none z-10"
+          style={{
+            borderColor: hovered ? "#e62b1e" : "transparent",
+          }}
+        />
+        <TiltedCard
+          imageSrc={member.image}
+          altText={member.name}
+          captionText={member.role}
+          containerHeight="240px"
+          containerWidth="180px"
+          imageHeight="240px"
+          imageWidth="180px"
+          rotateAmplitude={12}
+          scaleOnHover={1.05}
+          showMobileWarning={false}
+          showTooltip={true}
+          displayOverlayContent={true}
+          overlayContent={
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              className="absolute bottom-3 right-3 w-7 h-7 bg-black rounded-md flex items-center justify-center
+                hover:shadow-[0_0_10px_rgba(230,43,30,0.8)] transition-all duration-200"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+          }
+        />
+      </div>
+      <div className="text-center">
+        <p className="text-white font-black text-xs uppercase tracking-wider">{member.name}</p>
+        <p className="text-[#e62b1e] text-xs mt-0.5">{member.role}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function TeamPage() {
+  const organizers = teamMembers.slice(0, 2);
+  const rest = teamMembers.slice(2);
+
   return (
     <main className="min-h-screen bg-black text-white pt-24 pb-16">
+
+      {/* Background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-[#e62b1e]/5 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Header */}
       <div className="max-w-7xl mx-auto px-16 mb-16">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-
-          {/* Big title */}
           <div className="flex flex-col gap-2">
             <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">TEDxBMU 2026</span>
-            <h1 className="text-7xl lg:text-8xl font-black leading-none tracking-tight uppercase">
+            <h1 className="text-7xl lg:text-6xl font-black leading-none tracking-tight uppercase">
               <span className="text-[#e62b1e]">OUR</span>{" "}
               <span className="text-white">TEAM</span>
             </h1>
           </div>
-
-          {/* Subtitle */}
           <p className="text-white/40 text-sm leading-relaxed max-w-xs lg:mb-2">
             Our team is a group of dedicated individuals who are passionate about making a difference in the world.
           </p>
-
         </div>
-
-        {/* Divider */}
         <div className="mt-8 h-px w-full bg-gradient-to-r from-[#e62b1e]/40 via-white/5 to-transparent" />
       </div>
 
-      {/* ChromaGrid */}
-      <div className="w-full">
-        <ChromaGrid
-          items={teamMembers}
-          columns={4}
-          rows={2}
-          radius={350}
-          damping={0.45}
-          fadeOut={0.6}
-        />
+      <div className="max-w-7xl mx-auto px-16 flex flex-col gap-16">
+
+        {/* Top 2 — Organizers centered */}
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex justify-center gap-16">
+            {organizers.map((member, i) => (
+              <MemberCard key={i} member={member} index={i} />
+            ))}
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="flex items-center gap-4">
+          <div className="h-px flex-1 bg-white/5" />
+          <div className="h-px flex-1 bg-white/5" />
+        </div>
+
+        {/* Rest — 4 per row */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-20 justify-items-center">
+          {rest.map((member, i) => (
+            <MemberCard key={i} member={member} index={i} />
+          ))}
+        </div>
+
       </div>
 
     </main>
