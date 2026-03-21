@@ -18,20 +18,17 @@ function useVisible(threshold = 0.1) {
 }
 
 const teamMembers = [
-  { image: "/gallery/Akshat Kabra_ Licensee .jpg", name: "Akshat Kabra", role: "Organizer", linkedin: "https://linkedin.com/in/" },
-  { image: "/gallery/Rhea Singh Sud_Co-Licensee.jpg", name: "Rhea Singh Sud", role: "Co-Organizer", linkedin: "https://linkedin.com/in/" },
-  { image: "/gallery/Gaurav Ghosh_Website Lead.jpg", name: "Gaurav Ghosh", role: "Website Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "/gallery/Bhavyanshi Singh_Curation Lead.jpg", name: "Bhavyanshi Singh", role: "Curation Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "gallery/Aryan Nair_Curation.jpeg", name: "Aryan Nair", role: "Curation Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "/gallery/Tanuj Dhakad _event management_.jpg", name: "Tanuj Dhakad", role: "Event Management Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "/gallery/Sanyam Jain_event management_.jpg", name: "Sanyam Jain", role: "Event Management Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "gallery/BayyapureddyVibhugnan_Marketing.jpg", name: "Bayyapureddy Vibhugnan", role: "Marketing Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "/gallery/Sanvee Sharma_Marketing Lead.jpg", name: "Sanvee Sharma", role: "Marketing Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "gallery/Priyal Khullar_Content.JPG", name: "Priyal Khullar", role: "Content Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "gallery/Dhiren_Video_Production.jpg", name: "Dhiren", role: "Video Editing & Production Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "gallery/YakshitaYadav_Design.heif", name: "Yakshita", role: "Design Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "gallery/Radhika Goel_Design.jpg", name: "Radhika Goel", role: "Design Lead", linkedin: "https://linkedin.com/in/" },
-  { image: "/gallery/anisha.jpg", name: "Ansh Gagneja", role: "Sponsorship Lead", linkedin: "https://linkedin.com/in/" },
+  { image: "/gallery/Akshat Kabra_ Licensee .jpg", name: "Akshat Kabra", role: "Licensee", linkedin: "https://www.linkedin.com/in/akshatkabra1?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
+  { image: "/gallery/Rhea Singh Sud_Co-Licensee.jpg", name: "Rhea Singh Sud", role: "Co-licensee", linkedin: "https://www.linkedin.com/in/rhea-singh-sud" },
+  { image: "/gallery/GauravWebsite.jpeg", name: "Gaurav", role: "Website", linkedin: "https://www.linkedin.com/in/gaurav-ghosh-9531132b3/" },
+  { image: "/gallery/Radhika Goel_Design.jpg", name: "Radhika Goel", role: "Design", linkedin: "https://www.linkedin.com/in/goelradhika" },
+  { image: "/gallery/Aryan Nair_Curation.jpeg", name: "Aryan Nair", role: "Curation", linkedin: "https://www.linkedin.com/in/aryannair1" },
+  { image: "/gallery/Dhiren_Video_Production.jpg", name: "Dhiren", role: "Video Production", linkedin: "https://www.linkedin.com/in/dhiren-421198297?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" },
+  { image: "/gallery/Bhavyanshi Singh_Curation.JPG", name: "Bhavyanshi Singh", role: "Curation", linkedin: "https://linkedin.com/in/bhavyanshi-singh-68288a293" },
+  { image: "/gallery/saanvee_socialmedia.jpeg", name: "saanvee", role: "social media", linkedin: "https://www.linkedin.com/in/saanveesharma/" },
+  { image: "/gallery/Tanuj Dhakad _event management_.jpg", name: "Tanuj Dhakad", role: "Event management", linkedin: "https://www.linkedin.com/in/tanuj-dhakad-b1b238290?utm_source=share_via&utm_content=profile&utm_medium=member_ios" },
+  { image: "/gallery/SanyamJain_eventmanagement.png", name: "Sanyam Jain", role: "Event management", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
+  { image: "/gallery/BayyapureddyVibhugnan_Marketing.jpg", name: "Bayyapureddy Vibhugnan", role: "social media", linkedin: "https://www.linkedin.com/in/bayyapureddy-vibhu-gnan-82a60128a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
 ];
 
 function MemberCard({ member, index = 0 }) {
@@ -89,7 +86,7 @@ function MemberCard({ member, index = 0 }) {
                 hover:shadow-[0_0_10px_rgba(230,43,30,0.8)] transition-all duration-200"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
               </svg>
             </a>
           }

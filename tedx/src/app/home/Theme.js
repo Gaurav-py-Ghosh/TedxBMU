@@ -43,12 +43,12 @@ export default function ThemeDetail() {
               shadow-[0_0_40px_rgba(230,43,30,0.1)]">
               {/* Replace with actual image */}
               <div className="w-full h-full bg-gradient-to-b from-white/5 to-black/40 flex items-center justify-center">
-              <img src="/gallery/WhatsApp Image 2026-03-06 at 02.21.37.jpeg" alt="Theme" className="w-full h-full object-cover" />
-              {/* Red glow overlay */}
+                <img src="/gallery/image.png" alt="Theme" className="w-full h-full object-cover" />
+                {/* Red glow overlay */}
               </div>
               {/* Red left border accent */}
               <div className="absolute top-0 left-0 w-[2px] h-full bg-gradient-to-b from-[#e62b1e]/60 via-[#e62b1e]/20 to-transparent" />
-            </div>            
+            </div>
           </div>
 
           {/* RIGHT — Content */}

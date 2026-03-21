@@ -11,9 +11,9 @@ export default function HomePage() {
     <>
       <Hero />
       <EventDetails />
-      <Theme/>
-      <SpeakerSection />
-      <Testimonials />
+      <Theme />
+      {/* <SpeakerSection /> */}
+      {/* <Testimonials /> */}
       <Gallery />
       <Sponsor />
     </>

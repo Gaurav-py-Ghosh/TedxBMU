@@ -9,12 +9,11 @@ const events = {
     description:
       "TEDxBMU 2025 brought together curious minds to challenge assumptions, question the obvious, and explore ideas that push beyond conventional thinking.",
     speakers: [
-      { name: "Arjun Mehta", title: "Entrepreneur & Innovator", topic: "The Art of Unlearning", bio: "Arjun built three startups before the age of 30, each failure teaching him more than any classroom could.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Priya Nair", title: "Neuroscientist, AIIMS Delhi", topic: "Your Brain is Lying to You", bio: "Priya's groundbreaking research on cognitive bias has changed how we understand decision-making.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Rohan Kapoor", title: "Climate Activist", topic: "Beyond Carbon: The Real Crisis", bio: "Rohan has spent a decade on the frontlines of environmental policy bridging science and storytelling.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Sneha Iyer", title: "AI Researcher, IIT Bombay", topic: "When Machines Dream", bio: "Sneha works at the intersection of artificial intelligence and human creativity.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Vikram Das", title: "Poet & Spoken Word Artist", topic: "Language as Liberation", bio: "Vikram uses words as weapons against silence. His performances have reached millions online.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Ananya Sharma", title: "Social Entrepreneur", topic: "Building From the Margins", bio: "Ananya's organization has impacted over 50,000 lives in rural India.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
+      { name: "Roji Bala", title: "Development Professional", topic: "Sustainable Community Development", bio: "With over 23 years in the social sector, Roji focuses on uplifting vulnerable populations and driving long-term change.", youtube: "https://www.youtube.com/watch?v=OKqAxqrBiEQ", image: "https://img.youtube.com/vi/OKqAxqrBiEQ/maxresdefault.jpg", linkedin: "" },
+      { name: "Sahil Sachdeva", title: "PR Strategist & Founder", topic: "Why you should choose visibility over comfort", bio: "Sahil has worked with over 1000 clients to enhance credibility, sharing how to break the bubble of self-doubt.", youtube: "https://www.youtube.com/watch?v=x8yfzsVC5QY", image: "https://media.licdn.com/dms/image/v2/D5603AQEkA2b8Jz53vg/profile-displayphoto-shrink_400_400/B56ZZjsy.THAAk-/0/1745429412041?e=1775692800&v=beta&t=R1ldppL1jOivlUPLSHbc_7AqM2cOtk2AAyylZUDX7Eo", linkedin: "https://www.linkedin.com/in/sahil-sachdeva-/" },
+      { name: "Richa Maheshwari", title: "Fashion Photographer", topic: "Breaking the Societal Bubble of Expectations", bio: "Richa shares deeply personal stories, challenging rigid definitions of success and societal checklists.", youtube: "https://www.youtube.com/watch?v=loADyAZt158", image: "https://media.licdn.com/dms/image/v2/D4D03AQF832U8Aroq4Q/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1696851334503?e=1775692800&v=beta&t=hDQNWWQmVv8CKctwtwEtQ6QFGX3N2RwjrofoQ_jRlR4", linkedin: "https://www.linkedin.com/in/richamaheshwarifilmsandphotography/" },
+      { name: "Sreedhar Bevara", title: "CEO & Bestselling Author", topic: "The Paradox of Experience", bio: "Sreedhar explores how both successes and failures can create bubbles that influence decision-making.", youtube: "https://www.youtube.com/watch?v=yuMcxRymoz0", image: "https://media.licdn.com/dms/image/v2/C4D03AQG4G30V3B_AQQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1610694672019?e=1775692800&v=beta&t=k0513i1EuwCp7WKKkOfMScNifH-e3VBx8hRUwbxIg44", linkedin: "https://www.linkedin.com/in/sreedhar-bevara-7b51637/" },
+      { name: "Kiran Verma", title: "Social Activist", topic: "Beyond the Comfort Bubble", bio: "Kiran walked over 21,000 km across India to raise awareness about blood donation and combat shortages.", youtube: "https://www.youtube.com/watch?v=eXwKBZL7yTI", image: "https://media.licdn.com/dms/image/v2/D5603AQE-NZqaWKq-xQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1679755785012?e=1775692800&v=beta&t=lukqWpif9ILqvmCjiDpfBiuS85PUM0C9a11dIEq27O4", linkedin: "https://www.linkedin.com/in/kiranverma/" },
     ],
   },
   2024: {
@@ -22,12 +21,11 @@ const events = {
     description:
       "TEDxBMU 2024 explored how small actions create massive change — stories of individuals whose ideas sent ripples across communities and industries.",
     speakers: [
-      { name: "Rahul Verma", title: "Astrophysicist", topic: "We Are All Stardust", bio: "Rahul makes the cosmos accessible, reminding us that the universe lives inside each of us.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Meera Pillai", title: "Human Rights Lawyer", topic: "Justice Has No Deadline", bio: "Meera has fought over 200 pro-bono cases, proving that the law can be a tool for the powerless.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Dev Sharma", title: "Behavioral Economist", topic: "The Price of Choice", bio: "Dev's research unpacks why we make irrational decisions and how design can nudge us toward better ones.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Kavya Reddy", title: "Urban Designer", topic: "Cities Are Feelings", bio: "Kavya designs cities that put human emotion at the center of every square foot of public space.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Nikhil Bose", title: "Biologist & Author", topic: "Life at the Margins", bio: "Nikhil studies extremophiles — organisms that thrive where nothing should — and what they teach us about resilience.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
-      { name: "Tara Singh", title: "Documentary Filmmaker", topic: "Whose Story Gets Told", bio: "Tara's films have screened at Sundance and Cannes, always centering voices that mainstream media ignores.", youtube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", image: null },
+      { name: "Veda Hrudya Nadendla", title: "Brand Strategist", topic: "Using First Principles Thinking", bio: "Veda applies Aristotle's concept of first principles to foster innovation and modern problem-solving strategies.", youtube: "https://www.youtube.com/watch?v=Zlmsqd-XFIY", image: "https://media.licdn.com/dms/image/v2/D4D03AQEoDyNz3-LjHg/profile-displayphoto-scale_400_400/B4DZwstDJEG4Ag-/0/1770276535088?e=1775692800&v=beta&t=TQ1lvpJL0TrxQZU0G1_KsSJiibepTSpGDjWC9cQODeo", linkedin: "https://www.linkedin.com/in/veda-hrudya-nadendla-72aa9890/" },
+      { name: "Gaurav Mehta", title: "Chief Marketing Officer, Noise", topic: "Value of Roots: Connecting dots backwards", bio: "Gaurav balances innovation and scalability, discussing how family inheritance and positive focus laid his foundation.", youtube: "https://www.youtube.com/watch?v=aIBTNtXyaI8", image: "https://media.licdn.com/dms/image/v2/C4D03AQF62SIDNDmsDg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1624864189029?e=1775692800&v=beta&t=jzdQzRthHoB8OthRImK8By1bYAfofunzJVaXmp2UZfY", linkedin: "https://www.linkedin.com/in/gaurav-mehta-7a85234/" },
+      { name: "Shariq Patel", title: "Ex-CBO, Zee Studios", topic: "The Strength of Roots", bio: "Shariq brings 30 years of cross-industry experience to highlight the significance of understanding one's origins.", youtube: "https://www.youtube.com/watch?v=eWsoL1XAFTE", image: "https://media.licdn.com/dms/image/v2/C4D03AQGS433zRSpusg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1605543328682?e=1775692800&v=beta&t=JkaG6Ty8RH9EHnwBINyxpuuujQV5oXUarqvFqZ66Sug", linkedin: "https://www.linkedin.com/in/shariq-patel-82a3654/" },
+      { name: "Sanghamitra Bose", title: "Founder, Shrishti Trust", topic: "Roots: Embracing Heritage and Progress", bio: "Sanghamitra symbolizes India's rich history as an ancient banyan tree, balancing modern technology with cultural legacy.", youtube: "https://www.youtube.com/watch?v=MARv8K_LcFI", image: "https://media.licdn.com/dms/image/v2/D5603AQEILAsnlyxgPg/profile-displayphoto-shrink_400_400/B56ZdPEwP8HoAo-/0/1749378337414?e=1775692800&v=beta&t=nUqeCazjoaOiunojEXDKbb3-q_Cr9c5ckdXOzwYqbM4", linkedin: "https://www.linkedin.com/in/sanghamitra-bose-96b161191/" },
+      { name: "Deepak Gupta", title: "Co-Founder & COO, Bombay Shaving Co.", topic: "Tree of Life: Purpose and Flow", bio: "Deepak reflects on his global corporate experiences and discusses scaling an emerging brand.", youtube: "https://www.youtube.com/watch?v=NyTSQC86lmo", image: "https://media.licdn.com/dms/image/v2/D4D03AQEWFekvzUMODQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1691227227404?e=1775692800&v=beta&t=ZLq_VgvR9zS018q1YqUTMjBF78Dj15b5qv3YxWQtdYs", linkedin: "https://www.linkedin.com/in/deepakgupta84/" },
     ],
   },
 };
@@ -68,7 +66,7 @@ function TalksSection({ speakers }) {
         <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">Watch the Talks</span>
         <div className="flex-1 h-px bg-white/5" />
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#e62b1e">
-          <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
         </svg>
       </div>
 
@@ -112,14 +110,14 @@ function TalksSection({ speakers }) {
                     transform: isActive
                       ? "translateY(0) scale(1)"
                       : isFuture
-                      ? `translateY(${offset * 16}px) scale(${1 - offset * 0.04})`
-                      : "translateY(-30px) scale(0.95)",
+                        ? `translateY(${offset * 16}px) scale(${1 - offset * 0.04})`
+                        : "translateY(-30px) scale(0.95)",
                     transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
                     pointerEvents: isActive ? "all" : "none",
                   }}
                 >
                   {/* LEFT — YouTube */}
-                  <div className="relative cursor-pointer group h-full" onClick={() => setPlaying(true)}>
+                  <div className="relative cursor-pointer group h-full" onClick={() => setPlaying(true)} onMouseEnter={() => setPlaying(true)}>
                     {isActive && playing ? (
                       <iframe
                         src={`https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`}
@@ -135,7 +133,7 @@ function TalksSection({ speakers }) {
                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300" />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="w-14 h-14 rounded-full bg-[#e62b1e] flex items-center justify-center shadow-[0_0_30px_rgba(230,43,30,0.7)] group-hover:scale-110 transition-transform duration-300">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
                           </div>
                         </div>
                         {isActive && activeIndex === 0 && (
@@ -154,13 +152,7 @@ function TalksSection({ speakers }) {
                         <h3 className="text-white font-black text-xl leading-tight">{s.name}</h3>
                         <p className="text-[#e62b1e] text-xs font-medium">{s.title}</p>
                       </div>
-                      <a href={s.youtube} target="_blank" rel="noopener noreferrer"
-                        onClick={e => e.stopPropagation()}
-                        className="flex-shrink-0 w-9 h-9 bg-white/5 border border-white/10 hover:bg-[#e62b1e] hover:border-[#e62b1e] rounded-xl flex items-center justify-center transition-all duration-300">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="white">
-                          <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                        </svg>
-                      </a>
+
                     </div>
                     <div className="h-px w-10 bg-[#e62b1e]/40" />
                     <p className="text-white/60 text-sm italic">"{s.topic}"</p>
@@ -201,7 +193,7 @@ function EventSection({ year, data }) {
     subtitle: speaker.title,
     borderColor: "#e62b1e",
     gradient: "linear-gradient(145deg, #e62b1e22, #000)",
-    url: speaker.youtube,
+    url: speaker.linkedin || null,
   }));
 
   return (
@@ -269,7 +261,7 @@ export default function EventsPage() {
       {/* 2025 Talks sticky scroll */}
       <TalksSection speakers={events[2025].speakers} />
 
-    
+
 
       {/* 2024 speakers */}
       <div className="max-w-7xl mx-auto px-8 mb-28">
