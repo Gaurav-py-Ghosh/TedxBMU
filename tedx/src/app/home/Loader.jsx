@@ -39,7 +39,7 @@ export default function Loader({ onDone }) {
         <span
           className="text-[#e62b1e] font-black tracking-tight"
           style={{
-            fontSize: "clamp(4rem, 10vw, 7rem)",
+            fontSize: "clamp(4rem, 4vw, 4rem)",
             opacity: phase === "intro" ? 0 : 1,
             transform: phase === "intro" ? "translateX(-40px)" : "translateX(0)",
             transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -52,7 +52,7 @@ export default function Loader({ onDone }) {
 <sup
   className="text-[#e62b1e] font-black"
   style={{
-    fontSize: "clamp(2rem, 5vw, 4rem)",
+    fontSize: "clamp(2rem, 2vw, 2rem)",
     lineHeight: 1,
     verticalAlign: "super",
     opacity: phase === "intro" ? 0 : 1,
@@ -67,7 +67,7 @@ export default function Loader({ onDone }) {
         <span
           className="text-white font-light tracking-wide ml-2"
           style={{
-            fontSize: "clamp(4rem, 10vw, 7rem)",
+            fontSize: "clamp(4rem, 4vw, 4rem)",
             opacity: phase === "intro" ? 0 : 1,
             transform: phase === "intro" ? "translateX(40px)" : "translateX(0)",
             transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",

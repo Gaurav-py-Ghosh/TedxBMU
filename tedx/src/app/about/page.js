@@ -26,12 +26,21 @@ function SectionLabel({ text }) {
   );
 }
 
+function CardCorners() {
+  return (
+    <>
+      <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#eb0028]/30 rounded-tl-2xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#eb0028]/30 rounded-tr-2xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#eb0028]/30 rounded-bl-2xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#eb0028]/30 rounded-br-2xl pointer-events-none" />
+    </>
+  );
+}
+
 export default function AboutPage() {
   const [heroRef, heroVisible] = useVisible(0.1);
   const [tedRef, tedVisible] = useVisible(0.15);
   const [tedxRef, tedxVisible] = useVisible(0.15);
-  const [historyRef, historyVisible] = useVisible(0.15);
-  const [missionRef, missionVisible] = useVisible(0.15);
   const [bmuRef, bmuVisible] = useVisible(0.15);
 
   return (
@@ -42,10 +51,9 @@ export default function AboutPage() {
       <div className="fixed bottom-1/3 right-0 w-64 h-96 bg-[#eb0028]/3 blur-[100px] rounded-full pointer-events-none z-0" />
 
       {/* HERO */}
-      <section ref={heroRef} className="relative pt-36 pb-24 px-8">
+      <section ref={heroRef} className="relative pt-36 px-8">
         <div className={`max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-8 transition-all duration-1000 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <div className="flex flex-col gap-4 ">
-            <SectionLabel text="TEDxBMU 2026" />
+          <div className="flex flex-col gap-4">
             <h1 className="text-7xl lg:text-7xl font-black leading-none tracking-tight uppercase">
               <span className="text-white">ABOUT </span>
               <span className="text-[#eb0028]">US</span>
@@ -59,11 +67,11 @@ export default function AboutPage() {
       </section>
 
       {/* WHAT IS TED */}
-      <section ref={tedRef} className="relative py-24 px-8  ">
+      <section ref={tedRef} className="relative py-24 px-8">
         <div className={`max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${tedVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <div className="flex flex-col gap-6">
             <SectionLabel text="The Origin" />
-            <h2 className="text-5xl lg:text-6xl font-black uppercase leading-none tracking-tight">
+            <h2 className="text-5xl font-black uppercase leading-none tracking-tight">
               <span className="text-white">WHAT IS </span>
               <span className="text-[#eb0028]">TED?</span>
             </h2>
@@ -82,8 +90,9 @@ export default function AboutPage() {
             </a>
           </div>
 
+          {/* TED Card */}
           <div className="relative">
-            <div className="bg-white/[0.08] border border-white/20 rounded-2xl p-8 flex flex-col gap-6">
+            <div className="bg-white/[0.08] border border-white/20 rounded-2xl p-8 flex flex-col gap-6 hover:border-[#eb0028]/30 hover:shadow-[0_0_60px_rgba(235,0,40,0.08)] transition-all duration-500">
               <div className="text-6xl font-black text-[#eb0028] leading-none">TED</div>
               <p className="text-white/60 text-xs tracking-widest uppercase">Technology · Entertainment · Design</p>
               <div className="h-px w-full bg-white/10" />
@@ -96,8 +105,7 @@ export default function AboutPage() {
                 ))}
               </div>
             </div>
-            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#eb0028]/30 rounded-tr-2xl" />
-            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#eb0028]/30 rounded-bl-2xl" />
+            <CardCorners />
           </div>
         </div>
       </section>
@@ -106,8 +114,9 @@ export default function AboutPage() {
       <section ref={tedxRef} className="relative py-24 px-8 bg-white/[0.01]">
         <div className={`max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${tedxVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
 
+          {/* TEDx Card */}
           <div className="relative order-2 lg:order-1">
-            <div className="bg-white/[0.08] border border-white/20 rounded-2xl p-8 flex flex-col gap-6">
+            <div className="bg-white/[0.08] border border-white/20 rounded-2xl p-8 flex flex-col gap-6 hover:border-[#eb0028]/30 hover:shadow-[0_0_60px_rgba(235,0,40,0.08)] transition-all duration-500">
               <div className="flex items-baseline gap-0">
                 <span className="text-5xl font-black text-[#eb0028]">TED</span>
                 <span className="text-xl font-black text-white">x</span>
@@ -123,6 +132,7 @@ export default function AboutPage() {
                 ))}
               </div>
             </div>
+            <CardCorners />
           </div>
 
           <div className="flex flex-col gap-6 order-1 lg:order-2">
@@ -140,7 +150,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
 
       {/* ABOUT BMU */}
       <section ref={bmuRef} className="relative py-24 px-8">
@@ -167,17 +176,22 @@ export default function AboutPage() {
           </div>
 
           {/* Card + Map */}
-          <div className="relative flex flex-col gap-4">
-            <div className="bg-white/[0.08] border border-white/20 rounded-2xl p-8 flex flex-col gap-6 hover:border-[#eb0028]/20 hover:shadow-[0_0_60px_rgba(235,0,40,0.08)] transition-all duration-500">
-              <p className="text-white/60 text-xs tracking-widest uppercase">BML Munjal University</p>
-              <div className="grid grid-cols-2 gap-6">
-                {[["2014", "Established"], ["Gurugram", "Location"], ["Hero Group", "Founded By"], ["5000+", "Students"]].map(([num, label]) => (
-                  <div key={label} className="flex flex-col gap-1 border-l-2 border-[#eb0028]/20 pl-4">
-                    <span className="text-xl font-black text-white">{num}</span>
-                    <span className="text-white/30 text-xs tracking-wide">{label}</span>
-                  </div>
-                ))}
+          <div className="flex flex-col gap-4">
+
+            {/* BMU Card */}
+            <div className="relative">
+              <div className="bg-white/[0.08] border border-white/20 rounded-2xl p-8 flex flex-col gap-6 hover:border-[#eb0028]/30 hover:shadow-[0_0_60px_rgba(235,0,40,0.08)] transition-all duration-500">
+                <p className="text-white/60 text-xs tracking-widest uppercase">BML Munjal University</p>
+                <div className="grid grid-cols-2 gap-6">
+                  {[["2014", "Established"], ["Gurugram", "Location"], ["Hero Group", "Founded By"], ["5000+", "Students"]].map(([num, label]) => (
+                    <div key={label} className="flex flex-col gap-1 border-l-2 border-[#eb0028]/20 pl-4">
+                      <span className="text-xl font-black text-white">{num}</span>
+                      <span className="text-white/30 text-xs tracking-wide">{label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
+              <CardCorners />
             </div>
 
             {/* Map */}
@@ -186,15 +200,13 @@ export default function AboutPage() {
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3511.6744562543!2d76.63720731455!3d28.356589982536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d3dce4de14e0b%3A0xb1787ccb5563c223!2sBML%20Munjal%20University!5e0!3m2!1sen!2sin!4v1234567890!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
-                style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
+                style={{ border: 0, filter: "invert(100%) hue-rotate(180deg) saturate(3) brightness(0.7) contrast(1.2)" }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
 
-            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#eb0028]/30 rounded-tr-2xl" />
-            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#eb0028]/30 rounded-bl-2xl" />
           </div>
         </div>
       </section>

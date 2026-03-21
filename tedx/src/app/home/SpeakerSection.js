@@ -122,7 +122,7 @@ export default function SpeakerSection() {
         <div className="absolute bottom-0 left-32 w-[1px] h-32 bg-gradient-to-t from-[#e62b1e]/40 to-transparent pointer-events-none z-0" style={{ transform: "rotate(30deg)", transformOrigin: "bottom" }} />
 
        {/* HEADER */}
-<div className={`relative z-10 max-w-7xl mt-8 px-16 pt-16 w-full flex flex-row items-end justify-between transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+<div className={`relative z-10 max-w-7xl px-16 pt-16 w-full flex flex-row items-end justify-between transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
   <h2 className="text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
     <span className="text-white">OUR</span>{" "}
     <span className="text-[#e62b1e]">SPEAK</span>
@@ -134,7 +134,7 @@ export default function SpeakerSection() {
 </div>
 
         {/* CONTENT */}
-        <div className="relative z-10 max-w-7xl px-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center flex-1 py-4">
+        <div className="relative z-10 max-w-7xl px-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center flex-1 py-4 ">
 
           {/* LEFT — Speaker info */}
           <div
