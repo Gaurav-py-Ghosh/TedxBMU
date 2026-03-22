@@ -17,7 +17,7 @@ const events = {
     ],
   },
   2024: {
-    theme: "The Ripple Effect",
+    theme: "Roots",
     description:
       "TEDxBMU 2024 explored how small actions create massive change — stories of individuals whose ideas sent ripples across communities and industries.",
     speakers: [
