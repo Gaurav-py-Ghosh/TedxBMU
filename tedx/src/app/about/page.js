@@ -44,17 +44,17 @@ export default function AboutPage() {
   const [bmuRef, bmuVisible] = useVisible(0.15);
 
   return (
-    <main className="min-h-screen bg-black text-white overflow-hidden">
+    <main className="min-h-screen bg-black text-white">
 
       {/* Background glows */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-64 bg-[#eb0028]/5 blur-[120px] rounded-full pointer-events-none z-0" />
-      <div className="fixed bottom-1/3 right-0 w-64 h-96 bg-[#eb0028]/3 blur-[100px] rounded-full pointer-events-none z-0" />
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-64 bg-[#eb0028]/5 blur-[120px] rounded-full pointer-events-none z-0" />
+      <div className="fixed bottom-1/3 right-0 w-48 md:w-64 h-96 bg-[#eb0028]/3 blur-[100px] rounded-full pointer-events-none z-0" />
 
       {/* HERO */}
-      <section ref={heroRef} className="relative pt-36 px-8">
+      <section ref={heroRef} className="relative pt-40 md:pt-36 px-6 md:px-8">
         <div className={`max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-8 transition-all duration-1000 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <div className="flex flex-col gap-4">
-            <h1 className="text-7xl lg:text-7xl font-black leading-none tracking-tight uppercase">
+            <h1 className="text-5xl md:text-7xl lg:text-7xl font-black leading-none tracking-tight uppercase">
               <span className="text-white">ABOUT </span>
               <span className="text-[#eb0028]">US</span>
             </h1>
@@ -67,11 +67,11 @@ export default function AboutPage() {
       </section>
 
       {/* WHAT IS TED */}
-      <section ref={tedRef} className="relative py-24 px-8">
+      <section ref={tedRef} className="relative py-16 md:py-24 px-6 md:px-8">
         <div className={`max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${tedVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <div className="flex flex-col gap-6">
             <SectionLabel text="The Origin" />
-            <h2 className="text-5xl font-black uppercase leading-none tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-black uppercase leading-none tracking-tight">
               <span className="text-white">WHAT IS </span>
               <span className="text-[#eb0028]">TED?</span>
             </h2>
@@ -96,7 +96,7 @@ export default function AboutPage() {
               <div className="text-6xl font-black text-[#eb0028] leading-none">TED</div>
               <p className="text-white/60 text-xs tracking-widest uppercase">Technology · Entertainment · Design</p>
               <div className="h-px w-full bg-white/10" />
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-4">
                 {[["1984", "Founded"], ["3000+", "Talks"], ["100+", "Languages"]].map(([num, label]) => (
                   <div key={label} className="flex flex-col gap-1">
                     <span className="text-2xl font-black text-white">{num}</span>
@@ -111,19 +111,19 @@ export default function AboutPage() {
       </section>
 
       {/* WHAT IS TEDx */}
-      <section ref={tedxRef} className="relative py-24 px-8 bg-white/[0.01]">
+      <section ref={tedxRef} className="relative py-16 md:py-24 px-6 md:px-8 bg-white/[0.01]">
         <div className={`max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${tedxVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
 
           {/* TEDx Card */}
           <div className="relative order-2 lg:order-1">
             <div className="bg-white/[0.08] border border-white/20 rounded-2xl p-8 flex flex-col gap-6 hover:border-[#eb0028]/30 hover:shadow-[0_0_60px_rgba(235,0,40,0.08)] transition-all duration-500">
               <div className="flex items-baseline gap-0">
-                <span className="text-5xl font-black text-[#eb0028]">TED</span>
+                <span className="text-4xl md:text-5xl font-black text-[#eb0028]">TED</span>
                 <span className="text-xl font-black text-white">x</span>
               </div>
               <p className="text-white/60 text-xs tracking-widest uppercase leading-relaxed">x = independently organized event</p>
               <div className="h-px w-full bg-white/10" />
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-4">
                 {[["3000+", "Events"], ["100+", "Countries"], ["Since '09", "Global"]].map(([num, label]) => (
                   <div key={label} className="flex flex-col gap-1">
                     <span className="text-xl font-black text-white">{num}</span>
@@ -137,7 +137,7 @@ export default function AboutPage() {
 
           <div className="flex flex-col gap-6 order-1 lg:order-2">
             <SectionLabel text="The Program" />
-            <h2 className="text-5xl lg:text-6xl font-black uppercase leading-none tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-none tracking-tight">
               <span className="text-white">WHAT IS </span>
               <span className="text-[#eb0028]">TEDx?</span>
             </h2>
@@ -152,11 +152,11 @@ export default function AboutPage() {
       </section>
 
       {/* ABOUT BMU */}
-      <section ref={bmuRef} className="relative py-24 px-8">
+      <section ref={bmuRef} className="relative py-16 md:py-24 px-6 md:px-8">
         <div className={`max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start transition-all duration-1000 ${bmuVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <div className="flex flex-col gap-6">
             <SectionLabel text="Our Home" />
-            <h2 className="text-5xl lg:text-6xl font-black uppercase leading-none tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-none tracking-tight">
               <span className="text-white">BML MUNJAL </span>
               <span className="text-[#eb0028]">UNIVERSITY</span>
             </h2>
@@ -182,7 +182,7 @@ export default function AboutPage() {
             <div className="relative">
               <div className="bg-white/[0.08] border border-white/20 rounded-2xl p-8 flex flex-col gap-6 hover:border-[#eb0028]/30 hover:shadow-[0_0_60px_rgba(235,0,40,0.08)] transition-all duration-500">
                 <p className="text-white/60 text-xs tracking-widest uppercase">BML Munjal University</p>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {[["2014", "Established"], ["Gurugram", "Location"], ["Hero Group", "Founded By"], ["5000+", "Students"]].map(([num, label]) => (
                     <div key={label} className="flex flex-col gap-1 border-l-2 border-[#eb0028]/20 pl-4">
                       <span className="text-xl font-black text-white">{num}</span>

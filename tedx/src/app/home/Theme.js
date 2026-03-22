@@ -27,7 +27,7 @@ export default function ThemeDetail() {
         <div className={`flex flex-col items-center gap-4 text-center transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
 
           {/* Big title */}
-          <h1 className="text-6xl lg:text-7xl font-black tracking-tight uppercase leading-none">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight uppercase leading-none px-4">
             <span className="text-white">THE </span>
             <span className="text-[#e62b1e]">UNSEEN </span>
             <span className="text-white">STORIES </span>

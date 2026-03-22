@@ -17,13 +17,13 @@ export default function Sponsor() {
 
   return (
     <section ref={ref} className="relative bg-black text-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-16 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-6 md:px-16 py-20 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
         {/* LEFT — Text */}
-        <div className={`flex flex-col gap-8 mt-4 transition-all duration-1000 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
+        <div className={`flex flex-col gap-6 md:gap-8 mt-4 transition-all duration-1000 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
 
           {/* Title */}
-          <h2 className="text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
             <span className="text-white">PARTNER</span>
             <br />
             <span className="text-white">WITH </span>

@@ -47,22 +47,22 @@ export default function Theme() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           {/* LEFT — Text */}
-          <div className={`flex flex-col gap-8 transition-all duration-1000 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
+          <div className={`flex flex-col gap-6 md:gap-8 transition-all duration-1000 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
             <div className="flex items-center gap-3">
               <div className="h-px w-8 bg-[#e62b1e]" />
             </div>
             <div className="flex flex-col gap-1">
               <BlurText text="Beyond" delay={150} animateBy="words" direction="top"
-                className="text-6xl font-black leading-tight tracking-tight text-white" />
+                className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight text-white" />
               <BlurText text="What We Think." delay={300} animateBy="words" direction="top"
-                className="text-6xl font-black leading-tight tracking-tight text-[#e62b1e]" />
+                className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight text-[#e62b1e]" />
             </div>
-            <p className="text-white/50 text-base leading-relaxed max-w-md font-light">
+            <p className="text-white/50 text-sm md:text-base leading-relaxed max-w-md font-light">
               TEDxBMU 2026 invites you to shatter the boundaries of conventional thinking.
               This is a space where curiosity meets courage, where ideas that once seemed
               impossible become the blueprints of tomorrow.
             </p>
-            <div className="flex gap-12 mt-4">
+            <div className="flex flex-wrap gap-8 md:gap-12 mt-4">
               <StatBox number={6} suffix="+" label="Speakers" start={statsStarted} />
               <StatBox number={100} suffix="+" label="Attendees" start={statsStarted} />
               <StatBox number={1} suffix="" label="Day of Ideas" start={statsStarted} />

@@ -40,6 +40,15 @@ function TalksSection({ speakers }) {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const activeIndexRef = useRef(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024);
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,16 +56,20 @@ function TalksSection({ speakers }) {
       const rect = sectionRef.current.getBoundingClientRect();
       const scrolled = -rect.top;
       const scrollableDistance = sectionRef.current.offsetHeight - window.innerHeight;
+      if (scrollableDistance <= 0) return;
+      
       const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
       const index = Math.min(Math.floor(progress * speakers.length), speakers.length - 1);
-      if (index !== activeIndex) {
+      
+      if (index !== activeIndexRef.current) {
+        activeIndexRef.current = index;
         setActiveIndex(index);
         setPlaying(false);
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [activeIndex, speakers.length]);
+  }, [speakers.length]);
 
   return (
     <>
@@ -71,24 +84,30 @@ function TalksSection({ speakers }) {
       </div>
 
       {/* Sticky scroll section */}
-      <div ref={sectionRef} style={{ height: `${speakers.length * 100}vh` }}>
-        <div className="sticky top-0 h-screen flex flex-col items-center justify-center gap-6 bg-black">
+      <div ref={sectionRef} style={{ height: isMobile ? `${speakers.length * 85}vh` : `${speakers.length * 100}vh` }}>
+        <div className="sticky top-0 h-[100svh] flex flex-col items-center justify-center gap-6 bg-black pb-10">
 
-          {/* Progress dots */}
-          <div className="flex items-center gap-2">
-            {speakers.map((_, i) => (
-              <div key={i} className="rounded-full transition-all duration-300"
-                style={{
-                  width: i === activeIndex ? "20px" : "6px",
-                  height: "6px",
-                  background: i === activeIndex ? "#e62b1e" : i < activeIndex ? "rgba(230,43,30,0.4)" : "rgba(255,255,255,0.15)",
-                }}
-              />
-            ))}
+          {/* Progress dots & counter */}
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex items-center gap-2">
+              {speakers.map((_, i) => (
+                <div key={i} className="rounded-full transition-all duration-300"
+                  style={{
+                    width: i === activeIndex ? "20px" : "6px",
+                    height: "6px",
+                    background: i === activeIndex ? "#e62b1e" : i < activeIndex ? "rgba(230,43,30,0.4)" : "rgba(255,255,255,0.15)",
+                  }}
+                />
+              ))}
+            </div>
+            <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase font-medium">
+              Speaker <span className="text-[#e62b1e]">{activeIndex + 1}</span> of {speakers.length}
+            </p>
           </div>
 
           {/* Stacked cards */}
-          <div className="relative w-full max-w-4xl mx-auto px-8" style={{ height: "360px" }}>
+          <div className="relative w-full max-w-4xl mx-auto px-6 md:px-8" style={{ height: "auto", minHeight: "500px" }}>
+            <div className="lg:hidden h-[450px]" /> {/* Spacer for absolute cards on mobile */}
             {speakers.map((s, i) => {
               const vid = getYouTubeId(s.youtube);
               const thumb = `https://img.youtube.com/vi/${vid}/maxresdefault.jpg`;
@@ -100,7 +119,8 @@ function TalksSection({ speakers }) {
               return (
                 <div
                   key={i}
-                  className="absolute inset-0 rounded-2xl overflow-hidden grid grid-cols-2"
+                  className="absolute inset-0 rounded-2xl overflow-hidden flex flex-col lg:grid lg:grid-cols-2 cursor-pointer group/card"
+                  onClick={() => isActive && !playing && setPlaying(true)}
                   style={{
                     background: "linear-gradient(135deg, #0d0000 0%, #111 100%)",
                     border: isActive ? "1.5px solid rgba(230,43,30,0.5)" : "1.5px solid rgba(255,255,255,0.06)",
@@ -110,14 +130,14 @@ function TalksSection({ speakers }) {
                     transform: isActive
                       ? "translateY(0) scale(1)"
                       : isFuture
-                        ? `translateY(${offset * 16}px) scale(${1 - offset * 0.04})`
-                        : "translateY(-30px) scale(0.95)",
-                    transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                        ? `translateY(${offset * 12}px) scale(${1 - offset * 0.03})`
+                        : "translateY(-60px) scale(0.9) rotate(-2deg)",
+                    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                     pointerEvents: isActive ? "all" : "none",
                   }}
                 >
-                  {/* LEFT — YouTube */}
-                  <div className="relative cursor-pointer group h-full" onClick={() => setPlaying(true)} onMouseEnter={() => setPlaying(true)}>
+                  {/* TOP/LEFT — YouTube */}
+                  <div className="relative cursor-pointer group h-48 sm:h-64 lg:h-full" onMouseEnter={() => !isMobile && setPlaying(true)}>
                     {isActive && playing ? (
                       <iframe
                         src={`https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`}
@@ -145,20 +165,19 @@ function TalksSection({ speakers }) {
                     )}
                   </div>
 
-                  {/* RIGHT — Info */}
-                  <div className="flex flex-col justify-center gap-4 p-6">
+                  {/* BOTTOM/RIGHT — Info */}
+                  <div className="flex flex-col justify-center gap-3 md:gap-4 p-5 md:p-6 pb-8 md:pb-6">
                     <div className="flex items-start justify-between gap-2">
-                      <div className="flex flex-col gap-1">
-                        <h3 className="text-white font-black text-xl leading-tight">{s.name}</h3>
-                        <p className="text-[#e62b1e] text-xs font-medium">{s.title}</p>
+                      <div className="flex flex-col gap-0.5 md:gap-1">
+                        <h3 className="text-white font-black text-lg md:text-xl leading-tight">{s.name}</h3>
+                        <p className="text-[#e62b1e] text-[10px] md:text-xs font-medium">{s.title}</p>
                       </div>
-
                     </div>
-                    <div className="h-px w-10 bg-[#e62b1e]/40" />
-                    <p className="text-white/60 text-sm italic">"{s.topic}"</p>
-                    <p className="text-white/30 text-xs leading-relaxed line-clamp-4">{s.bio}</p>
-                    <div className="mt-auto pt-2">
-                      <span className="text-white/10 text-5xl font-black leading-none select-none">
+                    <div className="h-px w-8 md:w-10 bg-[#e62b1e]/40" />
+                    <p className="text-white/60 text-xs md:text-sm italic">"{s.topic}"</p>
+                    <p className="text-white/30 text-[10px] md:text-xs leading-relaxed line-clamp-3 md:line-clamp-4">{s.bio}</p>
+                    <div className="mt-auto pt-2 hidden sm:block">
+                      <span className="text-white/10 text-4xl md:text-5xl font-black leading-none select-none">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     </div>
@@ -200,22 +219,22 @@ function EventSection({ year, data }) {
     <div ref={ref} className="flex flex-col gap-14">
       <div className={`relative transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
         <div
-          className="absolute -top-8 left-1/2 -translate-x-1/2 text-[12rem] font-black leading-none select-none pointer-events-none w-full text-center"
+          className="absolute -top-4 md:-top-8 left-0 right-0 text-[6rem] md:text-[10rem] lg:text-[12rem] font-black leading-none select-none pointer-events-none text-center"
           style={{ color: "rgba(230,43,30,0.04)" }}
         >
           {year}
         </div>
-        <div className="relative flex flex-col items-center gap-6 pb-10 border-b border-white/5 text-center">
+        <div className="relative flex flex-col items-center gap-4 md:gap-6 pb-10 border-b border-white/5 text-center px-4">
           <div className="flex items-center gap-3">
-            <div className="h-px w-8 bg-[#e62b1e]" />
-            <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">TEDxBMU {year}</span>
-            <div className="h-px w-8 bg-[#e62b1e]" />
+            <div className="h-px w-6 md:w-8 bg-[#e62b1e]" />
+            <span className="text-[#e62b1e] text-[10px] md:text-xs tracking-[0.4em] uppercase font-light">TEDxBMU {year}</span>
+            <div className="h-px w-6 md:w-8 bg-[#e62b1e]" />
           </div>
-          <h2 className="text-4xl lg:text-5xl font-black uppercase leading-none tracking-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black uppercase leading-none tracking-tight">
             <span className="text-white">{data.theme.split(" ").slice(0, -1).join(" ")} </span>
             <span className="text-[#e62b1e]">{data.theme.split(" ").slice(-1)}</span>
           </h2>
-          <p className="text-white/30 text-sm leading-relaxed max-w-xl">{data.description}</p>
+          <p className="text-white/30 text-xs md:text-sm leading-relaxed max-w-xl">{data.description}</p>
         </div>
       </div>
 
@@ -234,20 +253,20 @@ function EventSection({ year, data }) {
 
 export default function EventsPage() {
   return (
-    <main className="min-h-screen bg-black text-white pt-28 pb-24 relative">
+    <main className="min-h-screen bg-black text-white pt-36 md:pt-28 pb-24 relative">
 
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-64 bg-[#e62b1e]/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/2 right-0 w-64 h-96 bg-[#e62b1e]/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-64 bg-[#e62b1e]/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 right-0 w-48 md:w-64 h-96 bg-[#e62b1e]/5 blur-[100px] rounded-full pointer-events-none" />
 
       {/* Page header */}
-      <div className="max-w-7xl mx-auto px-8 mb-28">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 mb-20 md:mb-28">
         <div className="flex flex-col gap-3">
-          <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">Past Events</span>
-          <h1 className="text-7xl lg:text-7xl font-black leading-none tracking-tight uppercase">
+          <span className="text-[#e62b1e] text-[10px] md:text-xs tracking-[0.4em] uppercase font-light">Past Events</span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
             <span className="text-white">OUR </span>
             <span className="text-[#e62b1e]">EVENTS</span>
           </h1>
-          <p className="text-white/30 text-sm leading-relaxed max-w-lg mt-1 ">
+          <p className="text-white/30 text-xs md:text-sm leading-relaxed max-w-lg mt-1 ">
             Every year, TEDxBMU brings together voices that challenge, inspire and ignite conversations that matter.
           </p>
         </div>
@@ -264,7 +283,7 @@ export default function EventsPage() {
 
 
       {/* 2024 speakers */}
-      <div className="max-w-7xl mx-auto px-8 mb-28">
+      <div className="max-w-7xl mx-auto px-8 my-28">
         <EventSection year={2024} data={events[2024]} />
       </div>
 

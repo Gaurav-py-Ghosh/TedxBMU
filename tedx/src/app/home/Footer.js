@@ -11,21 +11,21 @@ export default function Footer() {
       </div>
 
       {/* Main footer content */}
-      <div className="max-w-7xl mx-auto px-16 py-24 grid grid-cols-1 lg:grid-cols-4 gap-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-16 py-16 md:py-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
         {/* Logo + description */}
         <div className="flex flex-col gap-4 lg:col-span-1">
           <div className="flex items-baseline gap-0 leading-none">
-            <span className="text-[#e62b1e] text-3xl font-black tracking-tight">
+            <span className="text-[#e62b1e] text-2xl md:text-3xl font-black tracking-tight">
               TED
             </span>
-            <sup className="text-[#e62b1e] text-base font-black leading-none">
+            <sup className="text-[#e62b1e] text-sm md:text-base font-black leading-none">
               x
             </sup>
-            <span className="text-white text-3xl font-light tracking-wide ml-2">
+            <span className="text-white text-2xl md:text-3xl font-light tracking-wide ml-2">
               BMU
             </span>
           </div>
-          <p className="text-white/50 text-sm leading-relaxed max-w-xs">
+          <p className="text-white/50 text-xs md:text-sm leading-relaxed max-w-xs">
             TEDxBMU is an independently organized TEDx event, dedicated to
             spreading ideas that spark conversation, inspire change, and connect
             our community.
@@ -33,11 +33,11 @@ export default function Footer() {
         </div>
 
         {/* Quick Links 1 */}
-        <div className="flex flex-col gap-4">
-          <h4 className="text-white font-bold text-sm tracking-widest uppercase">
+        <div className="flex flex-col gap-3 md:gap-4">
+          <h4 className="text-white font-bold text-xs md:text-sm tracking-widest uppercase">
             Quick Links
           </h4>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-2 md:gap-3">
             {[
               { label: "Home", href: "/" },
               { label: "About Us", href: "/about" },
@@ -46,7 +46,7 @@ export default function Footer() {
               <li key={link.label}>
                 <Link
                   href={link.href}
-                  className="text-white/50 text-sm hover:text-[#e62b1e] transition-colors duration-200"
+                  className="text-white/50 text-xs md:text-sm hover:text-[#e62b1e] transition-colors duration-200"
                 >
                   {link.label}
                 </Link>
@@ -56,11 +56,11 @@ export default function Footer() {
         </div>
 
         {/* Quick Links 2 */}
-        <div className="flex flex-col gap-4">
-          <h4 className="text-white font-bold text-sm tracking-widest uppercase">
+        <div className="flex flex-col gap-3 md:gap-4">
+          <h4 className="text-white font-bold text-xs md:text-sm tracking-widest uppercase">
             Quick Links
           </h4>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-2 md:gap-3">
             {[
               { label: "Speakers", href: "/speakers" },
               { label: "Contact Us", href: "/contact" },
@@ -68,7 +68,7 @@ export default function Footer() {
               <li key={link.label}>
                 <Link
                   href={link.href}
-                  className="text-white/50 text-sm hover:text-[#e62b1e] transition-colors duration-200"
+                  className="text-white/50 text-xs md:text-sm hover:text-[#e62b1e] transition-colors duration-200"
                 >
                   {link.label}
                 </Link>
@@ -78,85 +78,25 @@ export default function Footer() {
         </div>
 
         {/* Contact Us */}
-        <div className="flex flex-col gap-4">
-          <h4 className="text-white font-bold text-sm tracking-widest uppercase">
+        <div className="flex flex-col gap-3 md:gap-4">
+          <h4 className="text-white font-bold text-xs md:text-sm tracking-widest uppercase">
             Contact Us
           </h4>
-          <ul className="flex flex-col gap-3">
-            <li className="flex items-center gap-3 text-sm">
-              <svg
-                width="16"
-                height="16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-                className="text-white/50 shrink-0"
-              >
-                <path
-                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5H4.5a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 6.75L2.25 6.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+          <ul className="flex flex-col gap-2 md:gap-3">
+            <li className="flex items-center gap-3 text-xs md:text-sm">
+              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" className="text-white/50 shrink-0">
+                <path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5H4.5a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 6.75L2.25 6.75" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <a
-                href="mailto:tedxbmu@bmu.edu.in"
-                className="text-white/50 hover:text-[#e62b1e] transition-colors duration-200"
-              >
+              <a href="mailto:tedxbmu@bmu.edu.in" className="text-white/50 hover:text-[#e62b1e] transition-colors duration-200">
                 tedxbmu@bmu.edu.in
               </a>
             </li>
-            <li className="flex items-center gap-3 text-sm">
-              <svg
-                width="16"
-                height="16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-                className="text-white/50 shrink-0"
-              >
-                <path
-                  d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+            <li className="flex items-center gap-3 text-xs md:text-sm">
+              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" className="text-white/50 shrink-0">
+                <path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <a
-                href="tel:+919810915857"
-                className="text-white/50 hover:text-[#e62b1e] transition-colors duration-200"
-              >
+              <a href="tel:+919810915857" className="text-white/50 hover:text-[#e62b1e] transition-colors duration-200">
                 +91 77426 57444
-              </a>
-            </li>
-            <li className="flex items-center gap-3 text-sm">
-              <svg
-                width="16"
-                height="16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-                className="text-white/50 shrink-0"
-              >
-                <path
-                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <a
-                href="https://maps.google.com/?q=BML+Munjal+University+Gurugram"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#e62b1e] transition-colors duration-200"
-              >
-                BML Munjal University, Gurugram
               </a>
             </li>
           </ul>
@@ -167,21 +107,30 @@ export default function Footer() {
       <div className="border-t border-white/5" />
 
       {/* Bottom bar */}
-      <div className="max-w-7xl mx-auto px-16 py-6 flex items-center justify-between">
-        <div className="flex flex-col gap-1">
-          <p className="text-white/30 text-xs">
+      <div className="max-w-7xl mx-auto px-6 md:px-16 py-8 md:py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col items-center md:items-start gap-1">
+          <p className="text-white/30 text-[10px] md:text-xs text-center md:text-left">
             © 2026 TEDxBMU. All Rights Reserved.
           </p>
-          <p className="text-white/20 text-xs">
+          <p className="text-white/20 text-[9px] md:text-[10px] text-center md:text-left">
             This independent TEDx event is operated under license from TED.
           </p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6 md:gap-4">
           <a
             href="https://www.instagram.com/tedxbmu/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white/30 hover:text-[#e62b1e] transition-colors duration-200"
+          >
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/company/tedxbmu/"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />

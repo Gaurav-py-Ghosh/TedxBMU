@@ -105,17 +105,17 @@ export default function TeamPage() {
   const rest = teamMembers.slice(2);
 
   return (
-    <main className="min-h-screen bg-black text-white pt-24 pb-16">
+    <main className="min-h-screen bg-black text-white pt-32 md:pt-24 pb-16 relative">
 
       {/* Background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-[#e62b1e]/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-64 bg-[#e62b1e]/5 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-16 mb-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-16 mb-16">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
-            <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">TEDxBMU 2026</span>
-            <h1 className="text-7xl lg:text-6xl font-black leading-none tracking-tight uppercase">
+            <span className="text-[#e62b1e] text-[10px] md:text-xs tracking-[0.4em] uppercase font-light">TEDxBMU 2026</span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
               <span className="text-[#e62b1e]">OUR</span>{" "}
               <span className="text-white">TEAM</span>
             </h1>
@@ -127,11 +127,10 @@ export default function TeamPage() {
         <div className="mt-8 h-px w-full bg-gradient-to-r from-[#e62b1e]/40 via-white/5 to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-16 flex flex-col gap-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-16 flex flex-col gap-16">
 
-        {/* Top 2 — Organizers centered */}
         <div className="flex flex-col items-center gap-4">
-          <div className="flex justify-center gap-16">
+          <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-16">
             {organizers.map((member, i) => (
               <MemberCard key={i} member={member} index={i} />
             ))}
@@ -144,8 +143,8 @@ export default function TeamPage() {
           <div className="h-px flex-1 bg-white/5" />
         </div>
 
-        {/* Rest — 4 per row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-20 justify-items-center">
+        {/* Rest — Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 md:gap-y-20 justify-items-center">
           {rest.map((member, i) => (
             <MemberCard key={i} member={member} index={i} />
           ))}
