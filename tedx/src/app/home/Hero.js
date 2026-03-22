@@ -6,20 +6,17 @@ import LightRays from "@/components/ui/LightRays";
 import { useState, useEffect } from 'react';
 
 export default function Hero() {
-  const [windowSize, setWindowSize] = useState({
-    width: typeof window !== "undefined" ? window.innerWidth : 1200,
-    height: typeof window !== "undefined" ? window.innerHeight : 800,
-  });
+  // Use a fixed default to match SSR output; update to actual viewport after mount to avoid hydration mismatches.
+  const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
+      if (typeof window === "undefined") return;
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
-    window.addEventListener("resize", handleResize);
+
     handleResize();
+    window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -36,7 +33,7 @@ export default function Hero() {
           mouseInfluence={0.2}
           raysOrigin="top-center"
           lightSpread={1.2}
-          rayLength={isMobile ? 10 : 4}
+          rayLength={isMobile ? 10 : 3}
           fadeDistance={2}
         />
       </div>

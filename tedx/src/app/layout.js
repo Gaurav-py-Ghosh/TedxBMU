@@ -2,13 +2,9 @@ import { Inter, Archivo } from "next/font/google"; // TEDx Brand Fonts (Inter as
 import ClientWrapper from "./ClientWrapper";
 import "./globals.css";
 
-<<<<<<< HEAD
-const inter = Inter({
-=======
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-const barlow = Barlow({
->>>>>>> ec2589749148e0a096351d27ac3a769d76f100ee
+const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-inter",
