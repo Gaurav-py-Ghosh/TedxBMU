@@ -54,7 +54,7 @@ export default function AboutPage() {
       <section ref={heroRef} className="relative pt-40 md:pt-36 px-6 md:px-8">
         <div className={`max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-8 transition-all duration-1000 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <div className="flex flex-col gap-4">
-            <h1 className="text-5xl md:text-7xl lg:text-7xl font-black leading-none tracking-tight uppercase">
+            <h1 className="text-5xl md:text-7xl lg:text-7xl font-black font-heading leading-none tracking-tight uppercase">
               <span className="text-white">ABOUT </span>
               <span className="text-[#eb0028]">US</span>
             </h1>
@@ -71,7 +71,7 @@ export default function AboutPage() {
         <div className={`max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${tedVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <div className="flex flex-col gap-6">
             <SectionLabel text="The Origin" />
-            <h2 className="text-4xl md:text-5xl font-black uppercase leading-none tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-black font-heading uppercase leading-none tracking-tight">
               <span className="text-white">WHAT IS </span>
               <span className="text-[#eb0028]">TED?</span>
             </h2>
@@ -137,7 +137,7 @@ export default function AboutPage() {
 
           <div className="flex flex-col gap-6 order-1 lg:order-2">
             <SectionLabel text="The Program" />
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-none tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black font-heading uppercase leading-none tracking-tight">
               <span className="text-white">WHAT IS </span>
               <span className="text-[#eb0028]">TEDx?</span>
             </h2>
@@ -156,7 +156,7 @@ export default function AboutPage() {
         <div className={`max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start transition-all duration-1000 ${bmuVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           <div className="flex flex-col gap-6">
             <SectionLabel text="Our Home" />
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-none tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black font-heading uppercase leading-none tracking-tight">
               <span className="text-white">BML MUNJAL </span>
               <span className="text-[#eb0028]">UNIVERSITY</span>
             </h2>

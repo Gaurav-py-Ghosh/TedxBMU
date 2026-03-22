@@ -59,7 +59,7 @@ export default function ContactPage() {
           transform: headerVisible ? "translateY(0)" : "translateY(30px)",
         }}
       >
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-black leading-none tracking-tight uppercase mt-1">
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-black font-heading leading-none tracking-tight uppercase mt-1">
           <span className="text-white">CONTACT </span>
           <span className="text-[#e62b1e]">US</span>
         </h1>
@@ -77,7 +77,7 @@ export default function ContactPage() {
             transform: formVisible ? "translateY(0)" : "translateY(40px)",
           }}
         >
-          <h2 className="text-lg font-black uppercase tracking-tight flex-shrink-0">Send Us A Message</h2>
+          <h2 className="text-lg font-black font-heading uppercase tracking-tight flex-shrink-0">Send Us A Message</h2>
 
           {submitted ? (
             <div className="flex flex-col items-center justify-center gap-4 flex-1">

@@ -230,7 +230,7 @@ function EventSection({ year, data }) {
             <span className="text-[#e62b1e] text-[10px] md:text-xs tracking-[0.4em] uppercase font-light">TEDxBMU {year}</span>
             <div className="h-px w-6 md:w-8 bg-[#e62b1e]" />
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black uppercase leading-none tracking-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black font-heading uppercase leading-none tracking-tight">
             <span className="text-white">{data.theme.split(" ").slice(0, -1).join(" ")} </span>
             <span className="text-[#e62b1e]">{data.theme.split(" ").slice(-1)}</span>
           </h2>
@@ -262,7 +262,7 @@ export default function EventsPage() {
       <div className="max-w-7xl mx-auto px-6 md:px-8 mb-20 md:mb-28">
         <div className="flex flex-col gap-3">
           <span className="text-[#e62b1e] text-[10px] md:text-xs tracking-[0.4em] uppercase font-light">Past Events</span>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black font-heading leading-none tracking-tight uppercase">
             <span className="text-white">OUR </span>
             <span className="text-[#e62b1e]">EVENTS</span>
           </h1>

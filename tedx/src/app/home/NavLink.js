@@ -12,7 +12,7 @@ export default function NavLink({ label, href }) {
   return (
     <Link
       href={href}
-      className={`relative text-[14px] font-normal tracking-wider font-[family-name:var(--font-raleway)] transition-colors duration-200
+      className={`relative text-[14px] font-normal tracking-wider font-[family-name:var(--font-inter)] transition-colors duration-200
         after:absolute after:bottom-[-3px] after:left-0 after:h-[2px]
         after:bg-[#e62b1e] after:transition-all after:duration-300
         hover:text-[#e62b1e] hover:after:w-full

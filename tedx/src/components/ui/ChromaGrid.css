@@ -35,12 +35,12 @@
   background: var(--card-gradient);
   --mouse-x: 50%;
   --mouse-y: 50%;
-  --spotlight-color: rgba(230, 43, 30, 0.3);
+  --spotlight-color: rgba(230, 43, 30, 0.15);
 }
 
 .chroma-card:hover {
-  border-color: var(--card-border);
-  box-shadow: 0 0 30px rgba(230, 43, 30, 0.5), 0 0 60px rgba(230, 43, 30, 0.2);
+  border-color: rgba(230, 43, 30, 0.6);
+  box-shadow: 0 0 20px rgba(230, 43, 30, 0.3), 0 0 40px rgba(230, 43, 30, 0.1);
 }
 
 .chroma-card::before {
@@ -63,6 +63,7 @@
   height: 260px;
   padding: 8px 8px 0 8px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .chroma-img-wrapper img {
@@ -72,6 +73,49 @@
   object-position: top;
   border-radius: 10px;
   display: block;
+  filter: grayscale(1) brightness(0.6);
+  transition: filter 0.3s ease;
+}
+
+/* Red overlay reveal on hover */
+.chroma-img-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 8px 8px 0 8px;
+  border-radius: 10px;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: top;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  
+  /* The actual color reveal mask */
+  mask-image: radial-gradient(
+    circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    black 0%,
+    rgba(0,0,0,0.8) 40%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    black 0%,
+    rgba(0,0,0,0.8) 40%,
+    transparent 100%
+  );
+  
+  /* Reveal original colors with extra brightness */
+  filter: brightness(1.2);
+}
+
+.chroma-card:hover .chroma-img-wrapper::after {
+  opacity: 1;
+}
+
+.chroma-card:hover .chroma-img-wrapper img {
+  /* Brighter background on hover */
+  filter: grayscale(0.8) brightness(0.8);
 }
 
 .chroma-info {
@@ -79,7 +123,7 @@
   z-index: 1;
   padding: 0.6rem 0.75rem 0.75rem;
   color: #fff;
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-inter), sans-serif;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -118,12 +162,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .chroma-linkedin-btn:hover {
-  background: #000;
-  box-shadow: 0 0 10px rgba(230, 43, 30, 0.8), 0 0 20px rgba(230, 43, 30, 0.4);
+  background: #0077b5;
 }
 
 .chroma-linkedin-btn svg {
@@ -132,70 +175,7 @@
   fill: white;
 }
 
-.chroma-linkedin-btn:hover { background: #005885; }
-
-.chroma-linkedin-btn svg {
-  width: 12px;
-  height: 12px;
-  fill: white;
-}
-
-/* KEY: overlay makes everything grayscale by default */
-.chroma-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-  backdrop-filter: grayscale(1) brightness(0.7);
-  -webkit-backdrop-filter: grayscale(1) brightness(0.7);
-  background: rgba(0,0,0,0.001);
-  mask-image: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    transparent 0%,
-    transparent 20%,
-    rgba(0,0,0,0.1) 35%,
-    rgba(0,0,0,0.3) 50%,
-    rgba(0,0,0,0.55) 70%,
-    black 100%
-  );
-  -webkit-mask-image: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    transparent 0%,
-    transparent 20%,
-    rgba(0,0,0,0.1) 35%,
-    rgba(0,0,0,0.3) 50%,
-    rgba(0,0,0,0.55) 70%,
-    black 100%
-  );
-}
-
-/* KEY: fade covers everything in grayscale when mouse is away */
-.chroma-fade {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 4;
-  backdrop-filter: grayscale(1) brightness(0.7);
-  -webkit-backdrop-filter: grayscale(1) brightness(0.7);
-  background: rgba(0,0,0,0.001);
-  mask-image: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    white 0%,
-    white 20%,
-    rgba(255,255,255,0.9) 35%,
-    rgba(255,255,255,0.65) 50%,
-    rgba(255,255,255,0.35) 70%,
-    transparent 100%
-  );
-  -webkit-mask-image: radial-gradient(
-    circle var(--r) at var(--x) var(--y),
-    white 0%,
-    white 20%,
-    rgba(255,255,255,0.9) 35%,
-    rgba(255,255,255,0.65) 50%,
-    rgba(255,255,255,0.35) 70%,
-    transparent 100%
-  );
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
+/* Hide global overlay items if still present in JS but not needed in CSS */
+.chroma-overlay, .chroma-fade {
+  display: none;
+}

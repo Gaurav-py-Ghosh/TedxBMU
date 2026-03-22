@@ -76,7 +76,7 @@ export default function Navbar() {
               href="https://www.bmu.edu.in/"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative text-[14px] font-normal tracking-wider font-[family-name:var(--font-raleway)] text-white hover:text-[#e62b1e] transition-colors duration-200"
+              className="relative text-[14px] font-normal tracking-wider font-[family-name:var(--font-inter)] text-white hover:text-[#e62b1e] transition-colors duration-200"
             >
               BMU
             </a>

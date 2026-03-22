@@ -1,18 +1,17 @@
-import { Barlow } from "next/font/google";
-import { Raleway } from "next/font/google";
+import { Inter, Archivo } from "next/font/google"; // TEDx Brand Fonts (Inter as Helvetica substitute)
 import ClientWrapper from "./ClientWrapper";
 import "./globals.css";
 
-const barlow = Barlow({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-barlow",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-inter",
 });
 
-const raleway = Raleway({
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-raleway",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-archivo",
 });
 
 export const metadata = {
@@ -22,7 +21,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${barlow.variable} ${raleway.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${archivo.variable}`}>
       <body suppressHydrationWarning className="bg-black antialiased">
         <ClientWrapper>{children}</ClientWrapper>
       </body>

@@ -115,7 +115,7 @@ export default function TeamPage() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
             <span className="text-[#e62b1e] text-[10px] md:text-xs tracking-[0.4em] uppercase font-light">TEDxBMU 2026</span>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black font-heading leading-none tracking-tight uppercase">
               <span className="text-[#e62b1e]">OUR</span>{" "}
               <span className="text-white">TEAM</span>
             </h1>

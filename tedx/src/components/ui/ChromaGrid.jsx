@@ -88,6 +88,7 @@ export const ChromaGrid = ({
           style={{
             '--card-border': c.borderColor || '#e62b1e',
             '--card-gradient': c.gradient,
+            '--bg-image': `url(${c.image})`,
             cursor: c.url ? 'pointer' : 'default'
           }}
         >
