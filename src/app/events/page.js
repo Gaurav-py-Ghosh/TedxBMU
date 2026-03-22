@@ -5,7 +5,7 @@ import ChromaGrid from "@/components/ui/ChromaGrid";
 
 const events = {
   2025: {
-    theme: "Beyond What We Think",
+    theme: "Bubbles",
     description:
       "TEDxBMU 2025 brought together curious minds to challenge assumptions, question the obvious, and explore ideas that push beyond conventional thinking.",
     speakers: [
