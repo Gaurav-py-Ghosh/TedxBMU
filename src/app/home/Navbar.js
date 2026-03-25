@@ -60,7 +60,7 @@ export default function Navbar() {
 
         {/* Links Container */}
         <ul className={`
-          flex flex-col lg:flex-row items-center gap-8
+          flex flex-col lg:flex-row items-center gap-6 xl:gap-8
           fixed lg:static top-0 left-0 w-full h-screen lg:h-auto
           bg-black/95 lg:bg-transparent transition-all duration-500
           ${isMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
@@ -69,16 +69,17 @@ export default function Navbar() {
           <li onClick={() => setIsMenuOpen(false)}><NavLink label="Home" href="/" /></li>
           <li onClick={() => setIsMenuOpen(false)}><NavLink label="Events" href="/events" /></li>
           <li onClick={() => setIsMenuOpen(false)}><NavLink label="Team" href="/team" /></li>
-          <li onClick={() => setIsMenuOpen(false)}><NavLink label="About Us" href="/about" /></li>
-          <li onClick={() => setIsMenuOpen(false)}><NavLink label="Contact Us" href="/contact" /></li>
-          <li>
+          <li onClick={() => setIsMenuOpen(false)}><NavLink label="About" href="/about" /></li>
+          <li onClick={() => setIsMenuOpen(false)}><NavLink label="Contact" href="/contact" /></li>
+          <li className="hidden lg:block">
+            <div className="w-px h-4 bg-white/20 mx-1"></div>
+          </li>
+          <li onClick={() => setIsMenuOpen(false)}>
             <a
-              href="https://www.bmu.edu.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative text-[14px] font-normal tracking-wider font-[family-name:var(--font-inter)] text-white hover:text-[#e62b1e] transition-colors duration-200"
+              href="/register"
+              className="bg-[#e62b1e] hover:bg-[#ff3b2e] text-white text-sm font-bold tracking-widest uppercase px-6 py-2.5 rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(230,43,30,0.3)] hover:shadow-[0_0_25px_rgba(230,43,30,0.5)] transform hover:-translate-y-0.5"
             >
-              BMU
+              Register
             </a>
           </li>
         </ul>
