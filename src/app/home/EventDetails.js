@@ -132,9 +132,7 @@ export default function Theme() {
                 </div>
               </div>
               <p className="text-white/50 text-sm md:text-base leading-relaxed max-w-md font-light">
-                TEDxBMU 2026 invites you to shatter the boundaries of conventional thinking.
-                This is a space where curiosity meets courage, where ideas that once seemed
-                impossible become the blueprints of tomorrow.
+                TEDxBMU 2026 is a space for ideas that challenge what we accept as normal. It brings together voices that question, disrupt, and rethink the way we see the world one idea at a time.
               </p>
               <div className="flex flex-wrap gap-8 md:gap-12 mt-4">
                 <StatBox number={6} suffix="+" label="Speakers" start={statsStarted} />
@@ -147,20 +145,20 @@ export default function Theme() {
             <div className={`grid grid-cols-2 gap-4 transition-all duration-1000 delay-300 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
               <div className="col-span-1 row-span-2 bg-white/5 rounded-lg overflow-hidden h-80 border border-[#e62b1e]/20 flex items-center justify-center shadow-[0_0_30px_rgba(230,43,30,0.15)] hover:shadow-[0_0_50px_rgba(230,43,30,0.3)] hover:border-[#e62b1e]/40 transition-all duration-500">
                 <img
-                  src="/gallery/1.jpg"
+                  src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531094/9_yazhja.jpg"
                   alt="Photo 1"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="bg-white/5 rounded-lg overflow-hidden h-[152px] border border-[#e62b1e]/20 flex items-center justify-center shadow-[0_0_20px_rgba(230,43,30,0.1)] hover:shadow-[0_0_40px_rgba(230,43,30,0.25)] hover:border-[#e62b1e]/40 transition-all duration-500">
                 <img
-                  src="/gallery/2.jpg"
+                  src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531093/7_maaxec.jpg"
                   alt="Photo 2"
                   className="w-full h-full object-cover"
                 />            </div>
               <div className="bg-white/5 rounded-lg overflow-hidden h-[152px] border border-[#e62b1e]/20 flex items-center justify-center shadow-[0_0_20px_rgba(230,43,30,0.1)] hover:shadow-[0_0_40px_rgba(230,43,30,0.25)] hover:border-[#e62b1e]/40 transition-all duration-500">
                 <img
-                  src="/gallery/12.jpg"
+                  src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/30_qrdsg5.jpg"
                   alt="Photo 3"
                   className="w-full h-full object-cover"
                 />

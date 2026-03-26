@@ -56,19 +56,19 @@ export default function Sponsor() {
           {/* Tall image right */}
           <div className="row-span-2 bg-white/5 rounded-2xl overflow-hidden border border-white/10 h-full min-h-[320px] flex items-center justify-center
             hover:border-[#e62b1e]/30 hover:shadow-[0_0_30px_rgba(230,43,30,0.1)] transition-all duration-500">
-              <img src="/gallery/14.jpg" alt="Sponsor" className="w-full h-full object-cover" />
+              <img src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/15_tvwqqj.jpg" alt="Sponsor" className="w-full h-full object-cover" />
           </div>
 
           {/* Top small */}
           <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10 h-36 flex items-center justify-center
             hover:border-[#e62b1e]/30 hover:shadow-[0_0_30px_rgba(230,43,30,0.1)] transition-all duration-500">
-              <img src="/gallery/19.jpg" alt="Sponsor" className="w-full h-full object-cover" />
+              <img src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/29_fu36ov.jpg" alt="Sponsor" className="w-full h-full object-cover" />
           </div>
 
           {/* Bottom small */}
           <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10 h-36 flex items-center justify-center
             hover:border-[#e62b1e]/30 hover:shadow-[0_0_30px_rgba(230,43,30,0.1)] transition-all duration-500">
-              <img src="/gallery/11.jpg" alt="Sponsor" className="w-full h-full object-cover" />
+              <img src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/16_r7w2gr.jpg" alt="Sponsor" className="w-full h-full object-cover" />
           </div>
 
         </div>

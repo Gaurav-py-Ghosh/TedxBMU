@@ -43,7 +43,7 @@ export default function ThemeDetail() {
               shadow-[0_0_40px_rgba(230,43,30,0.1)]">
               {/* Replace with actual image */}
               <div className="w-full h-full bg-gradient-to-b from-white/5 to-black/40 flex items-center justify-center">
-                <img src="/gallery/image.png" alt="Theme" className="w-full h-full object-cover" />
+                <img src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/image_cvmwie.png" alt="Theme" className="w-full h-full object-cover" />
                 {/* Red glow overlay */}
               </div>
               {/* Red left border accent */}
@@ -56,11 +56,11 @@ export default function ThemeDetail() {
 
             {/* Intro paragraph */}
             <p className="text-white/70 text-sm leading-relaxed">
-              <span className="text-[#e62b1e] font-semibold">Beyond What We Think</span> is an invitation to look deeper — beyond appearances, beyond assumptions, and beyond the limits of what we think we know.
+              <span className="text-[#e62b1e] font-semibold">The Unseen Stories</span> is about the narratives that exist beneath what we see. Every person, idea, and moment carries layers that often go unnoticed — stories that aren't told, but deeply felt.
             </p>
 
             <p className="text-white/50 text-sm leading-relaxed">
-              In a world that moves quickly, we often notice only the surface: actions without the intentions behind them, outcomes without the stories that shaped them, and people without the journeys they've lived.
+              We live in a world that focuses on what's visible, but rarely stops to understand what lies beneath. This theme brings those hidden stories to light — stories of quiet resilience, untold struggles, unexpected perspectives, and moments that shape us without ever being seen.
             </p>
 
             {/* What we explore */}
@@ -74,10 +74,10 @@ export default function ThemeDetail() {
 
               <ul className="flex flex-col gap-2 ml-1">
                 {[
-                  "The quiet ideas that spark change",
-                  "The emotions that shape human behaviour",
-                  "The stories that remain untold",
-                  "The discoveries that lie just out of sight",
+                  "The stories behind visible success that no one talks about",
+                  "The quiet struggles and turning points that shape journeys",
+                  "Voices that were overlooked, unheard, or left untold",
+                  "Narratives that challenge what we think we know",
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-white/50 text-sm">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#e62b1e] mt-1.5 flex-shrink-0" />
@@ -87,19 +87,17 @@ export default function ThemeDetail() {
               </ul>
             </div>
 
-            {/* Middle paragraph */}
+            {/* Closing paragraph */}
             <p className="text-white/50 text-sm leading-relaxed">
-              This theme encourages us to{" "}
-              <span className="text-white font-semibold">slow down, question what we take for granted</span>,
-              and recognise the depth within everyday moments. Through diverse voices and compelling narratives,
-              we illuminate the unseen forces that connect us, inspire us, and challenge us to think differently.
+              This theme invites you to{" "}
+              <span className="text-white font-semibold">question what you assume, notice what you overlook, and understand what lies beneath the surface</span>. Because sometimes, what we don't see holds the most meaning.
             </p>
 
             {/* Callout box */}
             <div className="border-l-2 border-[#e62b1e] bg-white/[0.03] rounded-r-xl px-5 py-4 flex flex-col gap-2">
-              <p className="text-white text-sm font-semibold">An Invitation to Expand Your Perspective</p>
+              <p className="text-white text-sm font-semibold">An Invitation to See Differently</p>
               <p className="text-white/40 text-xs leading-relaxed">
-                Beyond What We Think is not just a theme — it's an invitation to discover a richer, more meaningful way of understanding the world.
+                This isn't just about listening to ideas — it's about discovering perspectives you didn't know you were missing.
               </p>
             </div>
 

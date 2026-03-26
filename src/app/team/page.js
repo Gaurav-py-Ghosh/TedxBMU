@@ -18,19 +18,19 @@ function useVisible(threshold = 0.1) {
 }
 
 const teamMembers = [
-  { image: "/gallery/Akshat Kabra_ Licensee .jpg", name: "Akshat Kabra", role: "Licensee", linkedin: "https://www.linkedin.com/in/akshatkabra1?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
-  { image: "/gallery/Rhea Singh Sud_Co-Licensee.jpg", name: "Rhea Singh Sud", role: "Co-licensee", linkedin: "https://www.linkedin.com/in/rhea-singh-sud" },
-  { image: "/gallery/GauravWebsite.jpeg", name: "Gaurav", role: "Website", linkedin: "https://www.linkedin.com/in/gaurav-ghosh-9531132b3/" },
-  { image: "/gallery/Radhika Goel_Design.jpg", name: "Radhika Goel", role: "Design", linkedin: "https://www.linkedin.com/in/goelradhika" },
-  { image: "/gallery/YakshitaYadav_Design.jpg", name: "Yakshita Yadav", role: "Design", linkedin: "https://www.linkedin.com/in/yakshita-yadav/" },
-  { image: "/gallery/Aryan Nair_Curation.jpeg", name: "Aryan Nair", role: "Curation", linkedin: "https://www.linkedin.com/in/aryannair1" },
-  { image: "/gallery/Bhavyanshi Singh_Curation.JPG", name: "Bhavyanshi Singh", role: "Curation", linkedin: "https://linkedin.com/in/bhavyanshi-singh-68288a293" },
-  { image: "/gallery/Dhiren_Video_Production.jpg", name: "Dhiren", role: "Video Production", linkedin: "https://www.linkedin.com/in/dhiren-421198297?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" },
-  { image: "/gallery/BayyapureddyVibhugnan_Marketing.jpg", name: "Bayyapureddy Vibhugnan", role: "Marketing", linkedin: "https://www.linkedin.com/in/bayyapureddy-vibhu-gnan-82a60128a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
-  { image: "/gallery/saanvee_socialmedia.jpeg", name: "saanvee", role: "Marketing", linkedin: "https://www.linkedin.com/in/saanveesharma/" },
-  { image: "/gallery/Tanuj Dhakad _event management_.jpg", name: "Tanuj Dhakad", role: "Event management", linkedin: "https://www.linkedin.com/in/tanuj-dhakad-b1b238290?utm_source=share_via&utm_content=profile&utm_medium=member_ios" },
-  { image: "/gallery/SanyamJain_eventmanagement.png", name: "Sanyam Jain", role: "Event management", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
-  { image: "/gallery/Ansh Gagneja BBA MBA Integrated 2.png", name: "Ansh Gagneja", role: "Sponsorship", linkedin: "https://www.linkedin.com/in/ansh-gagneja-42730b282/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/Akshat_Kabra__Licensee_bbdoeb.jpg", name: "Akshat Kabra", role: "Licensee", linkedin: "https://www.linkedin.com/in/akshatkabra1?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Rhea_Singh_Sud_Co-Licensee_rpigrd.jpg", name: "Rhea Singh Sud", role: "Co-licensee", linkedin: "https://www.linkedin.com/in/rhea-singh-sud" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/GauravWebsite_lyvk3n.jpg", name: "Gaurav", role: "Website", linkedin: "https://www.linkedin.com/in/gaurav-ghosh-9531132b3/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/Radhika_Goel_Design_b8msdh.jpg", name: "Radhika Goel", role: "Design", linkedin: "https://www.linkedin.com/in/goelradhika" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531101/YakshitaYadav_Design_j8xiqy.jpg", name: "Yakshita Yadav", role: "Design", linkedin: "https://www.linkedin.com/in/yakshita-yadav/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Aryan_Nair_Curation_vph79x.jpg", name: "Aryan Nair", role: "Curation", linkedin: "https://www.linkedin.com/in/aryannair1" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Bhavyanshi_Singh_Curation_yuqulz.jpg", name: "Bhavyanshi Singh", role: "Curation", linkedin: "https://linkedin.com/in/bhavyanshi-singh-68288a293" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Dhiren_Video_Production_nnynjg.jpg", name: "Dhiren", role: "Video Production", linkedin: "https://www.linkedin.com/in/dhiren-421198297?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/BayyapureddyVibhugnan_Marketing_tzixjg.jpg", name: "Bayyapureddy Vibhugnan", role: "Marketing", linkedin: "https://www.linkedin.com/in/bayyapureddy-vibhu-gnan-82a60128a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/saanvee_socialmedia_irwhph.jpg", name: "saanvee", role: "Marketing", linkedin: "https://www.linkedin.com/in/saanveesharma/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Tanuj_Dhakad__event_management__uwfdqy.jpg", name: "Tanuj Dhakad", role: "Event management", linkedin: "https://www.linkedin.com/in/tanuj-dhakad-b1b238290?utm_source=share_via&utm_content=profile&utm_medium=member_ios" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/SanyamJain_eventmanagement_s5qpx0.png", name: "Sanyam Jain", role: "Event management", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Ansh_Gagneja_BBA_MBA_Integrated_2_hbrnsc.png", name: "Ansh Gagneja", role: "Sponsorship", linkedin: "https://www.linkedin.com/in/ansh-gagneja-42730b282/" },
   
 ];
 

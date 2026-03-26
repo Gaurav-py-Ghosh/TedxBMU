@@ -1,32 +1,34 @@
 "use client";
 
+
+  // "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531091/3_aoum8l.jpg",
+
 import { useRef, useEffect, useState } from "react";
 import GridMotion from "@/components/ui/GridMotion";
 import BlurText from "@/components/ui/BlurText";
 const galleryImages = [
-  "/gallery/4.jpg",
-  "/gallery/16.jpg",
-  "/gallery/8.jpg",
-  "/gallery/5.jpg",
-  "/gallery/13.jpg",
-  "/gallery/9.jpg",
-  "/gallery/26.jpg",
-  "/gallery/14.jpg",
-  "/gallery/15.jpg",
-  "/gallery/20.jpg",
-  "/gallery/17.jpg",
-  "/gallery/18.jpg",
-  "/gallery/28.jpg",
-  "/gallery/12.jpg",
-  "/gallery/6.jpg",
-  "/gallery/7.jpg",
-  "/gallery/2.jpg",
-
-  "/gallery/21.jpg",
-  "/gallery/22.jpg",
-  "/gallery/23.jpg",
-  "/gallery/25.jpg",
-  "/gallery/27.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531091/17_zenpc5.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531091/5_glbmit.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531096/26_mpp04q.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531091/2_fb035y.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531092/19_pikpck.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531091/18_mvexp5.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531092/4_yxhpde.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531092/20_gyps9p.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531092/4_yxhpde.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531092/20_gyps9p.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531092/21_rcul9x.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531093/8_uofvsy.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531093/22_c3htug.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531094/10_tylnii.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531092/6_nsljtc.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531095/25_zfl10e.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531093/11_exubsi.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531095/24_b8jwi8.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531094/23_otymrr.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531090/1_wdpgdn.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531096/12_vnsf73.jpg",
+  "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531096/14_lhy5fn.jpg",
 ];
 
 const placeholderItems = galleryImages.map((src, i) => (
