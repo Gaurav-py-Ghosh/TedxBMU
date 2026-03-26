@@ -9,15 +9,25 @@ const app = express();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(",") 
-  : ["http://localhost:3000", "http://localhost:5002"];
+  : ["https://tedxbmu.in", "https://tedx-bmu.vercel.app", "http://localhost:3000"];
 
 app.use(cors({
   origin: function (origin, callback) {
+    console.log("[CORS] Incoming request from origin:", origin);
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes(origin + "/")) {
+    
+    // In production, keep it restricted but more robust
+    // Match exact or with trailing slash
+    const isAllowed = allowedOrigins.some(o => {
+      const cleanO = o.trim();
+      return origin === cleanO || origin === cleanO + "/";
+    });
+
+    if (isAllowed || process.env.NODE_ENV !== "production") {
       callback(null, true);
     } else {
+      console.warn("[CORS] Blocked origin:", origin);
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -55,5 +65,15 @@ app.get("/api/test-email", async (req, res) => {
 });
 
 app.use("/api/registration", registrationRoutes);
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error("[GLOBAL ERROR]:", err);
+  res.status(500).json({
+    message: "Critical server error",
+    debug: err.message,
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined
+  });
+});
 
 module.exports = app;

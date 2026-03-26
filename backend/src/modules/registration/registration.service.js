@@ -22,6 +22,7 @@ const createRegistration = async (data) => {
   const cleanCollege = college.trim();
 
   // ── 2. Duplicate check (safety net) ──
+  console.log("[REG] Checking for duplicate email:", cleanEmail);
   const { data: existingEmail, error: emailCheckErr } = await supabase
     .from("registrations")
     .select("email")
@@ -29,16 +30,18 @@ const createRegistration = async (data) => {
     .maybeSingle();
 
   if (emailCheckErr) {
-    console.error("Email duplicate check error:", emailCheckErr);
-    throw new Error("Failed to verify registration. Please try again.");
+    console.error("[REG] Email duplicate check error:", emailCheckErr);
+    throw new Error(`DB Error (email check): ${emailCheckErr.message}`);
   }
 
   if (existingEmail) {
+    console.warn("[REG] Duplicate email found:", cleanEmail);
     const err = new Error(`User with email ${cleanEmail} is already registered`);
     err.code = "DUPLICATE_EMAIL";
     throw err;
   }
 
+  console.log("[REG] Checking for duplicate phone:", cleanPhone);
   const { data: existingPhone, error: phoneCheckErr } = await supabase
     .from("registrations")
     .select("phone")
@@ -46,47 +49,56 @@ const createRegistration = async (data) => {
     .maybeSingle();
 
   if (phoneCheckErr) {
-    console.error("Phone duplicate check error:", phoneCheckErr);
-    throw new Error("Failed to verify registration. Please try again.");
+    console.error("[REG] Phone duplicate check error:", phoneCheckErr);
+    throw new Error(`DB Error (phone check): ${phoneCheckErr.message}`);
   }
 
   if (existingPhone) {
+    console.warn("[REG] Duplicate phone found:", cleanPhone);
     const err = new Error(`Phone number ${cleanPhone} is already registered`);
     err.code = "DUPLICATE_PHONE";
     throw err;
   }
 
   // ── 3. Generate ticket ID, QR code, and upload ──────────────
+  console.log("[REG] Generating ticket and QR...");
   const ticket_id = generateTicketId();
   let qrUrl = null;
 
-  const qrBase64 = await generateQR(ticket_id);
-  qrUrl = await uploadQR(ticket_id, qrBase64);
+  try {
+    const qrBase64 = await generateQR(ticket_id);
+    console.log("[REG] Uploading QR to storage...");
+    qrUrl = await uploadQR(ticket_id, qrBase64);
+  } catch (err) {
+    console.error("[REG] QR generation/upload failed:", err.message);
+    throw new Error(`QR Error: ${err.message}`);
+  }
 
   // ── 4. Send ticket email ────────────────────────────────────
+  console.log("[REG] Sending ticket email...");
   const emailService = getEmailService();
   let emailSent = false;
-
-  const emailResult = await emailService.sendTicketEmail({
-    to: cleanEmail,
-    name: cleanName,
-    ticketId: ticket_id,
-    qrCodeUrl: qrUrl,
-    college: cleanCollege,
-  });
-
-  if (!emailResult.success) {
-    // Payment is already done — log error but DON'T block registration
-    console.error("Email failed after payment (non-blocking):", {
-      ticket_id,
-      email: cleanEmail,
-      error: emailResult.error,
+  
+  try {
+    const emailResult = await emailService.sendTicketEmail({
+      to: cleanEmail,
+      name: cleanName,
+      ticketId: ticket_id,
+      qrCodeUrl: qrUrl,
+      college: cleanCollege,
     });
-  } else {
-    emailSent = true;
+
+    if (!emailResult.success) {
+      console.error("[REG] Email failed (non-blocking):", emailResult.error);
+    } else {
+      emailSent = true;
+    }
+  } catch (err) {
+    console.error("[REG] Email service error (non-blocking):", err.message);
   }
 
   // ── 5. Insert to DB ────────────────────────────────────────
+  console.log("[REG] Inserting registration to DB...");
   const { data: result, error: insertError } = await supabase
     .from("registrations")
     .insert([
@@ -107,8 +119,8 @@ const createRegistration = async (data) => {
     .select();
 
   if (insertError) {
-    console.error("Database insertion error:", insertError);
-
+    console.error("[REG] Database insertion error:", insertError);
+    
     // Race-condition duplicate (DB unique constraint)
     if (
       insertError.code === "23505" ||
@@ -121,7 +133,7 @@ const createRegistration = async (data) => {
     }
 
     await deleteQR(ticket_id);
-    throw new Error("Failed to save registration. Please contact support.");
+    throw new Error(`DB Insert Error: ${insertError.message}`);
   }
 
   // ── 6. Sync to Google Sheet (non-blocking) ─────────────────
