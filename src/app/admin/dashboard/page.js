@@ -42,11 +42,21 @@ export default function AdminDashboardPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem("adminToken");
+      if (!token) {
+        router.replace("/admin/login");
+        return;
+      }
       const result = await getAdminStats(token);
       
       if (result.success) {
         setStats(result.data);
       } else {
+        // Token is invalid or expired — clear it and redirect to login
+        if (result.status === 401 || result.status === 403) {
+          localStorage.removeItem("adminToken");
+          router.replace("/admin/login");
+          return;
+        }
         setError(result.error || "Failed to load stats");
       }
     } catch (err) {

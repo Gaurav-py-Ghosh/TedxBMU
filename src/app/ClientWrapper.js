@@ -22,12 +22,14 @@ export default function ClientWrapper({ children }) {
     setLoading(false);
   };
 
+  const isAdminRoute = pathname.startsWith("/admin");
+
   return (
     <>
-      {loading && <Loader onDone={handleDone} />}
-      <Navbar />
+      {loading && !isAdminRoute && <Loader onDone={handleDone} />}
+      {!isAdminRoute && <Navbar />}
       {children}
-      <Footer />
+      {!isAdminRoute && <Footer />}
     </>
   );
 }
