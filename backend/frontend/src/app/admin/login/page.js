@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5002";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "";
 
 export default function AdminLoginPage() {
     const router = useRouter();

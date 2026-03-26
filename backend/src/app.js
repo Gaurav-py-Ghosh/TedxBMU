@@ -7,7 +7,22 @@ const attendanceRoutes = require("./modules/attendance/attendance.routes");
 const paymentRoutes = require("./modules/payment/payment.routes");
 const app = express();
 
-app.use(cors());
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(",") 
+  : ["http://localhost:3000", "http://localhost:5002"];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes(origin + "/")) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 app.use("/api/admin", adminRoutes);
 app.use("/api/attendance", attendanceRoutes);

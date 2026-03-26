@@ -21,21 +21,38 @@ const createRegistration = async (data) => {
   const cleanPhone = phone.trim();
   const cleanCollege = college.trim();
 
-  // ── 2. Duplicate check (safety net — also checked in createOrder) ──
-  const { data: existing, error: checkErr } = await supabase
+  // ── 2. Duplicate check (safety net) ──
+  const { data: existingEmail, error: emailCheckErr } = await supabase
     .from("registrations")
     .select("email")
     .eq("email", cleanEmail)
     .maybeSingle();
 
-  if (checkErr) {
-    console.error("Duplicate check error:", checkErr);
+  if (emailCheckErr) {
+    console.error("Email duplicate check error:", emailCheckErr);
     throw new Error("Failed to verify registration. Please try again.");
   }
 
-  if (existing) {
+  if (existingEmail) {
     const err = new Error(`User with email ${cleanEmail} is already registered`);
     err.code = "DUPLICATE_EMAIL";
+    throw err;
+  }
+
+  const { data: existingPhone, error: phoneCheckErr } = await supabase
+    .from("registrations")
+    .select("phone")
+    .eq("phone", cleanPhone)
+    .maybeSingle();
+
+  if (phoneCheckErr) {
+    console.error("Phone duplicate check error:", phoneCheckErr);
+    throw new Error("Failed to verify registration. Please try again.");
+  }
+
+  if (existingPhone) {
+    const err = new Error(`Phone number ${cleanPhone} is already registered`);
+    err.code = "DUPLICATE_PHONE";
     throw err;
   }
 
