@@ -52,6 +52,7 @@ function TalksSection({ speakers }) {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (isMobile) return; // Disable scroll-based navigation on mobile
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
       const scrolled = -rect.top;
@@ -69,12 +70,12 @@ function TalksSection({ speakers }) {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [speakers.length]);
+  }, [speakers.length, isMobile]);
 
   return (
     <>
       {/* Label */}
-      <div className="max-w-7xl mx-auto px-8 flex items-center gap-4 mb-4">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-4 mb-4 md:mb-6">
         <div className="h-px w-8 bg-[#e62b1e]" />
         <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">Watch the Talks</span>
         <div className="flex-1 h-px bg-white/5" />
@@ -85,7 +86,7 @@ function TalksSection({ speakers }) {
 
       {/* Sticky scroll section */}
       <div ref={sectionRef} style={{ height: isMobile ? `${speakers.length * 85}vh` : `${speakers.length * 100}vh` }}>
-        <div className="sticky top-0 h-[100svh] flex flex-col items-center justify-center gap-6 bg-black pb-10">
+        <div className="sticky top-0 h-[100svh] flex flex-col items-center justify-center gap-3 md:gap-6 bg-black pb-8 md:pb-10">
 
           {/* Progress dots & counter */}
           <div className="flex flex-col items-center gap-3">
@@ -106,7 +107,7 @@ function TalksSection({ speakers }) {
           </div>
 
           {/* Stacked cards */}
-          <div className="relative w-full max-w-4xl mx-auto px-6 md:px-8" style={{ height: "auto", minHeight: "500px" }}>
+          <div className="relative w-full max-w-4xl mx-auto" style={{ height: "auto", minHeight: "500px", padding: isMobile ? "0 1rem" : "0 1.5rem" }}>
             <div className="lg:hidden h-[450px]" /> {/* Spacer for absolute cards on mobile */}
             {speakers.map((s, i) => {
               const vid = getYouTubeId(s.youtube);
@@ -137,7 +138,53 @@ function TalksSection({ speakers }) {
                   }}
                 >
                   {/* TOP/LEFT — YouTube */}
-                  <div className="relative cursor-pointer group h-48 sm:h-64 lg:h-full" onMouseEnter={() => !isMobile && setPlaying(true)}>
+                  <div 
+                    className="relative cursor-pointer group h-48 sm:h-64 lg:h-full overflow-hidden"
+                    onMouseEnter={() => !isMobile && setPlaying(true)}
+                    onClick={() => {
+                      if (isActive && !playing) {
+                        setPlaying(true);
+                      }
+                    }}
+                    style={isMobile ? { margin: "0 -1rem", marginBottom: "0.5rem" } : {}}>
+                    {/* Mobile navigation buttons */}
+                    {isMobile && isActive && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (activeIndex > 0) {
+                              activeIndexRef.current = activeIndex - 1;
+                              setActiveIndex(activeIndex - 1);
+                              setPlaying(false);
+                            }
+                          }}
+                          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-2 hover:scale-110 transition-transform"
+                          aria-label="Previous video"
+                        >
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#e62b1e]">
+                            <path d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (activeIndex < speakers.length - 1) {
+                              activeIndexRef.current = activeIndex + 1;
+                              setActiveIndex(activeIndex + 1);
+                              setPlaying(false);
+                            }
+                          }}
+                          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-2 hover:scale-110 transition-transform"
+                          aria-label="Next video"
+                        >
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#e62b1e]">
+                            <path d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </>
+                    )}
+                    
                     {isActive && playing ? (
                       <iframe
                         src={`https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`}
@@ -157,25 +204,31 @@ function TalksSection({ speakers }) {
                           </div>
                         </div>
                         {isActive && activeIndex === 0 && (
-                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-white/30 text-[10px] tracking-widest uppercase animate-bounce">
-                            scroll for next
-                          </div>
+                          isMobile ? (
+                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-white/30 text-[10px] tracking-widest uppercase animate-bounce">
+                              use buttons
+                            </div>
+                          ) : (
+                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-white/30 text-[10px] tracking-widest uppercase animate-bounce">
+                              scroll for next
+                            </div>
+                          )
                         )}
                       </>
                     )}
                   </div>
 
                   {/* BOTTOM/RIGHT — Info */}
-                  <div className="flex flex-col justify-center gap-3 md:gap-4 p-5 md:p-6 pb-8 md:pb-6">
+                  <div className="flex flex-col justify-center gap-2 md:gap-4 p-4 sm:p-5 md:p-6 pb-6 md:pb-6">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex flex-col gap-0.5 md:gap-1">
-                        <h3 className="text-white font-black text-lg md:text-xl leading-tight">{s.name}</h3>
-                        <p className="text-[#e62b1e] text-[10px] md:text-xs font-medium">{s.title}</p>
+                        <h3 className="text-white font-black text-base sm:text-lg md:text-xl leading-tight">{s.name}</h3>
+                        <p className="text-[#e62b1e] text-[9px] sm:text-[10px] md:text-xs font-medium">{s.title}</p>
                       </div>
                     </div>
-                    <div className="h-px w-8 md:w-10 bg-[#e62b1e]/40" />
-                    <p className="text-white/60 text-xs md:text-sm italic">"{s.topic}"</p>
-                    <p className="text-white/30 text-[10px] md:text-xs leading-relaxed line-clamp-3 md:line-clamp-4">{s.bio}</p>
+                    <div className="h-px w-6 sm:w-8 md:w-10 bg-[#e62b1e]/40" />
+                    <p className="text-white/60 text-[11px] sm:text-xs md:text-sm italic">"{s.topic}"</p>
+                    <p className="text-white/30 text-[9px] sm:text-[10px] md:text-xs leading-relaxed line-clamp-3 md:line-clamp-4">{s.bio}</p>
                     <div className="mt-auto pt-2 hidden sm:block">
                       <span className="text-white/10 text-4xl md:text-5xl font-black leading-none select-none">
                         {String(i + 1).padStart(2, "0")}
