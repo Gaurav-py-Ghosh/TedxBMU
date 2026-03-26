@@ -115,6 +115,8 @@ const registerUser = async (req, res) => {
     console.error("Registration error:", error);
     res.status(500).json({
       message: "Internal server error. Please try again later.",
+      debug: error.message, // Temporarily added for production debugging
+      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
     });
   }
 };
