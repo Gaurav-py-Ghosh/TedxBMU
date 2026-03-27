@@ -3,9 +3,11 @@
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 import StarBorder from "@/components/ui/star-border";
 import LightRays from "@/components/ui/LightRays";
+import ShaderBackground from "@/components/ui/ShaderBackground";
 import { useState, useEffect } from 'react';
+import { motion } from "motion/react";
 
-export default function Hero() {
+export default function Hero({ isLoaded = false }) {
   // Use a fixed default to match SSR output; update to actual viewport after mount to avoid hydration mismatches.
   const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
 
@@ -24,17 +26,17 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center bg-[#1e1c1c] overflow-hidden">
-      {/* Light Rays Background */}
+      {/* Shader Background */}
       <div className="absolute inset-0 z-0">
-        <LightRays
-          raysColor="#ffffff"
-          raysSpeed={0.5}
-          followMouse={!isMobile}
-          mouseInfluence={0.2}
-          raysOrigin="top-center"
-          lightSpread={1.2}
-          rayLength={isMobile ? 10 : 3}
-          fadeDistance={2}
+        <ShaderBackground
+          animationSpeed={0.04}
+          backgroundColor="#000000"
+          colorIntensity={1}
+          mosaicScale={{ x: 2, y: 2 }}
+          colorA="#ff1500"
+          colorB="#ff0000"
+          width="100%"
+          height="100%"
         />
       </div>
 
@@ -42,7 +44,12 @@ export default function Hero() {
       <div className="absolute inset-0 z-[1] bg-black/45" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full px-6 h-full mt-10 md:mt-15">
+      <motion.div 
+        className="relative z-10 flex flex-col items-center justify-center w-full px-6 h-full mt-10 md:mt-15"
+        initial={{ opacity: 0, y: 20 }}
+        animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
         {isMobile ? (
           /* MOBILE VIEW */
           <div className="flex flex-col items-center justify-center w-full">
@@ -98,7 +105,7 @@ export default function Hero() {
             </div>
           </div>
         )}
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -73,8 +73,8 @@ export const TextHoverEffect = ({
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
-className="fill-transparent stroke-neutral-400/30 font-[helvetica] text-7xl font-bold dark:stroke-neutral-700/30"        style={{ opacity: hovered ? 0.7 : 0 }}>
+        strokeWidth="0.8"
+        className="fill-transparent stroke-white font-[helvetica] text-7xl font-bold" style={{ opacity: hovered ? 0.7 : 0 }}>
         {text}
       </text>
       <motion.text
@@ -83,7 +83,7 @@ className="fill-transparent stroke-neutral-400/30 font-[helvetica] text-7xl font
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.8"
-className="fill-transparent stroke-neutral-400/30 font-[helvetica] text-7xl font-bold dark:stroke-neutral-700/30"        initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
+        className="fill-transparent stroke-white font-[helvetica] text-7xl font-bold" initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
           strokeDasharray: 1000,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import NavLink from "./NavLink";
 
 export default function Navbar() {

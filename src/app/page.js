@@ -12,7 +12,7 @@ export default function Home() {
     <main className="bg-black">
       {!loaded && <Loader onDone={() => setLoaded(true)} />}
       <Navbar />
-      <Homepage/>
+      <Homepage isLoaded={loaded} />
     </main>
   );
 }

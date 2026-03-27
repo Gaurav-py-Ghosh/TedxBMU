@@ -13,9 +13,18 @@ export default function ClientWrapper({ children }) {
   });
   const pathname = usePathname();
 
+  useEffect(() => {
+    const hasLoaded = sessionStorage.getItem("tedxbmu_loaded");
+    if (!hasLoaded) {
+      setLoading(true);
+      document.body.style.overflow = "hidden";
+    }
+  }, []);
+
   const handleDone = () => {
     sessionStorage.setItem("tedxbmu_loaded", "true");
     setLoading(false);
+    document.body.style.overflow = "";
   };
 
   const isAdminRoute = pathname.startsWith("/admin");
