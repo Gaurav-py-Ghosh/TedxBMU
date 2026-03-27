@@ -29,14 +29,15 @@ export default function Hero({ isLoaded = false }) {
       {/* Shader Background */}
       <div className="absolute inset-0 z-0">
         <ShaderBackground
-          animationSpeed={0.04}
+          animationSpeed={0.03}
           backgroundColor="#000000"
-          colorIntensity={1}
+          colorIntensity={0.9}
           mosaicScale={{ x: 2, y: 2 }}
-          colorA="#ff1500"
-          colorB="#ff0000"
+          colorA="#e62b1e"
+          colorB="#e62b1e"
           width="100%"
           height="100%"
+          radius={1.6}
         />
       </div>
 

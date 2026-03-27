@@ -9,6 +9,7 @@ export default function ShaderBackground({
   mosaicScale = { x: 4, y: 2 },
   colorA = "#ff3d2d",
   colorB = "#ffffff",
+  radius = 1,
   width = "100%",
   height = "100%",
 }) {
@@ -45,7 +46,7 @@ export default function ShaderBackground({
         document.head.removeChild(existingScript);
       }
     };
-  }, [animationSpeed, mosaicScale, colorIntensity, colorA, colorB, backgroundColor]);
+  }, [animationSpeed, mosaicScale, colorIntensity, colorA, colorB, backgroundColor, radius]);
 
   const initThreeJS = () => {
     if (!containerRef.current || !window.THREE) return;
@@ -71,6 +72,7 @@ export default function ShaderBackground({
       colorA: { type: "v3", value: new THREE.Color(colorA) },
       colorB: { type: "v3", value: new THREE.Color(colorB) },
       bgColor: { type: "v3", value: new THREE.Color(backgroundColor) },
+      radius: { type: "f", value: radius },
     };
 
     const vertexShader = `
@@ -90,6 +92,7 @@ export default function ShaderBackground({
       uniform vec3 colorA;
       uniform vec3 colorB;
       uniform vec3 bgColor;
+      uniform float radius;
 
       float random(in float x) {
         return fract(sin(x) * 1e4);
@@ -114,7 +117,8 @@ export default function ShaderBackground({
         float intensity = 0.0;
         for(int j = 0; j < 3; j++) {
           for(int i = 0; i < 5; i++) {
-            intensity += lineWidth * float(i*i) / abs(fract(t - 0.01*float(j) + float(i)*0.01) - length(uv));
+            float dist = length(uv) / radius;
+            intensity += lineWidth * float(i*i) / abs(fract(t - 0.01*float(j) + float(i)*0.01) - dist);
           }
         }
         

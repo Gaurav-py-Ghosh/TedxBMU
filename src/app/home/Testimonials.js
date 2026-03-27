@@ -165,7 +165,7 @@ export default function Testimonials() {
         {/* Cards grid */}
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">          
   {testimonials.map((t, i) => (
-            <TestimonialCard key={t.name} testimonial={t} index={i} />
+            <TestimonialCard key={`${t.name}-${i}`} testimonial={t} index={i} />
           ))}
         </div>
 
