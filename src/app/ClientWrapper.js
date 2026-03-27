@@ -7,15 +7,11 @@ import Footer from "./home/Footer";
 import Loader from "./home/Loader";
 
 export default function ClientWrapper({ children }) {
-  const [loading, setLoading] = useState(false);
-  const pathname = usePathname();
-
-  useEffect(() => {
+  const [loading, setLoading] = useState(() => {
     const hasLoaded = sessionStorage.getItem("tedxbmu_loaded");
-    if (!hasLoaded) {
-      setLoading(true);
-    }
-  }, []); // ← empty array — only runs ONCE on first mount ever
+    return !hasLoaded;
+  });
+  const pathname = usePathname();
 
   const handleDone = () => {
     sessionStorage.setItem("tedxbmu_loaded", "true");

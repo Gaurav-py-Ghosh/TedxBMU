@@ -13,7 +13,7 @@ export default function HomePage() {
       <EventDetails />
       <Theme />
       {/* <SpeakerSection /> */}
-      {/* <Testimonials /> */}
+      <Testimonials />
       <Gallery />
       <Sponsor />
     </>

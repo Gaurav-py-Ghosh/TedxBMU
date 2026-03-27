@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import ChromaGrid from "@/components/ui/ChromaGrid";
 
 const events = {
@@ -41,10 +42,9 @@ function TalksSection({ speakers }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const activeIndexRef = useRef(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024);
 
   useEffect(() => {
-    setIsMobile(window.innerWidth < 1024);
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -75,14 +75,28 @@ function TalksSection({ speakers }) {
   return (
     <>
       {/* Label */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-4 mb-4 md:mb-6">
-        <div className="h-px w-8 bg-[#e62b1e]" />
-        <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">Watch the Talks</span>
-        <div className="flex-1 h-px bg-white/5" />
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#e62b1e">
-          <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-        </svg>
-      </div>
+     {/* Label */}
+<div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-4 mb-4 md:mb-6">
+  <div className="h-px w-8 bg-[#e62b1e]" />
+
+  <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">
+    Watch the Talks
+  </span>
+
+  <div className="flex-1 h-px bg-white/5" />
+
+  {/* ✅ Clickable YouTube Icon */}
+  <a
+    href="https://www.youtube.com/@TEDx"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:scale-110 transition-transform duration-200"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#e62b1e">
+      <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  </a>
+</div>
 
       {/* Sticky scroll section */}
       <div ref={sectionRef} style={{ height: isMobile ? `${speakers.length * 85}vh` : `${speakers.length * 100}vh` }}>
@@ -195,8 +209,7 @@ function TalksSection({ speakers }) {
                       />
                     ) : (
                       <>
-                        <img src={thumb} alt={s.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          onError={e => { e.target.style.display = "none"; }} />
+                        <Image src={thumb} alt={s.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300" />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="w-14 h-14 rounded-full bg-[#e62b1e] flex items-center justify-center shadow-[0_0_30px_rgba(230,43,30,0.7)] group-hover:scale-110 transition-transform duration-300">
@@ -227,7 +240,7 @@ function TalksSection({ speakers }) {
                       </div>
                     </div>
                     <div className="h-px w-6 sm:w-8 md:w-10 bg-[#e62b1e]/40" />
-                    <p className="text-white/60 text-[11px] sm:text-xs md:text-sm italic">"{s.topic}"</p>
+                    <p className="text-white/60 text-[11px] sm:text-xs md:text-sm italic">&quot;{s.topic}&quot;</p>
                     <p className="text-white/30 text-[9px] sm:text-[10px] md:text-xs leading-relaxed line-clamp-3 md:line-clamp-4">{s.bio}</p>
                     <div className="mt-auto pt-2 hidden sm:block">
                       <span className="text-white/10 text-4xl md:text-5xl font-black leading-none select-none">
@@ -294,8 +307,8 @@ function EventSection({ year, data }) {
       {/* ChromaGrid for speakers */}
       <ChromaGrid
         items={chromaItems}
-        columns={3}
-        rows={2}
+        columns={5}
+        rows={1}
         radius={350}
         damping={0.45}
         fadeOut={0.6}

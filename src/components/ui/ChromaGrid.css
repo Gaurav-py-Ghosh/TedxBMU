@@ -178,4 +178,8 @@
 /* Hide global overlay items if still present in JS but not needed in CSS */
 .chroma-overlay, .chroma-fade {
   display: none;
-}
+}
+
+.last-row-center {
+  justify-self: center;
+}

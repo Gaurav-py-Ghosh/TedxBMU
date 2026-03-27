@@ -123,9 +123,6 @@ export default function TeamPage() {
               <span className="text-white">TEAM</span>
             </h1>
           </div>
-          <p className="text-white/40 text-sm leading-relaxed max-w-xs lg:mb-2">
-            Our team is a group of dedicated individuals who are passionate about making a difference in the world.
-          </p>
         </div>
         <div className="mt-8 h-px w-full bg-gradient-to-r from-[#e62b1e]/40 via-white/5 to-transparent" />
       </div>

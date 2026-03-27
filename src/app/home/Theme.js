@@ -64,28 +64,29 @@ export default function ThemeDetail() {
             </p>
 
             {/* What we explore */}
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-full bg-[#e62b1e] flex items-center justify-center flex-shrink-0">
-                  <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                </div>
-                <h3 className="text-white font-black text-sm tracking-widest uppercase">What We Explore</h3>
-              </div>
+<div className="flex flex-col gap-4">
 
-              <ul className="flex flex-col gap-2 ml-1">
-                {[
-                  "The stories behind visible success that no one talks about",
-                  "The quiet struggles and turning points that shape journeys",
-                  "Voices that were overlooked, unheard, or left untold",
-                  "Narratives that challenge what we think we know",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-white/50 text-sm">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#e62b1e] mt-1.5 flex-shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+  <h3 className="text-white font-black text-sm tracking-widest uppercase">
+    What We Explore
+  </h3>
+
+  <div className="flex flex-col gap-3">
+    {[
+      "The stories behind visible success that no one talks about",
+      "The quiet struggles and turning points that shape journeys",
+      "Voices that were overlooked, unheard, or left untold",
+      "Narratives that challenge what we think we know",
+    ].map((item, i) => (
+      <p
+        key={i}
+        className="text-white/50 text-sm leading-relaxed border-l border-[#e62b1e]/30 pl-4 hover:border-[#e62b1e] transition-colors duration-300"
+      >
+        {item}
+      </p>
+    ))}
+  </div>
+
+</div>
 
             {/* Closing paragraph */}
             <p className="text-white/50 text-sm leading-relaxed">

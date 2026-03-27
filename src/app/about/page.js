@@ -60,7 +60,7 @@ export default function AboutPage() {
             </h1>
           </div>
           <p className="text-white/40 text-sm leading-relaxed max-w-sm lg:mb-2">
-            An independently organized TED event at BML Munjal University — where ideas worth spreading find their stage.
+            An independently organized TED event at BML Munjal University where ideas worth spreading find their stage.
           </p>
         </div>
         <div className="max-w-7xl mx-auto mt-10 h-px bg-gradient-to-r from-[#eb0028]/40 via-white/5 to-transparent" />
@@ -76,10 +76,10 @@ export default function AboutPage() {
               <span className="text-[#eb0028]">TED?</span>
             </h2>
             <p className="text-white/50 text-sm leading-relaxed">
-              TED is a nonprofit organization devoted to the power of ideas. Starting as a conference in 1984 focused on Technology, Entertainment and Design, TED has grown to cover virtually every topic — from science and business to global issues — in more than 100 languages.
+              TED is a nonprofit organization devoted to the power of ideas. Starting as a conference in 1984 focused on Technology, Entertainment and Design, TED has grown to cover virtually every topic from science and business to global issues  in more than 100 languages.
             </p>
             <p className="text-white/50 text-sm leading-relaxed">
-              TED's mission is to discover and spread ideas that spark imagination, embrace possibility and catalyze impact. Through talks, podcasts, and events, TED has become a global platform for the world's most inspired thinkers.
+              TED&apos;s mission is to discover and spread ideas that spark imagination, embrace possibility and catalyze impact. Through talks, podcasts, and events, TED has become a global platform for the world&apos;s most inspired thinkers.
             </p>
             <a href="https://www.ted.com" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#eb0028] text-xs tracking-wider uppercase font-semibold hover:gap-4 transition-all duration-300 w-fit">
@@ -142,7 +142,7 @@ export default function AboutPage() {
               <span className="text-[#eb0028]">TEDx?</span>
             </h2>
             <p className="text-white/50 text-sm leading-relaxed">
-              TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. The "x" in TEDx stands for independently organized TED event — communities, universities and organizations around the world are licensed to run their own events.
+              TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. The &quot;x&quot; in TEDx stands for independently organized TED event - communities, universities and organizations around the world are licensed to run their own events.
             </p>
             <p className="text-white/50 text-sm leading-relaxed">
               TEDx events are designed to spark deep discussion and connection in a small group setting. Each event combines live speakers and TEDTalks to strike a balance between local and global perspectives.
@@ -164,7 +164,7 @@ export default function AboutPage() {
               BML Munjal University is a private university located in Sidhrawali, Gurugram, Haryana. Established by the Hero Group, BMU is committed to delivering world-class education that blends academic rigor with industry relevance.
             </p>
             <p className="text-white/50 text-sm leading-relaxed">
-              With state-of-the-art facilities, a vibrant campus culture, and a strong focus on innovation and entrepreneurship, BMU provides the perfect backdrop for an event like TEDxBMU — where curiosity is encouraged and ideas are celebrated.
+              With state-of-the-art facilities, a vibrant campus culture, and a strong focus on innovation and entrepreneurship, BMU provides the perfect backdrop for an event like TEDxBMU where curiosity is encouraged and ideas are celebrated.
             </p>
             <a href="https://www.bmu.edu.in" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#eb0028] text-xs tracking-wider uppercase font-semibold hover:gap-4 transition-all duration-300 w-fit">

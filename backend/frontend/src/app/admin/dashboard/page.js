@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
@@ -25,9 +25,9 @@ export default function DashboardPage() {
         if (!authLoading && isAuthenticated) {
             fetchStats();
         }
-    }, [authLoading, isAuthenticated, router]);
+    }, [authLoading, isAuthenticated, router, fetchStats]);
 
-    const fetchStats = async () => {
+    const fetchStats = useCallback(async () => {
         setLoading(true);
         setError(null);
 
@@ -61,7 +61,7 @@ export default function DashboardPage() {
         }
 
         setLoading(false);
-    };
+    }, [router, logout, getToken]);
 
     const handleDownload = async (type) => {
         setDownloading((prev) => ({ ...prev, [type]: true }));

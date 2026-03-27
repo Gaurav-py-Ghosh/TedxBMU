@@ -12,7 +12,7 @@ function useVisible(threshold = 0.1) {
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+  }, [threshold]);
   return [ref, visible];
 }
 
@@ -87,7 +87,7 @@ export default function ContactPage() {
                 </svg>
               </div>
               <p className="text-white font-semibold">Message Sent!</p>
-              <p className="text-white/40 text-sm text-center">We'll get back to you as soon as possible.</p>
+              <p className="text-white/40 text-sm text-center">We&apos;ll get back to you as soon as possible.</p>
               <button onClick={() => { setSubmitted(false); setForm({ firstName: "", lastName: "", email: "", message: "" }); }}
                 className="text-[#e62b1e] text-sm underline underline-offset-4">
                 Send another message
