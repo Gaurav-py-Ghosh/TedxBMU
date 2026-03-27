@@ -5,38 +5,44 @@ import { usePathname } from "next/navigation";
 import Navbar from "./home/Navbar";
 import Footer from "./home/Footer";
 import Loader from "./home/Loader";
+import { LoadingProvider, useLoading } from "../context/LoadingContext";
 
-export default function ClientWrapper({ children }) {
-  const [loading, setLoading] = useState(true);
+function ClientWrapperContent({ children }) {
+  const { isLoaded, setIsLoaded } = useLoading();
   const [initialized, setInitialized] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const hasLoaded = sessionStorage.getItem("tedxbmu_loaded");
-    if (hasLoaded) {
-      setLoading(false);
-    } else {
-      document.body.style.overflow = "hidden";
-    }
     setInitialized(true);
   }, []);
 
   const handleDone = () => {
     sessionStorage.setItem("tedxbmu_loaded", "true");
-    setLoading(false);
+    setIsLoaded(true);
     document.body.style.overflow = "";
   };
 
-  const isAdminRoute = pathname.startsWith("/admin");
+  const isAdminRoute = pathname?.startsWith("/admin") ?? false;
 
   if (!initialized) return null;
 
   return (
     <>
-      {loading && !isAdminRoute && <Loader onDone={handleDone} />}
+      {!isLoaded && !isAdminRoute && (
+        <Loader onDone={handleDone} />
+      )}
       {!isAdminRoute && <Navbar />}
       {children}
       {!isAdminRoute && <Footer />}
     </>
   );
 }
+
+export default function ClientWrapper({ children }) {
+  return (
+    <LoadingProvider>
+      <ClientWrapperContent>{children}</ClientWrapperContent>
+    </LoadingProvider>
+  );
+}
+

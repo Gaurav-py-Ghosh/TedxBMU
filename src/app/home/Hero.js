@@ -6,8 +6,10 @@ import LightRays from "@/components/ui/LightRays";
 import ShaderBackground from "@/components/ui/ShaderBackground";
 import { useState, useEffect } from 'react';
 import { motion } from "motion/react";
+import { useLoading } from "@/context/LoadingContext";
 
-export default function Hero({ isLoaded = false }) {
+export default function Hero() {
+  const { isLoaded } = useLoading();
   // Use a fixed default to match SSR output; update to actual viewport after mount to avoid hydration mismatches.
   const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
 

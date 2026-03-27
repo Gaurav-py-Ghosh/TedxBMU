@@ -6,10 +6,10 @@ import Gallery from "./Gallery";
 import Sponsor from "./Sponsor";
 import Theme from "./Theme";
 
-export default function HomePage({ isLoaded = false }) {
+export default function HomePage() {
   return (
     <>
-      <Hero isLoaded={isLoaded} />
+      <Hero />
       <EventDetails />
       <Theme />
       {/* <SpeakerSection /> */}
