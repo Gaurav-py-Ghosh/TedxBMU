@@ -7,18 +7,18 @@ import Footer from "./home/Footer";
 import Loader from "./home/Loader";
 
 export default function ClientWrapper({ children }) {
-  const [loading, setLoading] = useState(() => {
-    const hasLoaded = sessionStorage.getItem("tedxbmu_loaded");
-    return !hasLoaded;
-  });
+  const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     const hasLoaded = sessionStorage.getItem("tedxbmu_loaded");
-    if (!hasLoaded) {
-      setLoading(true);
+    if (hasLoaded) {
+      setLoading(false);
+    } else {
       document.body.style.overflow = "hidden";
     }
+    setInitialized(true);
   }, []);
 
   const handleDone = () => {
@@ -28,6 +28,8 @@ export default function ClientWrapper({ children }) {
   };
 
   const isAdminRoute = pathname.startsWith("/admin");
+
+  if (!initialized) return null;
 
   return (
     <>

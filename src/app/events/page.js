@@ -133,7 +133,7 @@ function TalksSection({ speakers }) {
 
               return (
                 <div
-                  key={i}
+                  key={`${s.name}-${s.youtube}`}
                   className="absolute inset-0 rounded-2xl overflow-hidden flex flex-col lg:grid lg:grid-cols-2 cursor-pointer group/card"
                   onClick={() => isActive && !playing && setPlaying(true)}
                   style={{
