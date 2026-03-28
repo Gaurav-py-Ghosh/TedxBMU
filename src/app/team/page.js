@@ -5,18 +5,19 @@ import { useEffect, useRef } from "react";
 const TEAM = [
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/Akshat_Kabra__Licensee_bbdoeb.jpg", name: "Akshat Kabra", role: "Licensee", linkedin: "https://www.linkedin.com/in/akshatkabra1" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Rhea_Singh_Sud_Co-Licensee_rpigrd.jpg", name: "Rhea Singh Sud", role: "Co-Licensee", linkedin: "https://www.linkedin.com/in/rhea-singh-sud" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/GauravWebsite_lyvk3n.jpg", name: "Gaurav", role: "Website", linkedin: "https://www.linkedin.com/in/gaurav-ghosh-9531132b3/" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/Radhika_Goel_Design_b8msdh.jpg", name: "Radhika Goel", role: "Design", linkedin: "https://www.linkedin.com/in/goelradhika" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531101/YakshitaYadav_Design_j8xiqy.jpg", name: "Yakshita Yadav", role: "Design", linkedin: "https://www.linkedin.com/in/yakshita-yadav/" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774689267/Priyal_Khullar_Content_h1gfnv.jpg", name: "Priya Khullar", role: "Content", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Aryan_Nair_Curation_vph79x.jpg", name: "Aryan Nair", role: "Curation", linkedin: "https://www.linkedin.com/in/aryannair1" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Bhavyanshi_Singh_Curation_yuqulz.jpg", name: "Bhavyanshi Singh", role: "Curation", linkedin: "https://linkedin.com/in/bhavyanshi-singh-68288a293" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Dhiren_Video_Production_nnynjg.jpg", name: "Dhiren", role: "Video Production", linkedin: "https://www.linkedin.com/in/dhiren-421198297" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/BayyapureddyVibhugnan_Marketing_tzixjg.jpg", name: "Bayyapureddy Vibhugnan", role: "Marketing", linkedin: "https://www.linkedin.com/in/bayyapureddy-vibhu-gnan-82a60128a" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/saanvee_socialmedia_irwhph.jpg", name: "Saanvee", role: "Social Media", linkedin: "https://www.linkedin.com/in/saanveesharma/" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Tanuj_Dhakad__event_management__uwfdqy.jpg", name: "Tanuj Dhakad", role: "Event Management", linkedin: "https://www.linkedin.com/in/tanuj-dhakad-b1b238290" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/SanyamJain_eventmanagement_s5qpx0.png", name: "Sanyam Jain", role: "Event Management", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Ansh_Gagneja_BBA_MBA_Integrated_2_hbrnsc.png", name: "Ansh Gagneja", role: "Sponsorship", linkedin: "https://www.linkedin.com/in/ansh-gagneja-42730b282/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/GauravWebsite_lyvk3n.jpg", name: "Gaurav", role: "Website Lead", linkedin: "https://www.linkedin.com/in/gaurav-ghosh-9531132b3/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/Radhika_Goel_Design_b8msdh.jpg", name: "Radhika Goel", role: "Design Lead", linkedin: "https://www.linkedin.com/in/goelradhika" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531101/YakshitaYadav_Design_j8xiqy.jpg", name: "Yakshita Yadav", role: "Design Lead", linkedin: "https://www.linkedin.com/in/yakshita-yadav/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774689267/Priyal_Khullar_Content_h1gfnv.jpg", name: "Priya Khullar", role: "Content Lead", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Aryan_Nair_Curation_vph79x.jpg", name: "Aryan Nair", role: "Curation Lead", linkedin: "https://www.linkedin.com/in/aryannair1" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Bhavyanshi_Singh_Curation_yuqulz.jpg", name: "Bhavyanshi Singh", role: "Curation Lead", linkedin: "https://www.linkedin.com/in/bhavyanshi-singh-68288a293" },
+  
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/BayyapureddyVibhugnan_Marketing_tzixjg.jpg", name: "Bayyapureddy Vibhugnan", role: "Social Media Lead", linkedin: "https://www.linkedin.com/in/bayyapureddy-vibhu-gnan-82a60128a" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/saanvee_socialmedia_irwhph.jpg", name: "Saanvee", role: "Social Media Lead", linkedin: "https://www.linkedin.com/in/saanveesharma/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Dhiren_Video_Production_nnynjg.jpg", name: "Dhiren", role: "Video Production Lead", linkedin: "https://www.linkedin.com/in/dhiren-421198297" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Tanuj_Dhakad__event_management__uwfdqy.jpg", name: "Tanuj Dhakad", role: "Event Management Lead", linkedin: "https://www.linkedin.com/in/tanuj-dhakad-b1b238290" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/SanyamJain_eventmanagement_s5qpx0.png", name: "Sanyam Jain", role: "Event Management Lead", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Ansh_Gagneja_BBA_MBA_Integrated_2_hbrnsc.png", name: "Ansh Gagneja", role: "Sponsorship Lead", linkedin: "https://www.linkedin.com/in/ansh-gagneja-42730b282/" },
 ];
 
 function Card({ member, delay, observeRef }) {
@@ -62,7 +63,17 @@ function Card({ member, delay, observeRef }) {
       <div className="card-shell" ref={shellRef}>
         <img className="card-img" src={member.image} alt={member.name} loading="lazy" />
         <div className="card-grad" />
-        <div className="card-scan" />
+        <svg className="card-scan" viewBox="0 0 220 300" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="scanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+              <stop offset="50%" stopColor="rgba(255,255,255,0.06)" />
+              <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="300" x2="220" y2="0" stroke="url(#scanGradient)" strokeWidth="72" strokeLinecap="round" className="scan-line-1" />
+          <line x1="0" y1="0" x2="220" y2="300" stroke="url(#scanGradient)" strokeWidth="72" strokeLinecap="round" className="scan-line-2" />
+        </svg>
         <div className="card-sheen" />
         <div className="corner-accent" />
         <div className="card-info">
@@ -214,7 +225,14 @@ export default function TeamPage() {
         .card-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(15%) contrast(1.06); transition: filter 0.4s ease, transform 0.5s ease; }
         .card-shell:hover .card-img { filter: grayscale(0%) contrast(1.08) brightness(1.04); transform: scale(1.05); }
         .card-grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.25) 55%, transparent 100%); z-index: 1; }
-        .card-scan { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px); z-index: 2; pointer-events: none; opacity: 0.6; }
+        .card-scan { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 0.3s; width: 100%; height: 100%; }
+        .card-shell:hover .card-scan { 
+          opacity: 0.6;
+          animation: xScanMove 2.5s ease-in-out infinite;
+        }
+        .card-scan .scan-line-1, .card-scan .scan-line-2 {
+          filter: drop-shadow(0 0 6px rgba(255,255,255,0.12));
+        }
         .card-sheen { position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.04) 55%, transparent 70%); background-size: 250% 250%; background-position: 200% 200%; z-index: 3; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
         .card-shell:hover .card-sheen { opacity: 1; animation: sheenMove 1.8s ease infinite; }
         .card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 14px; z-index: 4; }
@@ -226,6 +244,11 @@ export default function TeamPage() {
         .corner-accent { position: absolute; top: 0; left: 0; width: 0; height: 0; border-style: solid; border-width: 28px 28px 0 0; border-color: var(--red) transparent transparent transparent; opacity: 0; transition: opacity 0.3s; z-index: 5; }
         .card-shell:hover .corner-accent { opacity: 1; }
         @keyframes riseIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes xScanMove { 
+          0% { transform: translateX(-100%) translateY(-100%); } 
+          50% { transform: translateX(0) translateY(0); }
+          100% { transform: translateX(100%) translateY(100%); } 
+        }
         @keyframes sheenMove { 0% { background-position: 200% 200%; } 100% { background-position: -50% -50%; } }
         #particle-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
         .noise { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); background-size: 400px 400px; }
