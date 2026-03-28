@@ -51,7 +51,7 @@ export default function Sponsor() {
         </div>
 
         {/* RIGHT — Images */}
-        <div className={`grid grid-cols-2 gap-4 transition-all duration-1000 delay-300 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
+        <div className={`grid grid-cols-2 gap-1 transition-all duration-1000 delay-300 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
 
           {/* Tall image right */}
           <div className="row-span-2 bg-white/5 rounded-2xl overflow-hidden border border-white/10 h-full min-h-[320px] flex items-center justify-center
@@ -60,13 +60,13 @@ export default function Sponsor() {
           </div>
 
           {/* Top small */}
-          <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10 h-36 flex items-center justify-center
+          <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10 h-52 flex items-center justify-center
             hover:border-[#e62b1e]/30 hover:shadow-[0_0_30px_rgba(230,43,30,0.1)] transition-all duration-500">
               <img src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/29_fu36ov.jpg" alt="Sponsor" className="w-full h-full object-cover" />
           </div>
 
           {/* Bottom small */}
-          <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10 h-36 flex items-center justify-center
+          <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10 h-52 flex items-center justify-center
             hover:border-[#e62b1e]/30 hover:shadow-[0_0_30px_rgba(230,43,30,0.1)] transition-all duration-500">
               <img src="https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/16_r7w2gr.jpg" alt="Sponsor" className="w-full h-full object-cover" />
           </div>

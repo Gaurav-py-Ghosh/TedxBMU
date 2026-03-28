@@ -16,10 +16,10 @@ export default function ThemeDetail() {
   }, []);
 
   return (
-    <section ref={ref} className="relative bg-black text-white py-24 px-8 overflow-hidden">
+    <section ref={ref} className="relative bg-black text-white py-24 px-8">
 
-      {/* Red glow top center */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-48 bg-[#e62b1e]/10 blur-[100px] rounded-full pointer-events-none" />
+      {/* Red glow top center - positioned higher to overlap with previous section, radius reduced */}
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[550px] h-[220px] bg-[#e62b1e]/15 blur-[100px] rounded-full pointer-events-none z-0" />
 
       <div className="max-w-5xl mx-auto flex flex-col gap-16">
 

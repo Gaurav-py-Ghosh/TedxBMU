@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const TEAM = [
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/Akshat_Kabra__Licensee_bbdoeb.jpg", name: "Akshat Kabra", role: "Licensee", category: "organizers", linkedin: "https://www.linkedin.com/in/akshatkabra1" , featured: true },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/Akshat_Kabra__Licensee_bbdoeb.jpg", name: "Akshat Kabra", role: "Licensee", category: "organizers", linkedin: "https://www.linkedin.com/in/akshatkabra1", featured: true },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Rhea_Singh_Sud_Co-Licensee_rpigrd.jpg", name: "Rhea Singh Sud", role: "Co-Licensee", category: "organizers", linkedin: "https://www.linkedin.com/in/rhea-singh-sud", featured: true },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/GauravWebsite_lyvk3n.jpg", name: "Gaurav", role: "Website", category: "Website", linkedin: "https://www.linkedin.com/in/gaurav-ghosh-9531132b3/" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/Radhika_Goel_Design_b8msdh.jpg", name: "Radhika Goel", role: "Design", category: "design", linkedin: "https://www.linkedin.com/in/goelradhika" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531101/YakshitaYadav_Design_j8xiqy.jpg", name: "Yakshita Yadav", role: "Design", category: "design", linkedin: "https://www.linkedin.com/in/yakshita-yadav/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774689267/Priyal_Khullar_Content_h1gfnv.jpg", name: "Priya Khullar", role: "Content", category: "content", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Aryan_Nair_Curation_vph79x.jpg", name: "Aryan Nair", role: "Curation", category: "curation", linkedin: "https://www.linkedin.com/in/aryannair1" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Bhavyanshi_Singh_Curation_yuqulz.jpg", name: "Bhavyanshi Singh", role: "Curation", category: "curation", linkedin: "https://linkedin.com/in/bhavyanshi-singh-68288a293" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Dhiren_Video_Production_nnynjg.jpg", name: "Dhiren", role: "Video Production", category: "production", linkedin: "https://www.linkedin.com/in/dhiren-421198297" },
@@ -15,18 +16,20 @@ const TEAM = [
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/saanvee_socialmedia_irwhph.jpg", name: "Saanvee", role: "Social Media", category: "marketing", linkedin: "https://www.linkedin.com/in/saanveesharma/" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Tanuj_Dhakad__event_management__uwfdqy.jpg", name: "Tanuj Dhakad", role: "Event Management", category: "events", linkedin: "https://www.linkedin.com/in/tanuj-dhakad-b1b238290" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/SanyamJain_eventmanagement_s5qpx0.png", name: "Sanyam Jain", role: "Event Management", category: "events", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Ansh_Gagneja_BBA_MBA_Integrated_2_hbrnsc.png", name: "Ansh Gagneja", role: "Sponsorship", category: "production", linkedin: "https://www.linkedin.com/in/ansh-gagneja-42730b282/" },
+  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Ansh_Gagneja_BBA_MBA_Integrated_2_hbrnsc.png", name: "Ansh Gagneja", role: "Sponsorship", category: "sponsorship", linkedin: "https://www.linkedin.com/in/ansh-gagneja-42730b282/" },
 ];
 
 const FILTERS = [
   { key: "all", label: "All" },
   { key: "organizers", label: "Organizers" },
+  { key: "Website", label: "Website" },
   { key: "design", label: "Design" },
+  { key: "content", label: "Content" },
   { key: "curation", label: "Curation" },
   { key: "marketing", label: "Marketing" },
   { key: "events", label: "Events" },
   { key: "production", label: "Production" },
-  { key: "Website", label: "Website" },
+  { key: "sponsorship", label: "Sponsorship" },
 ];
 
 function Card({ member, featured, delay, observeRef, extraClass = "", defaultIn = false }) {
@@ -267,33 +270,33 @@ export default function TeamPage() {
           --text-dim: rgba(255,255,255,0.38);
         }
         .team-page { background: var(--black); color: var(--text); font-family: var(--font-inter), sans-serif; position: relative; isolation: isolate; }
-        .page { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 120px 60px 160px; }
-        .header { position: relative; margin-bottom: 72px; }
-        .header-bg-text { position: absolute; top: -40px; left: -8px; font-family: var(--font-archivo), sans-serif; font-size: clamp(120px, 18vw, 260px); line-height: 1; color: rgba(255,255,255,0.025); letter-spacing: -0.02em; white-space: nowrap; pointer-events: none; }
-        .eyebrow { font-family: var(--font-archivo), sans-serif; font-size: 10px; letter-spacing: 0.42em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.15s; display: flex; align-items: center; gap: 14px; }
-        .eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--red); }
-        .main-title { font-family: var(--font-archivo), sans-serif; font-size: clamp(64px, 10vw, 120px); line-height: 1; letter-spacing: -0.01em; font-weight: 900; text-transform: uppercase; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.35s; }
-        .title-w { color: var(--text); display: block; }
-        .title-r { color: var(--red); display: block; }
-        .header-foot { display: flex; align-items: center; gap: 28px; margin-top: 32px; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.55s; }
-        .h-line { height: 1px; width: 160px; background: linear-gradient(to right, var(--red), transparent); flex-shrink: 0; }
-        .team-stat { font-family: var(--font-archivo), sans-serif; font-size: 11px; color: var(--text-dim); letter-spacing: 0.2em; display: flex; align-items: baseline; gap: 6px; }
-        .stat-num { font-size: 22px; color: var(--red); font-weight: 700; font-family: var(--font-archivo), sans-serif; letter-spacing: 0.05em; }
-        .tabs-wrap { margin-bottom: 68px; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.7s; }
-        .tabs { display: inline-flex; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 100px; padding: 4px; gap: 2px; flex-wrap: wrap; }
-        .tab { font-family: var(--font-archivo), sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 22px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; border-radius: 100px; transition: color 0.25s, background 0.25s; }
-        .tab.active { background: var(--red); color: #fff; }
-        .tab:not(.active):hover { color: #fff; }
-        .featured-block { margin-bottom: 72px; }
-        .section-label { font-family: var(--font-archivo), sans-serif; font-size: 9px; letter-spacing: 0.45em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 36px; display: flex; align-items: center; gap: 14px; }
-        .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 300px; }
-        .featured-row { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
-        .big-divider { height: 1px; background: linear-gradient(to right, transparent, var(--red-mid), transparent); margin: 64px 0; position: relative; }
-        .big-divider::before { content: '✦'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--red); font-size: 10px; background: var(--black); padding: 0 16px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(188px, 1fr)); gap: 28px 20px; }
-        .card { opacity: 0; transform: translateY(36px); transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1); }
-        .card.in { opacity: 1; transform: translateY(0); }
-        .card.gone { opacity: 0; pointer-events: none; transform: scale(0.94); transition: opacity 0.3s, transform 0.3s; position: absolute; visibility: hidden; }
+        .team-page .page { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 120px 60px 160px; }
+        .team-page .header { position: relative; margin-bottom: 72px; }
+        .team-page .header-bg-text { position: absolute; top: -40px; left: -8px; font-family: var(--font-archivo), sans-serif; font-size: clamp(120px, 18vw, 260px); line-height: 1; color: rgba(255,255,255,0.025); letter-spacing: -0.02em; white-space: nowrap; pointer-events: none; }
+        .team-page .eyebrow { font-family: var(--font-archivo), sans-serif; font-size: 10px; letter-spacing: 0.42em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.15s; display: flex; align-items: center; gap: 14px; }
+        .team-page .eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--red); }
+        .team-page .main-title { font-family: var(--font-archivo), sans-serif; font-size: clamp(64px, 10vw, 120px); line-height: 1; letter-spacing: -0.01em; font-weight: 900; text-transform: uppercase; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.35s; }
+        .team-page .title-w { color: var(--text); display: block; }
+        .team-page .title-r { color: var(--red); display: block; }
+        .team-page .header-foot { display: flex; align-items: center; gap: 28px; margin-top: 32px; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.55s; }
+        .team-page .h-line { height: 1px; width: 160px; background: linear-gradient(to right, var(--red), transparent); flex-shrink: 0; }
+        .team-page .team-stat { font-family: var(--font-archivo), sans-serif; font-size: 11px; color: var(--text-dim); letter-spacing: 0.2em; display: flex; align-items: baseline; gap: 6px; }
+        .team-page .stat-num { font-size: 22px; color: var(--red); font-weight: 700; font-family: var(--font-archivo), sans-serif; letter-spacing: 0.05em; }
+        .team-page .tabs-wrap { margin-bottom: 68px; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.7s; }
+        .team-page .tabs { display: inline-flex; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 100px; padding: 4px; gap: 2px; flex-wrap: wrap; }
+        .team-page .tab { font-family: var(--font-archivo), sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 22px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; border-radius: 100px; transition: color 0.25s, background 0.25s; }
+        .team-page .tab.active { background: var(--red); color: #fff; }
+        .team-page .tab:not(.active):hover { color: #fff; }
+        .team-page .featured-block { margin-bottom: 72px; }
+        .team-page .section-label { font-family: var(--font-archivo), sans-serif; font-size: 9px; letter-spacing: 0.45em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 36px; display: flex; align-items: center; gap: 14px; }
+        .team-page .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 300px; }
+        .team-page .featured-row { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
+        .team-page .big-divider { height: 1px; background: linear-gradient(to right, transparent, var(--red-mid), transparent); margin: 64px 0; position: relative; }
+        .team-page .big-divider::before { content: '✦'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--red); font-size: 10px; background: var(--black); padding: 0 16px; }
+        .team-page .grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 28px 20px; }
+        .team-page .card { opacity: 0; transform: translateY(36px); transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1); width: 220px; flex-shrink: 0; }
+        .team-page .card.in { opacity: 1; transform: translateY(0); }
+        .team-page .card.gone { opacity: 0; pointer-events: none; transform: scale(0.94); transition: opacity 0.3s, transform 0.3s; position: absolute; visibility: hidden; }
         .card-shell { position: relative; border-radius: 14px; overflow: hidden; cursor: pointer; transform-style: preserve-3d; will-change: transform; transition: box-shadow 0.35s ease; width: 100%; aspect-ratio: 3/4; max-width: 220px; margin: 0 auto; }
         .featured .card-shell { width: 220px; height: 300px; aspect-ratio: auto; }
         .card-shell:hover { box-shadow: 0 0 0 1px var(--red), 0 0 40px var(--red-glow), 0 0 80px rgba(230,43,30,0.12); }
@@ -316,7 +319,7 @@ export default function TeamPage() {
         @keyframes riseIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes sheenMove { 0% { background-position: 200% 200%; } 100% { background-position: -50% -50%; } }
         @media (max-width: 900px) { .page { padding: 100px 28px 120px; } .header-bg-text { display: none; } }
-        @media (max-width: 600px) { .page { padding: 80px 20px 100px; } .tabs { border-radius: 14px; } .tab { padding: 8px 14px; font-size: 9px; } .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } .featured-row { gap: 20px; } .featured .card-shell { width: 160px; height: 220px; } }
+        @media (max-width: 600px) { .page { padding: 80px 20px 100px; } .tabs { border-radius: 14px; } .tab { padding: 8px 14px; font-size: 9px; } .grid { gap: 16px; } .card { width: calc(50% - 8px); } .featured-row { gap: 20px; } .featured .card-shell { width: 160px; height: 220px; } }
         #particle-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
         .noise { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); background-size: 400px 400px; }
         .cursor-glow { position: fixed; inset: 0; pointer-events: none; z-index: 1; transition: none; }

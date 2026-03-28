@@ -65,7 +65,7 @@ export default function Testimonials() {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap');
 
         .tedx-wrap {
-          background: #080808;
+          background: #000000;
           color: white;
           padding: 72px 48px;
           position: relative;
@@ -87,15 +87,16 @@ export default function Testimonials() {
         }
 
         .tedx-title {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(52px, 7vw, 88px);
+          font-family: 'Inter', 'Inter Fallback', sans-serif;
+          font-size: clamp(42px, 5vw, 78px);
+          font-weight: 900;
           line-height: 0.92;
           letter-spacing: 0.02em;
           margin: 0;
         }
 
         .tedx-title .r { color: #e62b1e; }
-        .tedx-title .d { color: rgba(255,255,255,0.14); }
+        .tedx-title .d { color: rgba(255, 255, 255, 0.14); }
 
         .track-outer {
           overflow: hidden;
