@@ -76,11 +76,9 @@ export default function AboutPage() {
               <span className="text-[#eb0028]">TED?</span>
             </h2>
             <p className="text-white/50 text-sm leading-relaxed">
-              TED is a nonprofit organization devoted to the power of ideas. Starting as a conference in 1984 focused on Technology, Entertainment and Design, TED has grown to cover virtually every topic from science and business to global issues  in more than 100 languages.
-            </p>
+TED is a nonprofit, nonpartisan organization dedicated to discovering, debating and spreading ideas that spark conversation, deepen understanding and drive meaningful change. Our organization is devoted to curiosity, reason, wonder and the pursuit of knowledge without an agenda.  </p>
             <p className="text-white/50 text-sm leading-relaxed">
-              TED&apos;s mission is to discover and spread ideas that spark imagination, embrace possibility and catalyze impact. Through talks, podcasts, and events, TED has become a global platform for the world&apos;s most inspired thinkers.
-            </p>
+We welcome people from every discipline and culture who seek a deeper understanding of the world and connection with others, and we invite everyone to engage with ideas and activate them in your community.            </p>
             <a href="https://www.ted.com" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#eb0028] text-xs tracking-wider uppercase font-semibold hover:gap-4 transition-all duration-300 w-fit">
               Learn more at TED.com
@@ -142,11 +140,9 @@ export default function AboutPage() {
               <span className="text-[#eb0028]">TEDx?</span>
             </h2>
             <p className="text-white/50 text-sm leading-relaxed">
-              TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. The &quot;x&quot; in TEDx stands for independently organized TED event - communities, universities and organizations around the world are licensed to run their own events.
-            </p>
+In the spirit of discovering and spreading ideas, TED has created a program called TEDx. TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. Our event is called TEDxBMU, where x = independently organized TED event.             </p>
             <p className="text-white/50 text-sm leading-relaxed">
-              TEDx events are designed to spark deep discussion and connection in a small group setting. Each event combines live speakers and TEDTalks to strike a balance between local and global perspectives.
-            </p>
+At our TEDxBMU event, TED Talks video and live speakers will combine to spark deep discussion and connection in a small group. The TED Conference provides general guidance for the TEDx program, but individual TEDx events, including ours, are self-organized.            </p>
           </div>
         </div>
       </section>

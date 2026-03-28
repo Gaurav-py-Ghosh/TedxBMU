@@ -1,10 +1,11 @@
 .chroma-grid {
   position: relative;
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(var(--cols, 4), 220px);
-  grid-auto-rows: auto;
-  justify-content: center;
+  /* Grid ki jagah Flex use kar rahe hain taaki bottom row center ho sake */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+  /* Gap wahi 1.25rem (20px) jo tune diya tha */
   gap: 1.25rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -15,19 +16,20 @@
   --r: 300px;
 }
 
-@media (max-width: 1124px) {
-  .chroma-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 220px)); }
-}
-
-@media (max-width: 480px) {
-  .chroma-grid { grid-template-columns: 220px; }
+/* Isse ensure hoga ki 1200px screen par upar 3 cards hi aayein */
+@media (min-width: 1024px) {
+  .chroma-grid {
+    max-width: calc((220px * 3) + (1.25rem * 2) + 2rem);
+  }
 }
 
 .chroma-card {
   position: relative;
   display: flex;
   flex-direction: column;
+  /* Card size exact 220px */
   width: 220px;
+  flex-shrink: 0; 
   border-radius: 16px;
   overflow: hidden;
   border: 1.5px solid #2a2a2a;
@@ -60,6 +62,7 @@
   position: relative;
   z-index: 1;
   width: 100%;
+  /* Image wrapper height exact 260px */
   height: 260px;
   padding: 8px 8px 0 8px;
   box-sizing: border-box;
@@ -77,7 +80,6 @@
   transition: filter 0.3s ease;
 }
 
-/* Red overlay reveal on hover */
 .chroma-img-wrapper::after {
   content: '';
   position: absolute;
@@ -91,7 +93,6 @@
   transition: opacity 0.3s ease;
   pointer-events: none;
   
-  /* The actual color reveal mask */
   mask-image: radial-gradient(
     circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
     black 0%,
@@ -105,7 +106,6 @@
     transparent 100%
   );
   
-  /* Reveal original colors with extra brightness */
   filter: brightness(1.2);
 }
 
@@ -114,7 +114,6 @@
 }
 
 .chroma-card:hover .chroma-img-wrapper img {
-  /* Brighter background on hover */
   filter: grayscale(0.8) brightness(0.8);
 }
 
@@ -175,11 +174,6 @@
   fill: white;
 }
 
-/* Hide global overlay items if still present in JS but not needed in CSS */
 .chroma-overlay, .chroma-fade {
   display: none;
-}
-
-.last-row-center {
-  justify-self: center;
 }

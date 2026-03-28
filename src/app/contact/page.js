@@ -87,7 +87,7 @@ export default function ContactPage() {
                 </svg>
               </div>
               <p className="text-white font-semibold">Message Sent!</p>
-              <p className="text-white/40 text-sm text-center">We&apos;ll get back to you as soon as possible.</p>
+              <p className="text-white/40 text-sm text-center">We'll get back to you as soon as possible.</p>
               <button onClick={() => { setSubmitted(false); setForm({ firstName: "", lastName: "", email: "", message: "" }); }}
                 className="text-[#e62b1e] text-sm underline underline-offset-4">
                 Send another message
@@ -125,9 +125,12 @@ export default function ContactPage() {
 
               <div className="flex flex-col gap-1 flex-1 min-h-0">
                 <label className="text-white/60 text-xs flex-shrink-0">Message *</label>
-                <textarea placeholder="Tell us how we can help you..." value={form.message}
+                <textarea 
+                  placeholder="Tell us how we can help you..." 
+                  value={form.message}
+                  rows={16} // ✅ Physical size bada kar diya (arrows nahi aayenge)
                   onChange={e => handleChange("message", e.target.value)}
-                  className={`bg-transparent border rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none transition-colors duration-200 resize-none flex-1 min-h-0 focus:border-[#e62b1e] ${errors.message ? "border-[#e62b1e]" : "border-white/20"}`}
+                  className={`bg-transparent border rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none transition-colors duration-200 resize-none flex-1 min-h-0 overflow-hidden focus:border-[#e62b1e] ${errors.message ? "border-[#e62b1e]" : "border-white/20"}`}
                 />
                 {errors.message && <span className="text-[#e62b1e] text-xs">{errors.message}</span>}
               </div>
@@ -194,9 +197,12 @@ export default function ContactPage() {
             <div className="flex-1 min-h-[250px] lg:min-h-0">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3511.6744562543!2d76.63720731455!3d28.356589982536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d3dce4de14e0b%3A0xb1787ccb5563c223!2sBML%20Munjal%20University!5e0!3m2!1sen!2sin!4v1234567890!5m2!1sen!2sin"
-                width="100%" height="100%"
-                style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
-                allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                width="100%"
+                height="100%"
+                style={{ border: 0, filter: "invert(100%) hue-rotate(180deg) saturate(3) brightness(0.7) contrast(1.2)" }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
           </div>

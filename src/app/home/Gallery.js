@@ -77,10 +77,6 @@ export default function Gallery() {
           </h2>
         </div>
 
-        <p className="text-white/40 text-xs md:text-sm leading-relaxed max-w-xs lg:mb-3">
-          A glimpse into the energy, ideas, and moments that made TEDxBMU 2025
-          unforgettable.
-        </p>
       </div>
 
       {/* Grid */}

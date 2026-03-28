@@ -23,8 +23,8 @@ return ( <footer className="bg-black text-white border-t border-white/5 relative
         <span className="text-white text-2xl md:text-3xl font-light tracking-wide">BMU</span>
       </div>
 
-      <p className="text-white/50 text-xs md:text-sm leading-relaxed max-w-xs">
-        TEDxBMU is an independently organized TEDx event, dedicated to
+<p className="text-white/50 text-xs md:text-sm leading-relaxed max-w-xs text-justify">       
+         TEDxBMU is an independently organized TEDx event, dedicated to
         spreading ideas that spark conversation, inspire change, and connect
         our community.
       </p>
@@ -60,7 +60,7 @@ return ( <footer className="bg-black text-white border-t border-white/5 relative
       </h4>
       <ul className="flex flex-col gap-2 md:gap-3">
         {[
-          { label: "Speakers", href: "/speakers" },
+          // { label: "Speakers", href: "/speakers" },
           { label: "Contact Us", href: "/contact" },
         ].map((link) => (
           <li key={link.label}>
