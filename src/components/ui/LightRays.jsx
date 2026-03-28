@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
 import { Renderer, Program, Triangle, Mesh } from 'ogl';
-import './LightRays.css';
 
 const DEFAULT_COLOR = '#ffffff';
 
@@ -232,11 +231,7 @@ void main() {
       uniformsRef.current = uniforms;
 
       const geometry = new Triangle(gl);
-      const program = new Program(gl, {
-        vertex: vert,
-        fragment: frag,
-        uniforms
-      });
+      const program = new Program(gl, { vertex: vert, fragment: frag, uniforms });
       const mesh = new Mesh(gl, { geometry, program });
       meshRef.current = mesh;
 
@@ -393,7 +388,12 @@ void main() {
     }
   }, [followMouse]);
 
-  return <div ref={containerRef} className={`light-rays-container ${className}`.trim()} />;
+  return (
+    <div
+      ref={containerRef}
+      className={`w-full h-full pointer-events-none z-[3] overflow-hidden relative ${className}`.trim()}
+    />
+  );
 };
 
 export default LightRays;

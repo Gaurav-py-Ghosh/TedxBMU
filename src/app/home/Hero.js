@@ -7,11 +7,23 @@ import ShaderBackground from "@/components/ui/ShaderBackground";
 import { useState, useEffect } from 'react';
 import { motion } from "motion/react";
 import { useLoading } from "@/context/LoadingContext";
-
 export default function Hero() {
   const { isLoaded } = useLoading();
   // Use a fixed default to match SSR output; update to actual viewport after mount to avoid hydration mismatches.
   const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
+  const [fadeOutShader, setFadeOutShader] = useState(false);
+  const [showRays, setShowRays] = useState(false);
+
+  // Let shader run fully for ~9s, then fade out (without unmount) and bring in rays.
+  useEffect(() => {
+    const fadeShaderTimer = setTimeout(() => setFadeOutShader(true), 9000); // start fade after full cycles
+    const startRaysTimer = setTimeout(() => setShowRays(true), 9000); // bring rays in as shader fades
+
+    return () => {
+      clearTimeout(fadeShaderTimer);
+      clearTimeout(startRaysTimer);
+    };
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,23 +40,55 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center bg-[#1e1c1c] overflow-hidden">
-      {/* Shader Background */}
       <div className="absolute inset-0 z-0">
-        <ShaderBackground
-          animationSpeed={0.03}
-          backgroundColor="#000000"
-          colorIntensity={0.9}
-          mosaicScale={{ x: 2, y: 2 }}
-          colorA="#e62b1e"
-          colorB="#e62b1e"
-          width="100%"
-          height="100%"
-          radius={1.6}
-        />
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: fadeOutShader ? 0 : 1 }}
+          transition={{ duration: 1.8, ease: "easeInOut" }}
+          className="w-full h-full"
+        >
+          <ShaderBackground
+            animationSpeed={0.03}
+            backgroundColor="#000000"
+            colorIntensity={0.9}
+            mosaicScale={{ x: 2, y: 2 }}
+            colorA="#e62b1e"
+            colorB="#e62b1e"
+            width="100%"
+            height="100%"
+            radius={1.6}
+          />
+        </motion.div>
       </div>
 
       {/* Dark overlay */}
       <div className="absolute inset-0 z-[1] bg-black/45" />
+
+      {/* Light rays appear after the curtain fades */}
+      <motion.div
+        className="absolute inset-0 z-[2] pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showRays ? 0.35 : 0 }}
+        transition={{ duration: 2, ease: "easeInOut" }}
+      >
+        {showRays && (
+          <LightRays
+            raysOrigin="top-center"
+            raysColor="#ffffff"
+            raysSpeed={1}
+            lightSpread={0.5}
+            rayLength={3}
+            followMouse={true}
+            mouseInfluence={0.1}
+            noiseAmount={0}
+            distortion={0}
+            className="custom-rays"
+            pulsating={false}
+            fadeDistance={1}
+            saturation={1}
+          />
+        )}
+      </motion.div>
 
       {/* Content */}
       <motion.div 
@@ -57,7 +101,7 @@ export default function Hero() {
           /* MOBILE VIEW */
           <div className="flex flex-col items-center justify-center w-full">
             <div className="w-full text-center scale-90" style={{ marginBottom: "-1rem" }}>
-              <TextHoverEffect text="TEDxBMU" />
+              <TextHoverEffect text="TEDxBMU" key={isLoaded ? "hero-animate" : "hero-idle"} />
             </div>
 
             <h2 className="text-3xl font-black font-heading uppercase tracking-tight leading-none text-center px-4 mt-2">
@@ -84,7 +128,7 @@ export default function Hero() {
           /* DESKTOP VIEW */
           <div className="flex flex-col items-center justify-center w-full">
             <div className="w-full md:w-[80%] lg:w-[70%] text-center" style={{ marginBottom: "-1.5rem" }}>
-              <TextHoverEffect text="TEDxBMU" />
+              <TextHoverEffect text="TEDxBMU" key={isLoaded ? "hero-animate" : "hero-idle"} />
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-heading uppercase tracking-tight leading-none text-center px-4">
