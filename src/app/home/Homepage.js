@@ -5,6 +5,7 @@ import Testimonials from "./Testimonials";
 import Gallery from "./Gallery";
 import Sponsor from "./Sponsor";
 import Theme from "./Theme";
+import AttendeesSay from "./AttendeesSay";
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <Hero />
       <EventDetails />
       <Theme />
+      {/* <AttendeesSay /> */}
       {/* <SpeakerSection /> */}
       <Testimonials />
       <Gallery />

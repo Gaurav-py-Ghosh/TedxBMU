@@ -21,41 +21,13 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Simulated landing page ── */
-#page {
+#bgCanvas {
   position: fixed; inset: 0;
-  display: none; /* keep DOM node but never show handoff screen */
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
 }
-.page-logo {
-  font-size: clamp(32px, 6vw, 68px);
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: -2px;
-}
-.page-logo em { color: var(--red); font-style: normal; }
-.page-sub {
-  margin-top: 14px;
-  font-size: clamp(9px, 1.3vw, 12px);
-  font-weight: 300;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 7px;
-  text-transform: uppercase;
-}
-.page-btn {
-  margin-top: 52px;
-  font-size: 10px;
-  color: rgba(255,255,255,0.12);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.07);
-  padding: 10px 22px;
-  border-radius: 2px;
-  transition: color .2s, border-color .2s;
-}
-.page-btn:hover { color: rgba(255,255,255,0.38); border-color: rgba(255,255,255,0.18); }
 
-/* ── Preloader shell ── */
 #preloader {
   position: fixed; inset: 0; z-index: 200;
   display: flex; flex-direction: column;
@@ -63,29 +35,26 @@ html, body {
   overflow: hidden;
 }
 
-/* Ambient red radial glow behind the eye */
 .ambient {
   position: absolute; inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse 38% 30% at 50% 50%, rgba(230,43,30,0.11) 0%, transparent 70%);
+  background: radial-gradient(ellipse 42% 34% at 50% 50%, rgba(230,43,30,0.13) 0%, transparent 70%);
   opacity: 0;
-  transition: opacity 1.1s ease;
+  transition: opacity 1.4s ease;
 }
 .ambient.on { opacity: 1; }
 
-/* SVG grain overlay */
 .grain {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   pointer-events: none; z-index: 30;
 }
 
-/* ── Corner viewfinder marks ── */
 .corner {
   position: absolute;
   width: 20px; height: 20px;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.6s ease;
   z-index: 25;
 }
 .corner.tl { top: 28px; left: 28px; border-top: 1px solid rgba(255,255,255,0.14); border-left: 1px solid rgba(255,255,255,0.14); }
@@ -94,7 +63,6 @@ html, body {
 .corner.br { bottom: 28px; right: 28px; border-bottom: 1px solid rgba(255,255,255,0.14); border-right: 1px solid rgba(255,255,255,0.14); }
 .corner.on { opacity: 1; }
 
-/* ── Wordmark ── */
 .wordmark {
   position: relative; z-index: 10;
   display: flex;
@@ -104,7 +72,6 @@ html, body {
   user-select: none;
 }
 
-/* TED — clips in from left */
 .wTED {
   font-size: 1em;
   font-weight: 900;
@@ -113,11 +80,8 @@ html, body {
   display: inline-block;
   clip-path: inset(0 100% 0 0);
 }
-.wTED.reveal {
-  animation: clipFromLeft 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+.wTED.reveal { animation: clipFromLeft 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-/* BMU — clips in from right */
 .wBMU {
   font-size: 1em;
   font-weight: 900;
@@ -126,39 +90,82 @@ html, body {
   display: inline-block;
   clip-path: inset(0 0 0 100%);
 }
-.wBMU.reveal {
-  animation: clipFromRight 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
+.wBMU.reveal { animation: clipFromRight 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards; }
+
+/*
+  Shared slot — X and eye-wrap sit inside this fixed-size container.
+  Both are position:absolute so they overlap. Container never resizes.
+  Width matches eye width; height matches letter cap height.
+*/
+.x-eye-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width:  calc(var(--wsize) * 1.06);
+  height: calc(var(--wsize) * 0.90);
+  position: relative;
+  margin: 0 calc(var(--wsize) * 0.01);
+}
+
+.wX {
+  position: absolute;
+  font-size: 1em;
+  line-height: 1;
+  font-weight: 900;
+  color: var(--red);
+  display: inline-block;
+  transform-origin: 50% 85%;
+  opacity: 0;
+  transform: translateY(28px) scale(0.72) rotate(-8deg);
+  transition:
+    opacity  0.50s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.60s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+  z-index: 2;
+}
+.wX.show { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+.wX.hop  { animation: gentleHop 1.10s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+.wX.fade {
+  opacity: 0;
+  transform: translateY(0) scale(0.88) rotate(0deg);
+  transition:
+    opacity  0.40s cubic-bezier(0.4, 0, 1, 1),
+    transform 0.40s cubic-bezier(0.4, 0, 1, 1);
+}
+
+@keyframes gentleHop {
+  0%   { transform: translateY(0)     scale(1)    rotate(0deg); }
+  20%  { transform: translateY(-22px) scale(1.04) rotate(-2deg); }
+  42%  { transform: translateY(3px)   scale(0.97) rotate(1deg); }
+  62%  { transform: translateY(-10px) scale(1.02) rotate(-1deg); }
+  80%  { transform: translateY(2px)   scale(0.99) rotate(0deg); }
+  100% { transform: translateY(0)     scale(1)    rotate(0deg); }
 }
 
 @keyframes clipFromLeft  { to { clip-path: inset(0 0% 0 0); } }
 @keyframes clipFromRight { to { clip-path: inset(0 0 0 0%); } }
 
-/* ── Eye wrapper ── */
+/* Eye wrapper — same absolute positioning inside the slot */
 .eye-wrap {
-  height: calc(var(--wsize) * 0.62);
-  width:  calc(var(--wsize) * 0.62 * 1.75);
+  position: absolute;
+  width:  calc(var(--wsize) * 1.06);
+  height: calc(var(--wsize) * 0.63);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 0 calc(var(--wsize) * 0.015);
   opacity: 0;
   transform: scaleY(0);
   transform-origin: center center;
-  transition: opacity 0.08s, transform 0.48s cubic-bezier(0.34, 1.48, 0.64, 1);
+  transition:
+    opacity   0.06s ease,
+    transform 0.52s cubic-bezier(0.34, 1.46, 0.64, 1);
   overflow: visible;
+  z-index: 1;
 }
-.eye-wrap.open {
-  opacity: 1;
-  transform: scaleY(1);
-}
+.eye-wrap.open { opacity: 1; transform: scaleY(1); }
 
-.eye-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
+.eye-svg { width: 100%; height: 100%; overflow: visible; }
 
-/* ── Tagline ── */
 .tagline {
   margin-top: 22px;
   position: relative; z-index: 10;
@@ -174,7 +181,6 @@ html, body {
 }
 .tagline.on { opacity: 1; transform: translateY(0); }
 
-/* ── Progress bar ── */
 .prog {
   position: fixed; bottom: 36px; left: 50%;
   transform: translateX(-50%);
@@ -187,7 +193,7 @@ html, body {
 .prog-fill {
   height: 100%; width: 0%;
   background: var(--red);
-  box-shadow: 0 0 8px 1px rgba(230,43,30,0.65);
+  box-shadow: 0 0 8px 1px rgba(230,43,30,0.55);
   transition: width 0.09s linear;
 }
 .prog-label {
@@ -199,11 +205,10 @@ html, body {
   text-transform: uppercase;
 }
 
-/* ── Pulse rings (CSS-only) ── */
 .pulse-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(230,43,30,0.6);
+  border: 1px solid rgba(230,43,30,0.55);
   width: 60px; height: 60px;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) scale(1);
@@ -211,16 +216,13 @@ html, body {
   pointer-events: none;
   z-index: 5;
 }
-.pulse-ring.fire {
-  animation: ringPulse 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
+.pulse-ring.fire { animation: ringPulse 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
 @keyframes ringPulse {
-  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.8; }
-  100% { transform: translate(-50%, -50%) scale(9);   opacity: 0; }
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(9); opacity: 0; }
 }
 .pulse-ring.slow { animation-duration: 2.2s; border-color: rgba(255,255,255,0.2); }
 
-/* ── Zoom overlay — the "dive into pupil" ── */
 #zoom {
   position: fixed;
   border-radius: 50%;
@@ -231,28 +233,16 @@ html, body {
   will-change: transform;
 }
 #zoom.active  { display: block; }
-#zoom.expand  {
-  transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
-}
+#zoom.expand  { transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1); }
 
-/* ── Blink utility ── */
-.eye-wrap.blink {
-  transform: scaleY(0.04);
-  transition: transform 0.07s ease-in !important;
-}
-.eye-wrap.blink-open {
-  transform: scaleY(1);
-  transition: transform 0.14s cubic-bezier(0.34, 1.48, 0.64, 1) !important;
-}
+.eye-wrap.blink { transform: scaleY(0.04); transition: transform 0.07s ease-in !important; }
+.eye-wrap.blink-open { transform: scaleY(1); transition: transform 0.14s cubic-bezier(0.34, 1.48, 0.64, 1) !important; }
 
-/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .wTED, .wBMU { clip-path: none !important; animation: none !important; }
   .eye-wrap { transition: opacity 0.3s ease !important; transform: scaleY(1) !important; }
   #zoom.expand { transition-duration: 0.2s !important; }
 }
-
-/* ── Mobile tweaks ── */
 @media (max-width: 500px) {
   .corner { width: 14px; height: 14px; }
   .corner.tl, .corner.tr { top: 18px; }
@@ -264,184 +254,126 @@ html, body {
 </head>
 <body>
 
-<!-- ── Landing page revealed after preloader ── -->
-<div id="page">
-  <div class="page-logo">TED<em>x</em>BMU</div>
-  <div class="page-sub">Beyond What You See</div>
-  <div class="page-btn" onclick="location.reload()">↺ &nbsp; Replay preloader</div>
-</div>
+<canvas id="bgCanvas"></canvas>
 
-<!-- ── Preloader ── -->
 <div id="preloader">
-
-  <!-- Ambient glow -->
   <div class="ambient" id="ambient"></div>
 
-  <!-- Film grain -->
   <svg class="grain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <filter id="gf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.70" numOctaves="4" stitchTiles="stitch" result="n"/>
       <feColorMatrix type="saturate" values="0" in="n" result="g"/>
       <feBlend in="SourceGraphic" in2="g" mode="overlay"/>
     </filter>
-    <rect width="100%" height="100%" filter="url(#gf)" opacity="0.055"/>
+    <rect width="100%" height="100%" filter="url(#gf)" opacity="0.048"/>
   </svg>
 
-  <!-- Pulse rings (fired by JS) -->
   <div class="pulse-ring" id="pr1"></div>
   <div class="pulse-ring slow" id="pr2"></div>
   <div class="pulse-ring" id="pr3"></div>
 
-  <!-- Corner marks -->
   <div class="corner tl" id="ctl"></div>
   <div class="corner tr" id="ctr"></div>
   <div class="corner bl" id="cbl"></div>
   <div class="corner br" id="cbr"></div>
 
-  <!-- ── Wordmark: TED [EYE] BMU ── -->
   <div style="display:flex;flex-direction:column;align-items:center;">
     <div class="wordmark">
 
-      <!-- TED -->
       <span class="wTED" id="wTED">TED</span>
 
-      <!-- The Eye (replaces "x") -->
-      <div class="eye-wrap" id="eyeWrap">
-        <svg class="eye-svg" id="eyeSVG"
-             viewBox="0 0 140 80"
-             xmlns="http://www.w3.org/2000/svg"
-             overflow="visible">
-          <defs>
-            <!-- Iris radial gradient: bright red at pupil edge, dark limbal ring -->
-            <radialGradient id="irisGrad" cx="42%" cy="38%" r="68%">
-              <stop offset="0%"   stop-color="#FF5C4A"/>
-              <stop offset="35%"  stop-color="#E62B1E"/>
-              <stop offset="72%"  stop-color="#9E120B"/>
-              <stop offset="100%" stop-color="#320404"/>
-            </radialGradient>
-            <!-- Pupil gradient: deep black with subtle centre lift -->
-            <radialGradient id="pupilGrad" cx="40%" cy="36%" r="60%">
-              <stop offset="0%"   stop-color="#1C1C1C"/>
-              <stop offset="100%" stop-color="#000000"/>
-            </radialGradient>
-            <!-- Sclera gradient: warm white, slightly darker at edges -->
-            <radialGradient id="scleraGrad" cx="50%" cy="50%" r="70%">
-              <stop offset="0%"   stop-color="rgba(255,252,249,0.98)"/>
-              <stop offset="100%" stop-color="rgba(225,215,205,0.92)"/>
-            </radialGradient>
-            <!-- Soft blur for upper-lid shadow -->
-            <filter id="lidBlur">
-              <feGaussianBlur stdDeviation="1.2"/>
-            </filter>
-            <!-- Iris glow filter -->
-            <filter id="irisGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="2.5" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
+      <div class="x-eye-slot" id="xEyeSlot">
 
-          <!-- ── 1. Sclera (white of the eye) ── -->
-          <path id="scleraPath"
-            d="M 2,40 Q 20,6 70,8 Q 120,6 138,40 Q 120,74 70,72 Q 20,74 2,40 Z"
-            fill="url(#scleraGrad)"/>
+        <!-- X — animates in, then fades out -->
+        <span class="wX" id="wX">x</span>
 
-          <!-- ── 2. Iris + Pupil group (translated for look left/right) ── -->
-          <g id="irisGroup">
+        <!-- Eye — opens on top of where X was -->
+        <div class="eye-wrap" id="eyeWrap">
+          <svg class="eye-svg" id="eyeSVG"
+               viewBox="0 0 140 84"
+               xmlns="http://www.w3.org/2000/svg"
+               overflow="visible">
+            <defs>
+              <radialGradient id="irisGrad" cx="42%" cy="38%" r="68%">
+                <stop offset="0%"   stop-color="#FF5C4A"/>
+                <stop offset="35%"  stop-color="#E62B1E"/>
+                <stop offset="72%"  stop-color="#9E120B"/>
+                <stop offset="100%" stop-color="#320404"/>
+              </radialGradient>
+              <radialGradient id="pupilGrad" cx="40%" cy="36%" r="60%">
+                <stop offset="0%"   stop-color="#1C1C1C"/>
+                <stop offset="100%" stop-color="#000000"/>
+              </radialGradient>
+              <radialGradient id="scleraGrad" cx="50%" cy="50%" r="70%">
+                <stop offset="0%"   stop-color="rgba(255,252,249,0.98)"/>
+                <stop offset="100%" stop-color="rgba(225,215,205,0.92)"/>
+              </radialGradient>
+              <filter id="lidBlur"><feGaussianBlur stdDeviation="1.1"/></filter>
+              <filter id="irisGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="2.2" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
 
-            <!-- Iris base -->
-                <circle id="irisCircle" cx="70" cy="40" r="22"
-                  fill="url(#irisGrad)" filter="url(#irisGlow)"/>
+            <!-- Sclera — wider almond -->
+            <path id="scleraPath"
+              d="M 2,42 Q 22,4 70,5 Q 118,4 138,42 Q 118,80 70,79 Q 22,80 2,42 Z"
+              fill="url(#scleraGrad)"/>
 
-            <!-- Iris crypts / fibres — radiating dark lines -->
-            <g stroke="rgba(90,0,0,0.38)" stroke-width="0.65" fill="none"
-               stroke-linecap="round">
-              <!-- N -->  <line x1="70" y1="19.5" x2="70" y2="28"/>
-              <!-- NE --> <line x1="85.1" y1="24.9" x2="79.3" y2="30.7"/>
-              <!-- E -->  <line x1="91"   y1="40"   x2="82"   y2="40"/>
-              <!-- SE --> <line x1="85.1" y1="55.1" x2="79.3" y2="49.3"/>
-              <!-- S -->  <line x1="70"   y1="60.5" x2="70"   y2="52"/>
-              <!-- SW --> <line x1="54.9" y1="55.1" x2="60.7" y2="49.3"/>
-              <!-- W -->  <line x1="49"   y1="40"   x2="58"   y2="40"/>
-              <!-- NW --> <line x1="54.9" y1="24.9" x2="60.7" y2="30.7"/>
+            <g id="irisGroup">
+              <circle id="irisCircle" cx="70" cy="42" r="24"
+                fill="url(#irisGrad)" filter="url(#irisGlow)"/>
+              <g stroke="rgba(90,0,0,0.36)" stroke-width="0.6" fill="none" stroke-linecap="round">
+                <line x1="70"   y1="19"   x2="70"   y2="28"/>
+                <line x1="86.9" y1="25.1" x2="80.7" y2="31.3"/>
+                <line x1="94"   y1="42"   x2="84"   y2="42"/>
+                <line x1="86.9" y1="58.9" x2="80.7" y2="52.7"/>
+                <line x1="70"   y1="65"   x2="70"   y2="56"/>
+                <line x1="53.1" y1="58.9" x2="59.3" y2="52.7"/>
+                <line x1="46"   y1="42"   x2="56"   y2="42"/>
+                <line x1="53.1" y1="25.1" x2="59.3" y2="31.3"/>
+              </g>
+              <circle cx="70" cy="42" r="15"
+                fill="none" stroke="rgba(255,100,80,0.16)" stroke-width="1.5"/>
+              <circle cx="70" cy="42" r="24"
+                fill="none" stroke="rgba(0,0,0,0.58)" stroke-width="3.5"/>
+              <circle id="pupilCircle" cx="70" cy="42" r="10.5"
+                fill="url(#pupilGrad)"/>
+              <circle id="catchMain" cx="76.5" cy="35" r="4"
+                fill="rgba(255,255,255,0.90)"/>
+              <circle cx="63.5" cy="50" r="1.7"
+                fill="rgba(255,255,255,0.26)"/>
             </g>
 
-            <!-- Iris collarette ring (slightly lighter inner zone) -->
-            <circle cx="70" cy="40" r="14"
-                    fill="none"
-                    stroke="rgba(255,100,80,0.18)"
-                    stroke-width="1.5"/>
+            <!-- Upper lid shadow -->
+            <path d="M 4,42 Q 22,6 70,6 Q 118,6 136,42"
+              fill="none" stroke="rgba(0,0,0,0.25)"
+              stroke-width="7" stroke-linecap="round" filter="url(#lidBlur)"/>
 
-            <!-- Limbal ring (dark outer iris edge) -->
-            <circle cx="70" cy="40" r="22"
-                    fill="none"
-                    stroke="rgba(0,0,0,0.6)"
-                    stroke-width="3.5"/>
+            <!-- Eye outline -->
+            <path d="M 2,42 Q 22,4 70,5 Q 118,4 138,42 Q 118,80 70,79 Q 22,80 2,42 Z"
+              fill="none" stroke="rgba(255,255,255,0.52)" stroke-width="1.1"/>
 
-            <!-- Pupil -->
-            <circle id="pupilCircle" cx="70" cy="40" r="10"
-                    fill="url(#pupilGrad)"/>
+            <!-- Eyelashes -->
+            <g stroke="rgba(255,255,255,0.38)" stroke-width="1.0" fill="none" stroke-linecap="round">
+              <line x1="22"  y1="23" x2="15"  y2="11"/>
+              <line x1="46"  y1="9"  x2="44"  y2="-3"/>
+              <line x1="70"  y1="5"  x2="69"  y2="-7"/>
+              <line x1="94"  y1="9"  x2="96"  y2="-3"/>
+              <line x1="118" y1="23" x2="125" y2="11"/>
+            </g>
+            <path d="M 8,44 Q 70,82 132,44"
+              fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="0.8"/>
+          </svg>
+        </div>
+      </div>
 
-            <!-- Primary catchlight (top-right) — bright specular -->
-            <circle id="catchMain" cx="75.5" cy="33.5" r="3.8"
-                    fill="rgba(255,255,255,0.92)"/>
-            <!-- Secondary micro-catchlight (bottom-left) -->
-            <circle cx="64.5" cy="47" r="1.6"
-                    fill="rgba(255,255,255,0.28)"/>
-
-          </g>
-
-          <!-- ── 3. Upper eyelid shadow (occludes top of iris naturally) ── -->
-          <path
-            d="M 4,40 Q 20,8 70,9 Q 120,8 136,40"
-            fill="none"
-            stroke="rgba(0,0,0,0.28)"
-            stroke-width="7"
-            stroke-linecap="round"
-            filter="url(#lidBlur)"/>
-
-          <!-- ── 4. Eye outline — crisp on top of everything ── -->
-          <path
-            d="M 2,40 Q 20,6 70,8 Q 120,6 138,40 Q 120,74 70,72 Q 20,74 2,40 Z"
-            fill="none"
-            stroke="rgba(255,255,255,0.55)"
-            stroke-width="1.1"/>
-
-          <!-- ── 5. Eyelashes (top) ── -->
-          <g stroke="rgba(255,255,255,0.40)" stroke-width="1.05"
-             fill="none" stroke-linecap="round">
-            <!-- Far left -->
-            <line x1="22"  y1="24" x2="16"  y2="13"/>
-            <!-- Mid-left -->
-            <line x1="45"  y1="12" x2="43"  y2="1"/>
-            <!-- Centre -->
-            <line x1="70"  y1="8"  x2="69"  y2="-4"/>
-            <!-- Mid-right -->
-            <line x1="95"  y1="12" x2="97"  y2="1"/>
-            <!-- Far right -->
-            <line x1="118" y1="24" x2="124" y2="13"/>
-          </g>
-
-          <!-- ── 6. Lower lash line (subtle) ── -->
-          <path
-            d="M 8,42 Q 70,76 132,42"
-            fill="none"
-            stroke="rgba(255,255,255,0.1)"
-            stroke-width="0.8"/>
-
-        </svg>
-      </div><!-- /eye-wrap -->
-
-      <!-- BMU -->
       <span class="wBMU" id="wBMU">BMU</span>
 
-    </div><!-- /wordmark -->
-
-    <!-- Tagline -->
+    </div>
     <div class="tagline" id="tagline">Beyond What You See</div>
-
   </div>
 
-  <!-- Progress bar -->
   <div class="prog" id="prog">
     <div class="prog-track">
       <div class="prog-fill" id="progFill"></div>
@@ -449,29 +381,104 @@ html, body {
     <div class="prog-label" id="progLabel">Loading</div>
   </div>
 
-</div><!-- /preloader -->
+</div>
 
-<!-- Zoom overlay — expands from pupil to cover screen -->
 <div id="zoom"></div>
 
 <script>
+/* ── Atmospheric dot-network background ── */
+(function () {
+  const canvas = document.getElementById('bgCanvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, dots;
+  const COUNT = 58;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function makeDot() {
+    const isRed = Math.random() < 0.20;
+    return {
+      x:  Math.random() * W,
+      y:  Math.random() * H,
+      r:  Math.random() * 1.1 + 0.3,
+      vx: (Math.random() - 0.5) * 0.13,
+      vy: (Math.random() - 0.5) * 0.13,
+      a:  Math.random() * 0.26 + 0.04,
+      red: isRed,
+    };
+  }
+
+  function initDots() {
+    dots = Array.from({ length: COUNT }, makeDot);
+  }
+
+  let fade = 0;
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    fade = Math.min(fade + 0.0014, 1);
+
+    for (let i = 0; i < dots.length; i++) {
+      for (let j = i + 1; j < dots.length; j++) {
+        const dx = dots[i].x - dots[j].x;
+        const dy = dots[i].y - dots[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < 115) {
+          const a = (1 - d / 115) * 0.042 * fade;
+          ctx.beginPath();
+          ctx.moveTo(dots[i].x, dots[i].y);
+          ctx.lineTo(dots[j].x, dots[j].y);
+          ctx.strokeStyle = `rgba(255,255,255,${a})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (const d of dots) {
+      d.x += d.vx;
+      d.y += d.vy;
+      if (d.x < -4)  d.x = W + 4;
+      if (d.x > W+4) d.x = -4;
+      if (d.y < -4)  d.y = H + 4;
+      if (d.y > H+4) d.y = -4;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      const color = d.red ? `rgba(230,43,30,` : `rgba(255,255,255,`;
+      ctx.fillStyle = color + (d.a * fade) + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  initDots();
+  frame();
+  window.addEventListener('resize', () => { resize(); initDots(); });
+})();
+
+
+/* ── Preloader orchestration ── */
 (function () {
   'use strict';
 
   const CFG = {
-    TOTAL_MS:       3700,
-    LOOK_LEFT_X:    53,
-    LOOK_RIGHT_X:   87,
-    PUPIL_DILATED:  20,
-    PUPIL_FILLED:   22,
-    RED:           '#E62B1E',
+    TOTAL_MS:      3700,
+    LOOK_LEFT_X:   55,
+    LOOK_RIGHT_X:  85,
+    PUPIL_DILATED: 20.5,
+    PUPIL_FILLED:  22.5,
   };
 
   const preloader  = document.getElementById('preloader');
-  const page       = document.getElementById('page');
   const ambient    = document.getElementById('ambient');
   const wTED       = document.getElementById('wTED');
   const wBMU       = document.getElementById('wBMU');
+  const wX         = document.getElementById('wX');
   const eyeWrap    = document.getElementById('eyeWrap');
   const eyeSVG     = document.getElementById('eyeSVG');
   const irisGroup  = document.getElementById('irisGroup');
@@ -487,34 +494,29 @@ html, body {
   const START    = performance.now();
   let irisX      = 70;
   let irisTargX  = 70;
-  let pupilR     = 10;
-  let pupilTargR = 10;
+  let pupilR     = 10.5;
+  let pupilTargR = 10.5;
   let looping    = true;
   let done       = false;
 
   function tick(now) {
     if (!looping) return;
-
     const elapsed = now - START;
     const t = Math.min(1, elapsed / CFG.TOTAL_MS);
 
     const dX = irisTargX - irisX;
-    irisX += dX * 0.095;
-    if (Math.abs(dX) > 0.01) {
-      irisGroup.setAttribute('transform',
-        `translate(${(irisX - 70).toFixed(2)}, 0)`);
-    }
+    irisX += dX * 0.08;
+    if (Math.abs(dX) > 0.01)
+      irisGroup.setAttribute('transform', `translate(${(irisX - 70).toFixed(2)}, 0)`);
 
     const dR = pupilTargR - pupilR;
-    pupilR += dR * 0.075;
-    if (Math.abs(dR) > 0.01) {
+    pupilR += dR * 0.07;
+    if (Math.abs(dR) > 0.01)
       pupilEl.setAttribute('r', pupilR.toFixed(2));
-    }
 
     progFill.style.width = (t * 100).toFixed(1) + '%';
 
     if (t >= 1 && !done) { done = true; triggerZoom(); return; }
-
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
@@ -539,73 +541,73 @@ html, body {
     }, delay);
   }
 
+  /* Timeline */
   setTimeout(() => {
     ambient.classList.add('on');
-    corners.forEach((c, i) => setTimeout(() => c && c.classList.add('on'), i * 70));
+    corners.forEach((c, i) => setTimeout(() => c && c.classList.add('on'), i * 80));
   }, 60);
 
   setTimeout(() => {
     wTED.classList.add('reveal');
     progWrap.classList.add('on');
-  }, 180);
+  }, 160);
 
+  /* X entrance */
+  setTimeout(() => { wX.classList.add('show'); }, 340);
+  /* Hop starts after X has fully settled */
+  setTimeout(() => { wX.classList.add('hop'); }, 540);
+
+  /* X fades out */
+  setTimeout(() => { wX.classList.add('fade'); }, 1160);
+
+  /* Eye opens when X opacity has reached ~0 */
   setTimeout(() => {
     eyeWrap.classList.add('open');
-    setTimeout(() => wBMU.classList.add('reveal'), 100);
-    firePulse(pulseRings[0], 120);
-    firePulse(pulseRings[1], 350);
-  }, 620);
+    setTimeout(() => wBMU.classList.add('reveal'), 160);
+    firePulse(pulseRings[0], 200);
+    firePulse(pulseRings[1], 460);
+  }, 1420);
 
-  setTimeout(() => tagline.classList.add('on'), 980);
+  setTimeout(() => tagline.classList.add('on'), 1700);
 
-  blink(1100);
+  blink(1080);
 
   setTimeout(() => {
     irisTargX = CFG.LOOK_LEFT_X;
     firePulse(pulseRings[2], 0);
-  }, 1280);
+  }, 1320);
 
-  setTimeout(() => {
-    irisTargX = CFG.LOOK_RIGHT_X;
-  }, 1800);
-
-  blink(1950);
+  setTimeout(() => { irisTargX = CFG.LOOK_RIGHT_X; }, 1820);
+  blink(1970);
 
   setTimeout(() => {
     irisTargX  = 70;
     pupilTargR = CFG.PUPIL_DILATED;
     firePulse(pulseRings[0], 200);
     firePulse(pulseRings[1], 500);
-  }, 2300);
+  }, 2320);
 
   setTimeout(() => {
     pupilTargR = CFG.PUPIL_FILLED;
-    irisCircle.style.transition = 'fill 0.7s ease';
+    irisCircle.style.transition = 'fill 0.75s ease';
     irisCircle.style.fill = '#1A0000';
+    setTimeout(() => { irisCircle.style.fill = '#000000'; }, 400);
+  }, 2820);
 
-    setTimeout(() => {
-      irisCircle.style.fill = '#000000';
-    }, 380);
-
-  }, 2800);
-
-  blink(3100);
+  blink(3120);
 
   function triggerZoom() {
     looping = false;
-
-    irisTargX  = 70;
-    pupilTargR = CFG.PUPIL_FILLED;
 
     const rect  = eyeSVG.getBoundingClientRect();
     const eyeCX = rect.left + rect.width  * 0.5;
     const eyeCY = rect.top  + rect.height * 0.5;
 
-    const pupilPxR  = (pupilR / 80) * rect.height;
+    const pupilPxR  = (pupilR / 84) * rect.height;
     const diameter  = Math.max(pupilPxR * 2, 16);
     const W = window.innerWidth, H = window.innerHeight;
     const screenDiag = Math.sqrt(W * W + H * H);
-    const scaleFactor = Math.ceil((screenDiag * 2.4) / diameter);
+    const scaleFactor = Math.ceil((screenDiag * 2.6) / diameter);
 
     zoom.style.cssText = `
       width:  ${diameter}px;
@@ -628,8 +630,7 @@ html, body {
   }
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    looping = false;
-    done    = true;
+    looping = false; done = true;
     setTimeout(triggerZoom, 600);
   }
 

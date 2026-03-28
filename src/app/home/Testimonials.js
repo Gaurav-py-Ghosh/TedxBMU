@@ -1,175 +1,251 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-
 const testimonials = [
   {
     name: "Aarav Sharma",
     role: "Student, IIT Delhi",
     text: "TEDxBMU was genuinely one of the most inspiring days of my year. The speakers were phenomenal and the energy in the room was electric.",
-    avatar: "AS",
   },
   {
     name: "Priya Mehta",
     role: "Product Designer",
     text: "I came in expecting a typical college event. I left with a completely different perspective on how I approach problems. Absolutely worth it.",
-    avatar: "PM",
   },
   {
     name: "Rohan Verma",
     role: "Entrepreneur",
     text: "The ideas shared at TEDxBMU were bold and thought-provoking. It pushed me to think beyond the conventional and take risks I had been avoiding.",
-    avatar: "RV",
   },
   {
     name: "Sneha Kapoor",
     role: "MBA Student, BML Munjal University",
     text: "An incredibly well-organized event. Every talk left me with something to think about. Can't wait for the next edition!",
-    avatar: "SK",
   },
   {
     name: "Karan Bhatia",
     role: "Software Engineer",
     text: "The atmosphere was unlike anything I've experienced at a student-run event. World-class execution and world-class ideas.",
-    avatar: "KB",
   },
   {
     name: "Ananya Singh",
     role: "Journalist",
     text: "TEDxBMU brought together voices that needed to be heard. Powerful, diverse, and deeply relevant to our generation.",
-    avatar: "AN",
   },
-  {
-    name: "Ananya Singh",
-    role: "Journalist",
-    text: "TEDxBMU brought together voices that needed to be heard. Powerful, diverse, and deeply relevant to our generation.",
-    avatar: "AN",
-  },
-  {
-    name: "Ananya Singh",
-    role: "Journalist",
-    text: "TEDxBMU brought together voices that needed to be heard. Powerful, diverse, and deeply relevant to our generation.",
-    avatar: "AN",
-  }
-
 ];
 
-function TestimonialCard({ testimonial, index }) {
-  const cardRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-
-  // Random float duration and delay for each card
-  const floatDuration = 3 + (index % 3);
-  const floatDelay = index * 0.4;
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setVisible(true), index * 120);
-        } else {
-          setVisible(false);
-        }
-      },
-      { threshold: 0.15 }
-    );
-    if (cardRef.current) observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, [index]);
-
-  return (
-    <div
-      ref={cardRef}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0px)" : "translateY(60px)",
-        transition: "opacity 0.7s ease, transform 0.7s ease",
-        animation: visible ? `float-card ${floatDuration}s ease-in-out ${floatDelay}s infinite alternate` : "none",
-      }}
-      className="group bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col gap-4 min-h-[320px]
-  hover:border-[#e62b1e] hover:bg-[#e62b1e]/10
-  hover:shadow-[0_0_40px_rgba(230,43,30,0.3),inset_0_0_30px_rgba(230,43,30,0.05)]
-  transition-all duration-500 cursor-default"
-    >
-      {/* Quote icon */}
-      <div className="text-[#e62b1e]/40 group-hover:text-[#e62b1e] text-4xl font-black leading-none transition-colors duration-300">"</div>
-
-      {/* Text */}
-      <p className="text-white/50 group-hover:text-white/80 text-sm leading-relaxed flex-1 transition-colors duration-300">
-        {testimonial.text}
-      </p>
-
-      {/* Divider */}
-      <div className="h-px w-full bg-white/10 group-hover:bg-[#e62b1e]/40 transition-colors duration-300" />
-
-      {/* Author */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-[#e62b1e]/20 border border-[#e62b1e]/30
-          group-hover:bg-[#e62b1e]/40 group-hover:border-[#e62b1e] group-hover:shadow-[0_0_15px_rgba(230,43,30,0.4)]
-          flex items-center justify-center transition-all duration-300">
-          <span className="text-[#e62b1e] text-xs font-bold">{testimonial.avatar}</span>
-        </div>
-        <div>
-          <p className="text-white text-sm font-semibold group-hover:text-[#e62b1e] transition-colors duration-300">{testimonial.name}</p>
-          <p className="text-white/30 text-xs">{testimonial.role}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Testimonials() {
-  const [visible, setVisible] = useState(false);
-  const ref = useRef(null);
+  const row1 = testimonials;
+  const row2 = [...testimonials].reverse();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.1 }
+  const renderRow = (items, reverse, duration) => {
+    const doubled = [...items, ...items];
+    return (
+      <div
+        className={`track ${reverse ? "track-row2" : ""}`}
+        style={{ animationDuration: `${duration}s` }}
+      >
+        {doubled.map((item, i) => (
+          <div className="t-card" key={`${item.name}-${i}-${reverse ? "r" : "f"}`}>
+            <div className="card-quote-icon">"</div>
+            <p className="card-text">{item.text}</p>
+            <div className="card-divider" />
+            <div>
+              <div className="card-author-name">{item.name}</div>
+              <div className="card-author-role">{item.role}</div>
+            </div>
+          </div>
+        ))}
+      </div>
     );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  };
 
   return (
-    <section ref={ref} className="relative bg-black text-white py-24 px-8 overflow-hidden">
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap');
 
-      {/* Subtle red glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#e62b1e]/5 blur-[120px] rounded-full pointer-events-none" />
+        .tedx-wrap {
+          background: #080808;
+          color: white;
+          padding: 72px 48px;
+          position: relative;
+          overflow: hidden;
+          font-family: 'DM Sans', sans-serif;
+        }
 
-      <div className="max-w-7xl mx-auto">
+        .tedx-header {
+          margin-bottom: 56px;
+        }
 
-        {/* Header */}
-<div className={`flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-  
-  {/* Left — Big bold title */}
-  <div className="flex flex-col gap-2">
-    <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light mb-2">Testimonials</span>
-    <h2 className="text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
-      <span className="text-[#e62b1e]">WHAT</span>{" "}
-      <span className="text-white">OUR</span>
-      <br />
-      <span className="text-white">ATTEND</span>
-      <span className="text-[#e62b1e]">EES</span>{" "}
-      <span className="text-white">SAY</span>
-    </h2>
-  </div>
+        .tedx-eyebrow {
+          font-size: 11px;
+          letter-spacing: 0.45em;
+          text-transform: uppercase;
+          color: #e62b1e;
+          font-weight: 300;
+          margin-bottom: 8px;
+        }
 
-  {/* Right — subtitle */}
-  <p className="text-white/40 text-sm leading-relaxed max-w-xs lg:mb-3">
-    Take a moment to read what our previous attendees have to say about our event. Their feedback is invaluable in helping us improve and grow.
-  </p>
+        .tedx-title {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: clamp(52px, 7vw, 88px);
+          line-height: 0.92;
+          letter-spacing: 0.02em;
+          margin: 0;
+        }
 
-</div>
+        .tedx-title .r { color: #e62b1e; }
+        .tedx-title .d { color: rgba(255,255,255,0.14); }
 
-        {/* Cards grid */}
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">          
-  {testimonials.map((t, i) => (
-            <TestimonialCard key={`${t.name}-${i}`} testimonial={t} index={i} />
-          ))}
+        .track-outer {
+          overflow: hidden;
+          position: relative;
+          padding: 12px 0;
+        }
+
+        .track-outer::before,
+        .track-outer::after {
+          content: '';
+          position: absolute;
+          top: 0; bottom: 0;
+          width: 120px;
+          z-index: 2;
+          pointer-events: none;
+        }
+
+        .track-outer::before { left: 0; background: linear-gradient(90deg, #080808, transparent); }
+        .track-outer::after  { right: 0; background: linear-gradient(-90deg, #080808, transparent); }
+
+        .track {
+          display: flex;
+          gap: 20px;
+          width: max-content;
+          animation: scroll-left 32s linear infinite;
+        }
+
+        .track:hover { animation-play-state: paused; }
+
+        .track-row2 {
+          animation-direction: reverse;
+          animation-duration: 38s;
+        }
+
+        @keyframes scroll-left {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        .t-card {
+          width: 320px;
+          flex-shrink: 0;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 20px;
+          padding: 28px 28px 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          position: relative;
+          overflow: hidden;
+          transition: border-color 0.35s, background 0.35s;
+        }
+
+        .t-card:hover {
+          border-color: rgba(230,43,30,0.5);
+          background: rgba(230,43,30,0.05);
+        }
+
+        .t-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1.5px;
+          background: linear-gradient(90deg, #e62b1e, rgba(230,43,30,0.1), transparent);
+          opacity: 0;
+          transition: opacity 0.35s;
+        }
+
+        .t-card:hover::before { opacity: 1; }
+
+        .card-quote-icon {
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 80px;
+          line-height: 0.6;
+          color: rgba(230,43,30,0.1);
+          user-select: none;
+          position: absolute;
+          top: 18px; right: 22px;
+        }
+
+        .card-text {
+          font-size: 14px;
+          line-height: 1.7;
+          color: rgba(255,255,255,0.55);
+          font-style: italic;
+          font-weight: 300;
+          position: relative;
+          z-index: 1;
+          transition: color 0.3s;
+        }
+
+        .t-card:hover .card-text { color: rgba(255,255,255,0.82); }
+
+        .card-divider {
+          height: 1px;
+          background: rgba(255,255,255,0.07);
+          transition: background 0.3s;
+        }
+
+        .t-card:hover .card-divider { background: rgba(230,43,30,0.3); }
+
+        .card-author-name {
+          font-size: 13px;
+          font-weight: 600;
+          color: rgba(255,255,255,0.7);
+          transition: color 0.3s;
+        }
+
+        .t-card:hover .card-author-name { color: #e62b1e; }
+
+        .card-author-role {
+          font-size: 11px;
+          color: rgba(255,255,255,0.25);
+          margin-top: 2px;
+          letter-spacing: 0.02em;
+        }
+
+        .rows-gap { height: 20px; }
+
+        @media (max-width: 720px) {
+          .tedx-wrap { padding: 64px 24px; }
+          .t-card { width: 260px; padding: 24px 24px 20px; }
+          .track { gap: 14px; }
+          .track-outer::before,
+          .track-outer::after { width: 72px; }
+        }
+      `}</style>
+
+      <section className="tedx-wrap">
+        <div className="tedx-header">
+          <div className="tedx-eyebrow">Testimonials</div>
+          <h2 className="tedx-title">
+            <span className="r">WHAT</span> <span className="d">OUR</span>
+            <br />
+            <span>ATTEND</span>
+            <span className="r">EES</span> <span className="d">SAY</span>
+          </h2>
         </div>
 
-      </div>
-    </section>
+        <div className="track-outer">
+          {renderRow(row1, false, 32)}
+        </div>
+
+        <div className="rows-gap" />
+
+        <div className="track-outer">
+          {renderRow(row2, true, 38)}
+        </div>
+      </section>
+    </>
   );
 }

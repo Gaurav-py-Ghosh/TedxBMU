@@ -40,7 +40,7 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center bg-[#1e1c1c] overflow-hidden">
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 will-change-transform">
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ opacity: fadeOutShader ? 0 : 1 }}

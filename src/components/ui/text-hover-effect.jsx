@@ -10,30 +10,45 @@ export const TextHoverEffect = ({
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
   const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
+  const strokeWidth = 1.1;
 
   useEffect(() => {
     if (svgRef.current && cursor.x !== null && cursor.y !== null) {
       const svgRect = svgRef.current.getBoundingClientRect();
-      const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
-      const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
-      setMaskPosition({
-        cx: `${cxPercentage}%`,
-        cy: `${cyPercentage}%`,
-      });
+      if (svgRect.width > 0 && svgRect.height > 0) {
+        const cxPercentage = ((cursor.x - svgRef.current.getBoundingClientRect().left) / svgRect.width) * 100;
+        const cyPercentage = ((cursor.y - svgRef.current.getBoundingClientRect().top) / svgRect.height) * 100;
+        setMaskPosition({
+          cx: `${cxPercentage}%`,
+          cy: `${cyPercentage}%`,
+        });
+      }
     }
   }, [cursor]);
+
+  // Re-sync mask position once mounted to avoid stale bounds that can block hover until scroll.
+  useEffect(() => {
+    if (svgRef.current) {
+      const rect = svgRef.current.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        setMaskPosition({ cx: "50%", cy: "50%" });
+      }
+    }
+  }, []);
 
   return (
     <svg
       ref={svgRef}
       width="100%"
       height="100%"
-      viewBox="0 0 350 100"
+      viewBox="-10 -6 320 112"
+      preserveAspectRatio="xMidYMid meet"
       xmlns="http://www.w3.org/2000/svg"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-      className="select-none">
+      className="select-none overflow-visible"
+      style={{ overflow: "visible", pointerEvents: "auto" }}>
       <defs>
         <linearGradient
           id="textGradient"
@@ -43,7 +58,11 @@ export const TextHoverEffect = ({
           r="25%">
           {hovered && (
             <>
-              <stop stopColor="#c0150f" />
+              <stop offset="0%" stopColor="#ff1f3b" />
+              <stop offset="25%" stopColor="#ff1a1a" />
+              <stop offset="50%" stopColor="#d70000" />
+              <stop offset="75%" stopColor="#b30000" />
+              <stop offset="100%" stopColor="#ff6666" />
             </>
           )}
         </linearGradient>
@@ -73,8 +92,9 @@ export const TextHoverEffect = ({
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.8"
-        className="fill-transparent stroke-white font-[helvetica] text-7xl font-bold" style={{ opacity: hovered ? 0.7 : 0 }}>
+        strokeWidth={strokeWidth}
+        className="fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold dark:stroke-neutral-800"
+        style={{ opacity: hovered ? 0.7 : 0 }}>
         {text}
       </text>
       <motion.text
@@ -82,8 +102,9 @@ export const TextHoverEffect = ({
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.8"
-        className="fill-transparent stroke-white font-[helvetica] text-7xl font-bold" initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
+        strokeWidth={strokeWidth}
+        className="fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold dark:stroke-neutral-800"
+        initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
           strokeDasharray: 1000,
@@ -100,7 +121,7 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         stroke="url(#textGradient)"
-        strokeWidth="3"
+        strokeWidth={strokeWidth}
         mask="url(#textMask)"
         className="fill-transparent font-[helvetica] text-7xl font-bold">
         {text}
