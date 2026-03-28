@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo, useCallback } from "react";
 import Image from "next/image";
 import ChromaGrid from "@/components/ui/ChromaGrid";
 
@@ -32,230 +32,377 @@ const events = {
 };
 
 function getYouTubeId(url) {
-  const match = url.match(/(?:v=|youtu\.be\/)([^&?/]+)/);
+  const match = url?.match(/(?:v=|youtu\.be\/)([^&?/]+)/);
   return match ? match[1] : null;
 }
 
-
-function TalksSection({ speakers }) {
-  const sectionRef = useRef(null);
+function VideoShowcase({ speakers }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const activeIndexRef = useRef(0);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024);
+  const [paused, setPaused] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const stageRef = useRef(null);
+  const timerRef = useRef(null);
+  const isMounted = useRef(false);
+
+  const videos = useMemo(() => {
+    return speakers
+      .map((s, idx) => {
+        const id = getYouTubeId(s.youtube);
+        return {
+          key: `${s.name}-${idx}`,
+          id,
+          title: s.topic || s.title || "Talk",
+          speaker: s.name,
+          category: s.title || "Talk",
+          duration: s.duration || "",
+          description: s.bio || "",
+          thumb: id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : undefined,
+        };
+      })
+      .filter((v) => v.id);
+  }, [speakers]);
+
+  const total = videos.length;
+
+  const goTo = useCallback(
+    (next, animate = true) => {
+      if (total === 0) return;
+      setActiveIndex((prev) => {
+        const idx = ((typeof next === "number" ? next : prev) % total + total) % total;
+        return idx;
+      });
+    },
+    [total]
+  );
+
+  const next = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo]);
+  const prev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo]);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+      clearInterval(timerRef.current);
+    };
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (isMobile) return; // Disable scroll-based navigation on mobile
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const scrolled = -rect.top;
-      const scrollableDistance = sectionRef.current.offsetHeight - window.innerHeight;
-      if (scrollableDistance <= 0) return;
-      
-      const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
-      const index = Math.min(Math.floor(progress * speakers.length), speakers.length - 1);
-      
-      if (index !== activeIndexRef.current) {
-        activeIndexRef.current = index;
-        setActiveIndex(index);
-        setPlaying(false);
+    clearInterval(timerRef.current);
+    if (paused || total === 0) return;
+    timerRef.current = setInterval(() => {
+      if (!isMounted.current) return;
+      setActiveIndex((prev) => ((prev + 1) % total + total) % total);
+    }, 5500);
+    return () => clearInterval(timerRef.current);
+  }, [paused, total]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") next();
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") prev();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [next, prev]);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    let wheelAccum = 0;
+    const onWheel = (e) => {
+      e.preventDefault();
+      wheelAccum += e.deltaY;
+      if (Math.abs(wheelAccum) > 60) {
+        wheelAccum > 0 ? next() : prev();
+        wheelAccum = 0;
       }
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [speakers.length, isMobile]);
+
+    let touchStartY = 0;
+    const onTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const onTouchEnd = (e) => {
+      const dy = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(dy) > 40) {
+        dy > 0 ? next() : prev();
+      }
+    };
+
+    stage.addEventListener("wheel", onWheel, { passive: false });
+    stage.addEventListener("touchstart", onTouchStart, { passive: true });
+    stage.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    return () => {
+      stage.removeEventListener("wheel", onWheel);
+      stage.removeEventListener("touchstart", onTouchStart);
+      stage.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [next, prev]);
+
+  const stateFor = useCallback(
+    (cardIndex) => {
+      if (total === 0) return "hidden";
+      const diff = (cardIndex - activeIndex + total) % total;
+      if (diff === 0) return "active";
+      if (diff === 1) return "next-1";
+      if (diff === 2) return "next-2";
+      if (diff === total - 1) return "prev";
+      return "hidden";
+    },
+    [activeIndex, total]
+  );
+
+  if (total === 0) return null;
+
+  const current = videos[activeIndex];
 
   return (
-    <>
-      {/* Label */}
-     {/* Label */}
-<div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-4 mb-4 md:mb-6">
-  <div className="h-px w-8 bg-[#e62b1e]" />
+    <div className="showcase" id="showcase">
+      <div className="ambient-bg">
+        <div className="ambient-orb orb-1" />
+        <div className="ambient-orb orb-2" />
+        <div className="ambient-orb orb-3" />
+      </div>
+      <div className="grain" />
 
-  <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">
-    Watch the Talks
-  </span>
+      <header className="showcase-header">
+        <div className="logo-group">
+          <div className="ted-badge">TED</div>
+          <div className="logo-x">x</div>
+          <div className="logo-event">BMU · Ideas Worth Spreading</div>
+        </div>
+        <div className="header-eyebrow">
+          <div className="live-dot">Featured Talks</div>
+        </div>
+      </header>
 
-  <div className="flex-1 h-px bg-white/5" />
+      <div className="info-panel">
+        <div className="section-label">Now Showing</div>
+        <div className="talk-counter">{String(activeIndex + 1).padStart(2, "0")}</div>
+        <h2 className="talk-title">{current.title}</h2>
+        <p className="talk-speaker">
+          Speaker — <strong>{current.speaker}</strong>
+        </p>
+        <div className="talk-category">{current.category}</div>
+        <p className="talk-description">{current.description}</p>
 
-  {/* ✅ Clickable YouTube Icon */}
-  <a
-    href="https://www.youtube.com/@TEDx"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="hover:scale-110 transition-transform duration-200"
-  >
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#e62b1e">
-      <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-    </svg>
-  </a>
-</div>
+        <div className="nav-controls">
+          <button className="nav-btn" aria-label="Previous talk" onClick={prev}>
+            <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
+          </button>
 
-      {/* Sticky scroll section */}
-      <div ref={sectionRef} style={{ height: isMobile ? `${speakers.length * 85}vh` : `${speakers.length * 100}vh` }}>
-        <div className="sticky top-0 h-[100svh] flex flex-col items-center justify-center gap-3 md:gap-6 bg-black pb-8 md:pb-10">
-
-          {/* Progress dots & counter */}
-          <div className="flex flex-col items-center gap-3">
-            <div className="flex items-center gap-2">
-              {speakers.map((_, i) => (
-                <div key={i} className="rounded-full transition-all duration-300"
-                  style={{
-                    width: i === activeIndex ? "20px" : "6px",
-                    height: "6px",
-                    background: i === activeIndex ? "#e62b1e" : i < activeIndex ? "rgba(230,43,30,0.4)" : "rgba(255,255,255,0.15)",
-                  }}
-                />
-              ))}
-            </div>
-            <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase font-medium">
-              Speaker <span className="text-[#e62b1e]">{activeIndex + 1}</span> of {speakers.length}
-            </p>
+          <div className="progress-dots">
+            {videos.map((_, i) => (
+              <button
+                key={i}
+                className={`dot ${i === activeIndex ? "active" : i < activeIndex ? "done" : ""}`}
+                onClick={() => goTo(i)}
+                aria-label={`Go to talk ${i + 1}`}
+              >
+                <span className="dot-fill" style={{ animationDuration: "5.5s" }} />
+              </button>
+            ))}
           </div>
 
-          {/* Stacked cards */}
-          <div className="relative w-full max-w-4xl mx-auto" style={{ height: "auto", minHeight: "500px", padding: isMobile ? "0 1rem" : "0 1.5rem" }}>
-            <div className="lg:hidden h-[450px]" /> {/* Spacer for absolute cards on mobile */}
-            {speakers.map((s, i) => {
-              const vid = getYouTubeId(s.youtube);
-              const thumb = `https://img.youtube.com/vi/${vid}/maxresdefault.jpg`;
-              const isActive = i === activeIndex;
-              const isPast = i < activeIndex;
-              const isFuture = i > activeIndex;
-              const offset = i - activeIndex;
-
-              return (
-                <div
-                  key={`${s.name}-${s.youtube}`}
-                  className="absolute inset-0 rounded-2xl overflow-hidden flex flex-col lg:grid lg:grid-cols-2 cursor-pointer group/card"
-                  onClick={() => isActive && !playing && setPlaying(true)}
-                  style={{
-                    background: "linear-gradient(135deg, #0d0000 0%, #111 100%)",
-                    border: isActive ? "1.5px solid rgba(230,43,30,0.5)" : "1.5px solid rgba(255,255,255,0.06)",
-                    boxShadow: isActive ? "0 0 50px rgba(230,43,30,0.2)" : "none",
-                    zIndex: isActive ? 10 : isPast ? 0 : speakers.length - i,
-                    opacity: isPast ? 0 : isActive ? 1 : Math.max(0.3, 1 - offset * 0.2),
-                    transform: isActive
-                      ? "translateY(0) scale(1)"
-                      : isFuture
-                        ? `translateY(${offset * 12}px) scale(${1 - offset * 0.03})`
-                        : "translateY(-60px) scale(0.9) rotate(-2deg)",
-                    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-                    pointerEvents: isActive ? "all" : "none",
-                  }}
-                >
-                  {/* TOP/LEFT — YouTube */}
-                  <div 
-                    className="relative cursor-pointer group h-48 sm:h-64 lg:h-full overflow-hidden"
-                    onMouseEnter={() => !isMobile && setPlaying(true)}
-                    onClick={() => {
-                      if (isActive && !playing) {
-                        setPlaying(true);
-                      }
-                    }}
-                    style={isMobile ? { margin: "0 -1rem", marginBottom: "0.5rem" } : {}}>
-                    {/* Mobile navigation buttons */}
-                    {isMobile && isActive && (
-                      <>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (activeIndex > 0) {
-                              activeIndexRef.current = activeIndex - 1;
-                              setActiveIndex(activeIndex - 1);
-                              setPlaying(false);
-                            }
-                          }}
-                          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-2 hover:scale-110 transition-transform"
-                          aria-label="Previous video"
-                        >
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#e62b1e]">
-                            <path d="M15 19l-7-7 7-7" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (activeIndex < speakers.length - 1) {
-                              activeIndexRef.current = activeIndex + 1;
-                              setActiveIndex(activeIndex + 1);
-                              setPlaying(false);
-                            }
-                          }}
-                          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-2 hover:scale-110 transition-transform"
-                          aria-label="Next video"
-                        >
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#e62b1e]">
-                            <path d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                      </>
-                    )}
-                    
-                    {isActive && playing ? (
-                      <iframe
-                        src={`https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`}
-                        title={s.name}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="w-full h-full"
-                      />
-                    ) : (
-                      <>
-                        <Image src={thumb} alt={s.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-14 h-14 rounded-full bg-[#e62b1e] flex items-center justify-center shadow-[0_0_30px_rgba(230,43,30,0.7)] group-hover:scale-110 transition-transform duration-300">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
-                          </div>
-                        </div>
-                        {isActive && activeIndex === 0 && (
-                          isMobile ? (
-                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-white/30 text-[10px] tracking-widest uppercase animate-bounce">
-                              use buttons
-                            </div>
-                          ) : (
-                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-white/30 text-[10px] tracking-widest uppercase animate-bounce">
-                              scroll for next
-                            </div>
-                          )
-                        )}
-                      </>
-                    )}
-                  </div>
-
-                  {/* BOTTOM/RIGHT — Info */}
-                  <div className="flex flex-col justify-center gap-2 md:gap-4 p-4 sm:p-5 md:p-6 pb-6 md:pb-6">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex flex-col gap-0.5 md:gap-1">
-                        <h3 className="text-white font-black text-base sm:text-lg md:text-xl leading-tight">{s.name}</h3>
-                        <p className="text-[#e62b1e] text-[9px] sm:text-[10px] md:text-xs font-medium">{s.title}</p>
-                      </div>
-                    </div>
-                    <div className="h-px w-6 sm:w-8 md:w-10 bg-[#e62b1e]/40" />
-                    <p className="text-white/60 text-[11px] sm:text-xs md:text-sm italic">&quot;{s.topic}&quot;</p>
-                    <p className="text-white/30 text-[9px] sm:text-[10px] md:text-xs leading-relaxed line-clamp-3 md:line-clamp-4">{s.bio}</p>
-                    <div className="mt-auto pt-2 hidden sm:block">
-                      <span className="text-white/10 text-4xl md:text-5xl font-black leading-none select-none">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
+          <button className="nav-btn" aria-label="Next talk" onClick={next}>
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+          </button>
         </div>
       </div>
-    </>
+
+      <div
+        className="card-stage"
+        ref={stageRef}
+        onMouseEnter={() => {
+          setIsHovering(true);
+          setPaused(true);
+        }}
+        onMouseLeave={() => {
+          setIsHovering(false);
+          setPaused(false);
+        }}
+      >
+        <div className="pause-indicator" style={{ opacity: isHovering ? 1 : 0 }}>
+          <div className="p-bars"><div className="p-bar" /><div className="p-bar" /></div>
+          Paused
+        </div>
+
+        <div className="stack-indicator">
+          <div className="stack-line" />
+        </div>
+
+        <div className="card-stack">
+          {videos.map((video, i) => {
+            const state = stateFor(i);
+            const isActive = state === "active";
+            return (
+              <article key={video.key} className="video-card" data-state={state}>
+                <div className="card-inner">
+                  <div className="card-thumb" style={{ backgroundImage: `url(${video.thumb})` }} />
+                  <div className="card-iframe-wrap">
+                    {isActive && (
+                      <iframe
+                        key={`${video.id}-${activeIndex}`}
+                        src={`https://www.youtube.com/embed/${video.id}?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1`}
+                        title={video.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    )}
+                  </div>
+                  <div className="play-overlay" onClick={() => goTo(i)}>
+                    <div className="play-btn-circle">
+                      <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                    </div>
+                  </div>
+                  <div className="card-info">
+                    <div>
+                      <div className="card-label">{video.category}</div>
+                      <div className="card-title-sm">{video.title}</div>
+                    </div>
+                    <div className="card-duration">{video.duration || ""}</div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="stage-label">TEDxBMU — Video Archive</div>
+      </div>
+
+      <footer className="showcase-footer">
+        <div className="footer-stat">
+          <span className="footer-stat-num">{String(total).padStart(2, "0")}</span>
+          <span className="footer-stat-label">Talks</span>
+        </div>
+        <div className="footer-divider" />
+        <div className="footer-stat">
+          <span className="footer-stat-num">06</span>
+          <span className="footer-stat-label">Editions</span>
+        </div>
+        <div className="footer-divider" />
+        <div className="footer-stat">
+          <span className="footer-stat-num">Archive</span>
+          <span className="footer-stat-label">TEDxBMU</span>
+        </div>
+        <a className="watch-all-btn" href="https://www.youtube.com/@TEDxBMU" target="_blank" rel="noopener noreferrer">
+          Watch All Talks
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+        </a>
+      </footer>
+
+      <style jsx global>{`
+        *, *::before, *::after { box-sizing: border-box; }
+        .showcase {
+          position: relative;
+          z-index: 2;
+          min-height: 100vh;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto 1fr auto;
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 40px;
+          gap: 0;
+        }
+        .ambient-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .ambient-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: drift 18s ease-in-out infinite alternate; }
+        .orb-1 { width: 600px; height: 600px; background: #e62b1e; top: -200px; left: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: #ff6b35; bottom: -150px; right: -80px; animation-delay: -9s; }
+        .orb-3 { width: 300px; height: 300px; background: #a0a0a0; top: 40%; left: 60%; opacity: 0.05; animation-delay: -4s; }
+        @keyframes drift { from { transform: translate(0,0) scale(1);} to { transform: translate(40px,30px) scale(1.1);} }
+        .grain { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); background-size: 180px 180px; animation: grain-shift 0.4s steps(1) infinite; }
+        @keyframes grain-shift { 0%{background-position:0 0;} 20%{background-position:-30px 15px;} 40%{background-position:15px -10px;} 60%{background-position:-20px 25px;} 80%{background-position:25px -5px;} 100%{background-position:0 0;} }
+        .showcase-header { grid-column: 1 / -1; padding: 52px 0 40px; display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 60px; }
+        .logo-group { display: flex; align-items: center; gap: 18px; }
+        .ted-badge { display: inline-flex; align-items: center; justify-content: center; background: #e62b1e; color: #fff; font-weight: 800; font-size: 22px; letter-spacing: 0.04em; padding: 6px 14px 4px; border-radius: 3px; line-height: 1; font-family: var(--font-heading, "Archivo", sans-serif); }
+        .logo-x { font-weight: 800; font-size: 22px; color: #fff; letter-spacing: 0.04em; font-family: var(--font-heading, "Archivo", sans-serif); }
+        .logo-event { font-size: 12px; letter-spacing: 0.18em; color: rgba(245,245,245,0.45); text-transform: uppercase; font-weight: 500; padding-left: 18px; border-left: 1px solid rgba(255,255,255,0.08); }
+        .header-eyebrow { text-align: right; }
+        .live-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,245,245,0.6); font-weight: 500; }
+        .live-dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #e62b1e; box-shadow: 0 0 0 0 rgba(230,43,30,0.6); animation: pulse-dot 2s ease-in-out infinite; }
+        @keyframes pulse-dot { 0%,100%{box-shadow:0 0 0 0 rgba(230,43,30,0.6);} 50%{box-shadow:0 0 0 5px rgba(230,43,30,0);} }
+        .info-panel { grid-column: 1; display: flex; flex-direction: column; justify-content: center; padding-right: 60px; }
+        .section-label { display: flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #e62b1e; font-weight: 600; margin-bottom: 24px; }
+        .section-label::after { content: ""; height: 1px; width: 40px; background: #e62b1e; opacity: 0.5; }
+        .talk-counter { font-family: var(--font-heading, "Archivo", sans-serif); font-size: 90px; line-height: 0.9; color: rgba(245,245,245,0.2); letter-spacing: -0.02em; margin-bottom: -10px; user-select: none; }
+        .talk-title { font-family: var(--font-heading, "Archivo", sans-serif); font-size: clamp(32px, 4vw, 52px); line-height: 1.05; color: #fff; margin-bottom: 16px; }
+        .talk-speaker { font-size: 14px; font-weight: 400; color: rgba(245,245,245,0.65); letter-spacing: 0.05em; margin-bottom: 8px; }
+        .talk-speaker strong { color: #fff; font-weight: 600; }
+        .talk-category { display: inline-flex; align-items: center; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #e62b1e; border: 1px solid rgba(230,43,30,0.25); padding: 4px 10px; border-radius: 3px; background: rgba(230,43,30,0.08); margin-bottom: 32px; }
+        .talk-description { font-size: 14px; line-height: 1.75; color: rgba(245,245,245,0.55); font-weight: 300; max-width: 360px; margin-bottom: 32px; }
+        .nav-controls { display: flex; align-items: center; gap: 16px; }
+        .nav-btn { width: 44px; height: 44px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s ease; color: #fff; }
+        .nav-btn:hover { background: rgba(230,43,30,0.12); border-color: rgba(230,43,30,0.4); color: #e62b1e; transform: scale(1.05); }
+        .nav-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .progress-dots { display: flex; align-items: center; gap: 8px; flex: 1; }
+        .dot { position: relative; height: 2px; background: rgba(255,255,255,0.08); border-radius: 1px; cursor: pointer; flex: 1; overflow: hidden; transition: background 0.3s ease; border: none; padding: 0; }
+        .dot:hover { background: rgba(255,255,255,0.15); }
+        .dot-fill { position: absolute; inset: 0; background: #e62b1e; transform-origin: left; transform: scaleX(0); animation: fill-progress 5.5s linear forwards; }
+        .dot.active .dot-fill { animation-play-state: running; }
+        .dot.done .dot-fill { transform: scaleX(1); animation: none; background: rgba(230,43,30,0.4); }
+        @keyframes fill-progress { from { transform: scaleX(0);} to { transform: scaleX(1);} }
+        .card-stage { grid-column: 2; display: flex; align-items: center; justify-content: center; position: relative; min-height: 600px; perspective: 1200px; }
+        .card-stack { position: relative; width: min(520px, 90vw); height: min(310px, 54vw); transform-style: preserve-3d; }
+        .video-card { position: absolute; inset: 0; border-radius: 16px; overflow: hidden; cursor: pointer; transform-origin: bottom center; transition: transform 0.85s cubic-bezier(0.16,1,0.3,1), opacity 0.85s cubic-bezier(0.16,1,0.3,1), filter 0.85s cubic-bezier(0.16,1,0.3,1), box-shadow 0.85s cubic-bezier(0.16,1,0.3,1); }
+        .video-card[data-state="active"] { transform: translateY(0) scale(1) rotateX(0deg); opacity: 1; filter: blur(0px) brightness(1); z-index: 10; box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(0,0,0,0.7), 0 0 120px rgba(230,43,30,0.12); }
+        .video-card[data-state="next-1"] { transform: translateY(68%) scale(0.9) rotateX(4deg); opacity: 0.65; filter: blur(1.5px) brightness(0.75); z-index: 9; box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 50px rgba(0,0,0,0.5); }
+        .video-card[data-state="next-2"] { transform: translateY(110%) scale(0.8) rotateX(7deg); opacity: 0.3; filter: blur(3px) brightness(0.55); z-index: 8; box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 10px 30px rgba(0,0,0,0.4); }
+        .video-card[data-state="prev"] { transform: translateY(-115%) scale(0.9) rotateX(-6deg); opacity: 0; filter: blur(6px) brightness(0.4); z-index: 7; pointer-events: none; }
+        .video-card[data-state="hidden"] { transform: translateY(140%) scale(0.78) rotateX(10deg); opacity: 0; filter: blur(8px); z-index: 6; pointer-events: none; }
+        .card-inner { position: relative; width: 100%; height: 100%; background: #111; }
+        .card-thumb { position: absolute; inset: 0; z-index: 2; background-size: cover; background-position: center; }
+        .card-thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%); }
+        .card-iframe-wrap { position: absolute; inset: 0; z-index: 1; }
+        .card-iframe-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+        .play-overlay { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); transition: opacity 0.4s ease; }
+        .video-card[data-state="active"] .play-overlay { opacity: 0; pointer-events: none; }
+        .video-card[data-state="active"] .card-thumb { opacity: 0; }
+        .play-btn-circle { width: 56px; height: 56px; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .play-btn-circle svg { width: 20px; height: 20px; fill: white; margin-left: 3px; }
+        .video-card:hover .play-btn-circle { transform: scale(1.05); border-color: rgba(230,43,30,0.4); }
+        .card-info { position: absolute; bottom: 0; left: 0; right: 0; z-index: 4; padding: 20px 24px 20px; background: linear-gradient(transparent, rgba(0,0,0,0.88) 40%); display: flex; align-items: flex-end; justify-content: space-between; }
+        .card-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #e62b1e; font-weight: 600; margin-bottom: 4px; }
+        .card-title-sm { font-family: var(--font-heading, "Archivo", sans-serif); font-size: 18px; line-height: 1.1; color: #fff; max-width: 260px; }
+        .card-duration { font-size: 11px; color: rgba(255,255,255,0.55); font-weight: 400; letter-spacing: 0.06em; margin-top: 4px; }
+        .video-card[data-state="active"]::before { content: ""; position: absolute; inset: 0; z-index: 5; border-radius: 16px; border: 1px solid rgba(230,43,30,0.35); pointer-events: none; }
+        .video-card[data-state="active"]::after { content: ""; position: absolute; top: 0; left: 0; right: 0; z-index: 5; height: 2px; background: linear-gradient(90deg, transparent, #e62b1e, transparent); animation: shimmer 3s ease-in-out infinite; pointer-events: none; }
+        @keyframes shimmer { 0%,100%{opacity:0; transform: scaleX(0.2);} 50%{opacity:1; transform: scaleX(1);} }
+        .stage-label { position: absolute; right: -50px; top: 50%; transform: translateY(-50%) rotate(90deg); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(245,245,245,0.25); white-space: nowrap; font-weight: 500; }
+        .stack-indicator { position: absolute; left: -40px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 6px; align-items: center; }
+        .stack-line { width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08), transparent); }
+        .showcase-footer { grid-column: 1 / -1; padding: 40px 0 52px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 60px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+        .footer-stat { display: flex; align-items: baseline; gap: 8px; }
+        .footer-stat-num { font-family: var(--font-heading, "Archivo", sans-serif); font-size: 28px; color: #fff; }
+        .footer-stat-label { font-size: 12px; color: rgba(245,245,245,0.55); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+        .footer-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.08); }
+        .watch-all-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 28px; background: #e62b1e; color: #fff; border-radius: 3px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; cursor: pointer; border: none; transition: all 0.25s ease; text-decoration: none; }
+        .watch-all-btn:hover { background: #ff3a2d; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(230,43,30,0.35); }
+        .watch-all-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.25s ease; }
+        .watch-all-btn:hover svg { transform: translateX(3px); }
+        .pause-indicator { position: absolute; top: 16px; right: 16px; z-index: 20; display: flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); transition: opacity 0.3s ease; pointer-events: none; }
+        .p-bars { display: flex; gap: 2px; align-items: center; }
+        .p-bar { width: 2px; height: 10px; background: rgba(255,255,255,0.6); border-radius: 1px; }
+        @media (max-width: 900px) {
+          .showcase { grid-template-columns: 1fr; padding: 0 24px; }
+          .showcase-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+          .info-panel { grid-column: 1; order: 2; padding-right: 0; padding-top: 40px; }
+          .card-stage { grid-column: 1; order: 1; min-height: 420px; }
+          .talk-counter { font-size: 70px; }
+          .stage-label, .stack-indicator { display: none; }
+          .showcase-footer { margin-top: 32px; }
+        }
+        @media (max-width: 500px) {
+          .showcase { padding: 0 18px; }
+          .card-stack { width: 92vw; height: 55vw; }
+          .talk-counter { font-size: 56px; }
+          .talk-title { font-size: 28px; }
+        }
+      `}</style>
+    </div>
   );
 }
 
@@ -343,8 +490,8 @@ export default function EventsPage() {
         <EventSection year={2025} data={events[2025]} />
       </div>
 
-      {/* 2025 Talks sticky scroll */}
-      <TalksSection speakers={events[2025].speakers} />
+      {/* 2025 Talks showcase */}
+      <VideoShowcase speakers={events[2025].speakers} />
 
 
 
@@ -353,8 +500,8 @@ export default function EventsPage() {
         <EventSection year={2024} data={events[2024]} />
       </div>
 
-      {/* 2024 Talks sticky scroll */}
-      <TalksSection speakers={events[2024].speakers} />
+      {/* 2024 Talks showcase */}
+      <VideoShowcase speakers={events[2024].speakers} />
 
       <div className="pb-24" />
 
