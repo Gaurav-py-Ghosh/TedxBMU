@@ -190,8 +190,8 @@ export default function TeamPage() {
           --red: #E62B1E; --red-mid: rgba(230,43,30,0.25); --red-glow: rgba(230,43,30,0.45);
           --black: #080808; --border: rgba(255,255,255,0.07); --text: #F5F5F5; --text-dim: rgba(255,255,255,0.38);
         }
-        .team-page { background: var(--black); color: var(--text); font-family: var(--font-inter), sans-serif; position: relative; isolation: isolate; }
-        .team-page .page { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 120px 60px 160px; }
+        .team-page { background: var(--black); color: var(--text); font-family: var(--font-inter), sans-serif; position: relative; isolation: isolate; overflow-x: hidden; width: 100%; }
+        .team-page .page { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 120px 60px 160px; overflow-x: hidden; }
         .team-page .header { position: relative; margin-bottom: 80px; }
         .team-page .header-bg-text { position: absolute; top: -40px; left: -8px; font-family: var(--font-archivo), sans-serif; font-size: clamp(120px, 18vw, 260px); line-height: 1; color: rgba(255,255,255,0.025); letter-spacing: -0.02em; white-space: nowrap; pointer-events: none; }
         .team-page .eyebrow { font-family: var(--font-archivo), sans-serif; font-size: 10px; letter-spacing: 0.42em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; opacity: 0; animation: riseIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards 0.15s; display: flex; align-items: center; gap: 14px; }
@@ -260,9 +260,12 @@ export default function TeamPage() {
         }
         @media (max-width: 600px) { 
           .page { padding: 80px 20px 100px; }
-          .team-page .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-          .team-page .card { width: 100%; }
-          .team-page .organizers-row { flex-direction: column; align-items: center; }
+          .team-page .header-foot { gap: 16px; margin-top: 24px; }
+          .team-page .h-line { width: 80px; }
+          .team-page .team-stat { font-size: 10px; }
+          .team-page .grid { grid-template-columns: 1fr; gap: 28px; }
+          .team-page .card { width: 100%; display: flex; justify-content: center; }
+          .team-page .organizers-row { flex-direction: column; align-items: center; gap: 28px; }
         }
       `}</style>
 

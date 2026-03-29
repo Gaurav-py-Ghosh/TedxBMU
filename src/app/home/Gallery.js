@@ -46,6 +46,7 @@ const placeholderItems = galleryImages.map((src, i) => (
 ));
 export default function Gallery() {
   const [visible, setVisible] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -55,6 +56,14 @@ export default function Gallery() {
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    // Auto-slide every 1.5s for mobile view
+    const interval = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % galleryImages.length);
+    }, 1500);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -79,12 +88,39 @@ export default function Gallery() {
 
       </div>
 
-      {/* Grid */}
-      <div className="w-full h-[400px] md:h-[600px]">
-        <GridMotion
-          items={placeholderItems}
-          gradientColor="rgba(230,43,30,0.4)"
-        />
+      {/* Gallery Container */}
+      <div className="w-full h-[400px] md:h-[600px] relative">
+        {/* DESKTOP VIEW - Keep exactly as before */}
+        <div className="hidden md:block w-full h-full">
+          <GridMotion
+            items={placeholderItems}
+            gradientColor="rgba(230,43,30,0.4)"
+          />
+        </div>
+
+        {/* MOBILE VIEW - Auto sliding gallery without scroll-based constraints */}
+        <div className="block md:hidden w-full h-[400px] overflow-hidden overflow-x-hidden relative">
+          <div 
+            className="flex flex-nowrap h-full items-center transition-transform duration-700 ease-in-out"
+            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+          >
+            {galleryImages.map((src, i) => (
+              <div key={i} className="w-full h-full flex-shrink-0 px-6 py-4 flex items-center justify-center">
+                <div className="w-full max-w-[320px] aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(230,43,30,0.2)] bg-white/5 mx-auto">
+                  <img
+                    src={src}
+                    alt={`Gallery ${i + 1}`}
+                    className="w-full h-full object-cover brightness-110 contrast-105 saturate-110"
+                    onError={(e) => {
+                      e.target.parentElement.style.background = `linear-gradient(135deg, rgba(230,43,30,0.${(i % 4) + 1}) 0%, rgba(0,0,0,0.8) 100%)`;
+                      e.target.style.display = "none";
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Bottom fade */}

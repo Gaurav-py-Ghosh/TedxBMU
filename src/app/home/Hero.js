@@ -68,7 +68,7 @@ export default function Hero() {
       <motion.div
         className="absolute inset-0 z-[2] pointer-events-none"
         initial={{ opacity: 0 }}
-        animate={{ opacity: showRays ? 0.35 : 0 }}
+        animate={{ opacity: showRays ? (isMobile ? 0.7 : 0.35) : 0 }}
         transition={{ duration: 2, ease: "easeInOut" }}
       >
         {showRays && (
@@ -76,11 +76,12 @@ export default function Hero() {
             raysOrigin="top-center"
             raysColor="#ffffff"
             raysSpeed={1}
-            lightSpread={0.5}
-            rayLength={3}
+            lightSpread={isMobile ? 0.7 : 0.5}
+            rayLength={isMobile ? 4 : 3}
             followMouse={true}
             mouseInfluence={0.1}
             noiseAmount={0}
+            intensity={isMobile ? 2.2 : 1.0}
             distortion={0}
             className="custom-rays"
             pulsating={false}

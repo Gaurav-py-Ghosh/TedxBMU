@@ -43,6 +43,7 @@ const LightRays = ({
   mouseInfluence = 0.1,
   noiseAmount = 0.0,
   distortion = 0.0,
+  intensity = 1.0,
   className = ''
 }) => {
   const containerRef = useRef(null);
@@ -133,6 +134,7 @@ uniform vec2  mousePos;
 uniform float mouseInfluence;
 uniform float noiseAmount;
 uniform float distortion;
+uniform float intensity;
 
 varying vec2 vUv;
 
@@ -183,7 +185,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
                rayStrength(rayPos, finalRayDir, coord, 22.3991, 18.0234,
                            1.1 * raysSpeed);
 
-  fragColor = rays1 * 0.5 + rays2 * 0.4;
+  fragColor = (rays1 * 0.5 + rays2 * 0.4) * intensity;
 
   if (noiseAmount > 0.0) {
     float n = noise(coord * 0.01 + iTime * 0.1);
@@ -226,7 +228,8 @@ void main() {
         mousePos: { value: [0.5, 0.5] },
         mouseInfluence: { value: mouseInfluence },
         noiseAmount: { value: noiseAmount },
-        distortion: { value: distortion }
+        distortion: { value: distortion },
+        intensity: { value: intensity }
       };
       uniformsRef.current = uniforms;
 
@@ -334,7 +337,8 @@ void main() {
     followMouse,
     mouseInfluence,
     noiseAmount,
-    distortion
+    distortion,
+    intensity
   ]);
 
   useEffect(() => {
@@ -353,6 +357,7 @@ void main() {
     u.mouseInfluence.value = mouseInfluence;
     u.noiseAmount.value = noiseAmount;
     u.distortion.value = distortion;
+    u.intensity.value = intensity;
 
     const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
     const dpr = renderer.dpr;
@@ -370,7 +375,8 @@ void main() {
     saturation,
     mouseInfluence,
     noiseAmount,
-    distortion
+    distortion,
+    intensity
   ]);
 
   useEffect(() => {

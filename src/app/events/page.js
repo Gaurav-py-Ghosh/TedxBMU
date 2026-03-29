@@ -40,6 +40,7 @@ function VideoShowcase({ speakers }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const stageRef = useRef(null);
   const timerRef = useRef(null);
   const isMounted = useRef(false);
@@ -77,9 +78,13 @@ function VideoShowcase({ speakers }) {
 
   useEffect(() => {
     isMounted.current = true;
+    const handleReze = () => setIsMobile(window.innerWidth < 900);
+    handleReze();
+    window.addEventListener("resize", handleReze);
     return () => {
       isMounted.current = false;
       clearInterval(timerRef.current);
+      window.removeEventListener("resize", handleReze);
     };
   }, []);
 
@@ -89,36 +94,23 @@ function VideoShowcase({ speakers }) {
     timerRef.current = setInterval(() => {
       if (!isMounted.current) return;
       setActiveIndex((prev) => ((prev + 1) % total + total) % total);
-    }, 5500);
+    }, 2000);
     return () => clearInterval(timerRef.current);
   }, [paused, total]);
 
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") next();
-      if (e.key === "ArrowLeft" || e.key === "ArrowUp") prev();
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [next, prev]);
 
+  // Scroll hijacking removed as per user request
   useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
-
-    let wheelAccum = 0;
-    const onWheel = (e) => {
-      e.preventDefault();
-      wheelAccum += e.deltaY;
-      if (Math.abs(wheelAccum) > 60) {
-        wheelAccum > 0 ? next() : prev();
-        wheelAccum = 0;
-      }
-    };
-
-    stage.addEventListener("wheel", onWheel, { passive: false });
-    return () => stage.removeEventListener("wheel", onWheel);
-  }, [next, prev]);
+    // Scroll change feature is disabled
+  }, []);
 
   const stateFor = useCallback(
     (cardIndex) => {
@@ -155,14 +147,14 @@ function VideoShowcase({ speakers }) {
         <div className="talk-category">{current.category}</div>
         <p className="talk-description">{current.description}</p>
 
-        <div className="nav-controls">
+        <div className="nav-controls desktop-only">
           <button className="nav-btn" onClick={prev}>
             <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15" /></svg>
           </button>
           <div className="progress-dots">
             {videos.map((_, i) => (
               <button key={i} className={`dot ${i === activeIndex ? "active" : ""}`} onClick={() => goTo(i)}>
-                {i === activeIndex && <span className="dot-fill" style={{ animationDuration: "5.5s" }} />}
+                {i === activeIndex && <span className="dot-fill" style={{ animationDuration: "2s" }} />}
               </button>
             ))}
           </div>
@@ -172,52 +164,68 @@ function VideoShowcase({ speakers }) {
         </div>
       </div>
 
-      <div
-        className="card-stage"
-        ref={stageRef}
-        onMouseEnter={() => { setIsHovering(true); setPaused(true); }}
-        onMouseLeave={() => { setIsHovering(false); setPaused(false); }}
-      >
-        <div className="card-stack">
-          {videos.map((video, i) => {
-            const state = stateFor(i);
-            const isActive = state === "active";
-            return (
-              <article key={video.key} className="video-card" data-state={state}>
-                <div className="card-inner">
-                  <div 
-                    className="card-thumb" 
-                    style={{ 
-                      backgroundImage: `url(${video.thumb})`,
-                      opacity: (isActive && isHovering) ? 0 : 1,
-                      transition: 'opacity 0.5s ease',
-                      zIndex: 5
-                    }} 
-                  />
-                  <div className="card-iframe-wrap">
-                    {isActive && (
-                      <iframe
-                        key={video.id}
-                        src={`https://www.youtube.com/embed/${video.id}?autoplay=${isHovering ? 1 : 0}&mute=0&controls=1&rel=0`}
-                        title={video.title}
-                        allow="autoplay; encrypted-media"
-                        allowFullScreen
-                        style={{ opacity: isHovering ? 1 : 0 }}
-                      />
-                    )}
-                  </div>
-                  <div className="card-info">
-                    <div>
-                      <div className="card-label">{video.category}</div>
-                      <div className="card-title-sm">{video.title}</div>
+      <div className="card-stage">
+        {!isMobile ? (
+          <div className="card-stack" ref={stageRef}>
+            {videos.map((video, i) => {
+              const state = stateFor(i);
+              const isActive = state === "active";
+              return (
+                <article key={video.key} className="video-card" data-state={state}>
+                  <div className="card-inner">
+                    <div className="card-thumb" 
+                      style={{ 
+                        backgroundImage: `url(${video.thumb})`,
+                        opacity: isActive && isHovering ? 0 : 1,
+                        transition: 'opacity 0.5s ease',
+                        zIndex: 5,
+                        pointerEvents: isActive && isHovering ? 'none' : 'auto'
+                      }} 
+                    />
+                    <div className="card-iframe-wrap" style={{ zIndex: isActive ? 10 : 1 }}>
+                      {isActive && (
+                        <iframe
+                          key={video.id}
+                          src={`https://www.youtube.com/embed/${video.id}?autoplay=0&mute=0&controls=1&rel=0`}
+                          title={video.title}
+                          allow="autoplay; encrypted-media"
+                          allowFullScreen
+                          style={{ opacity: isHovering ? 1 : 0 }}
+                        />
+                      )}
                     </div>
-                    <div className="card-duration">{video.duration}</div>
+                    <div className="card-info">
+                      <div>
+                        <div className="card-label">{video.category}</div>
+                        <div className="card-title-sm">{video.title}</div>
+                      </div>
+                      <div className="card-duration">{video.duration}</div>
+                    </div>
                   </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="mobile-showcase-wrap">
+            <div
+              className="mobile-video-box"
+            >
+              <iframe
+                key={current.id}
+                src={`https://www.youtube.com/embed/${current.id}?autoplay=0&controls=1&rel=0`}
+                title={current.title}
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+              />
+            </div>
+            <div className="mobile-nav-info">
+              <div className="mob-counter text-[#e62b1e] font-bold tracking-widest text-sm">
+                {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <style jsx global>{`
@@ -245,7 +253,7 @@ function VideoShowcase({ speakers }) {
         .talk-counter { font-size: 90px; color: rgba(245,245,245,0.2); letter-spacing: -0.02em; margin-bottom: -10px; }
         .talk-title { font-size: clamp(32px, 4vw, 52px); line-height: 1.05; color: #fff; margin-bottom: 16px; }
         .talk-speaker { font-size: 14px; color: rgba(245,245,245,0.65); margin-bottom: 8px; }
-        .talk-category { display: inline-flex; font-size: 11px; color: #e62b1e; border: 1px solid rgba(230,43,30,0.25); padding: 4px 10px; border-radius: 3px; background: rgba(230,43,30,0.08); margin-bottom: 32px; text-transform: uppercase; }
+        .talk-category { display: inline-flex; font-size: 11px; color: #e62b1e; border: 1px solid rgba(230,43,30,0.18); padding: 4px 10px; border-radius: 3px; background: rgba(230,43,30,0.05); margin-bottom: 32px; text-transform: uppercase; }
         .talk-description { font-size: 14px; line-height: 1.75; color: rgba(245,245,245,0.55); max-width: 360px; margin-bottom: 32px; }
         .nav-controls { display: flex; align-items: center; gap: 16px; }
         .nav-btn { 
@@ -276,12 +284,14 @@ function VideoShowcase({ speakers }) {
         }
         .progress-dots { display: flex; align-items: center; gap: 8px; flex: 1; }
         .dot { position: relative; height: 2px; background: rgba(255,255,255,0.08); border-radius: 1px; cursor: pointer; flex: 1; border: none; padding: 0; overflow: hidden; }
-        .dot-fill { position: absolute; inset: 0; background: #e62b1e; transform-origin: left; transform: scaleX(0); animation: fill-progress 5.5s linear forwards; }
+        .dot-fill { position: absolute; inset: 0; background: #e62b1e; transform-origin: left; transform: scaleX(0); animation: fill-progress 2s linear forwards; }
         @keyframes fill-progress { from { transform: scaleX(0);} to { transform: scaleX(1);} }
-        .card-stage { grid-column: 2; display: flex; align-items: center; justify-content: center; perspective: 1200px; min-height: 600px; }
+        .card-stage { grid-column: 2; display: flex; align-items: center; justify-content: center; perspective: 1200px; min-height: 600px; position: relative; }
         .card-stack { position: relative; width: min(520px, 90vw); height: min(310px, 54vw); }
         .video-card { position: absolute; inset: 0; border-radius: 16px; overflow: hidden; transition: transform 0.85s cubic-bezier(0.16,1,0.3,1), opacity 0.85s; }
         
+        .mobile-controls { display: none; }
+
         /* ✅ UPDATED STACK CSS */
         .video-card[data-state="active"] { 
           transform: translateY(0) scale(1) rotateX(0deg); 
@@ -310,10 +320,104 @@ function VideoShowcase({ speakers }) {
         .card-label { font-size: 11px; color: #e62b1e; text-transform: uppercase; margin-bottom: 4px; }
         .card-title-sm { font-size: 18px; color: #fff; line-height: 1.1; max-width: 260px; }
         .card-duration { font-size: 11px; color: rgba(255,255,255,0.55); }
+
         @media (max-width: 900px) {
-          .showcase { grid-template-columns: 1fr; padding: 0 24px; }
-          .info-panel { order: 2; padding-right: 0; padding-top: 40px; }
-          .card-stage { order: 1; min-height: 420px; }
+          .orb-1, .orb-2 { display: none !important; }
+          .showcase { 
+            display: flex;
+            flex-direction: column;
+            width: 100%; 
+            max-width: 100%;
+            padding: 0; 
+            margin: 0;
+            min-height: auto; 
+            padding-bottom: 40px; 
+            align-items: center;
+          }
+          .info-panel { 
+            order: 2; 
+            width: 100%;
+            padding: 0 20px; 
+            padding-top: 20px; 
+            text-align: center;
+            align-items: center;
+            grid-column: auto;
+          }
+          .section-label { justify-content: center; width: 100%; margin-bottom: 12px; }
+          .section-label::after { width: 30px; }
+          
+          .talk-title { font-size: 28px; margin-bottom: 12px; width: 100%; text-align: center; }
+          .talk-description { margin: 0 auto 20px; font-size: 13px; opacity: 0.7; max-width: 100%; text-align: center; }
+          .talk-speaker { width: 100%; text-align: center; }
+          
+          .card-stage { 
+            order: 1; 
+            padding: 0; 
+            min-height: auto; 
+            width: 100%; 
+            grid-column: auto;
+            display: flex;
+            justify-content: center;
+          }
+          .desktop-only { display: none; }
+          
+          .mobile-showcase-wrap { 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            gap: 10px; 
+            position: relative; 
+          }
+          .mobile-video-box { 
+            width: 92%; 
+            margin: 0 auto;
+            aspect-ratio: 16/9; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            background: #000; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
+            position: relative;
+          }
+          .mobile-video-box iframe { width: 100%; height: 100%; border: none; border-radius: 12px; }
+          
+          .mobile-nav-overlay {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            pointer-events: none;
+            z-index: 10;
+            width: 100%;
+          }
+          
+          .mob-nav-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(230, 43, 30, 0.95);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.2s ease;
+          }
+          .mob-nav-btn:active { transform: scale(0.9); }
+          .mob-nav-btn svg { width: 22px; height: 22px; }
+          
+          .mobile-nav-info { display: flex; justify-content: center; align-items: center; padding-top: 15px; }
+          .mob-counter { font-family: var(--font-archivo), sans-serif; font-size: 13px; font-weight: 600; opacity: 1; }
+          .mobile-swipe-hint { display: block; }
+          
+          .talk-counter { display: none; }
         }
       `}</style>
     </div>
