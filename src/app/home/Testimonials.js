@@ -191,14 +191,14 @@ export default function Testimonials() {
           display: flex;
           gap: 20px;
           width: max-content;
-          animation: scroll-left 32s linear infinite;
+          animation: scroll-left 20s linear infinite;
         }
 
         .track:hover { animation-play-state: paused; }
 
         .track-row2 {
           animation-direction: reverse;
-          animation-duration: 38s;
+          animation-duration: 20s;
         }
 
         @keyframes scroll-left {
@@ -315,13 +315,13 @@ export default function Testimonials() {
         </div>
 
         <div className="track-outer">
-          {renderRow(row1, false, 32)}
+          {renderRow(row1, false, 100)}
         </div>
 
         <div className="rows-gap" />
 
         <div className="track-outer">
-          {renderRow(row2, true, 38)}
+          {renderRow(row2, true, 110)}
         </div>
       </section>
     </>
