@@ -23,11 +23,11 @@ return () => window.removeEventListener("scroll", handleScroll);
 
 return (
 <nav
-className={`fixed left-0 z-50 backdrop-blur-md transition-all duration-500
+className={`fixed inset-x-0 z-50 backdrop-blur-md transition-all duration-500
         ${
           scrolled
-            ? "top-4 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] mx-4 md:mx-8 rounded-2xl border border-white/10"
-            : "top-0 w-full border-b border-white/5"
+            ? "top-4 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] mx-auto rounded-2xl border border-white/10"
+            : "top-0 border-b border-white/5"
         }
         ${hidden ? "-translate-y-[120%]" : "translate-y-0"}
       `}
@@ -100,8 +100,8 @@ style={{ height: scrolled ? "60px" : "80px" }}
       bg-black/95 lg:bg-transparent transition-all duration-500
       ${
         isMenuOpen
-          ? "translate-x-0"
-          : "-translate-x-full lg:translate-x-0"
+          ? "translate-x-0 visible opacity-100"
+          : "-translate-x-full lg:translate-x-0 invisible lg:visible opacity-0 lg:opacity-100"
       }
       justify-center lg:justify-end
     `}

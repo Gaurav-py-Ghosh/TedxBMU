@@ -2,34 +2,104 @@
 
 const testimonials = [
   {
-    name: "Aarav Sharma",
-    role: "Student, IIT Delhi",
-    text: "TEDxBMU was genuinely one of the most inspiring days of my year. The speakers were phenomenal and the energy in the room was electric.",
+    name: "Aaryaman",
+    role: "Attendee",
+    text: "There’s something about TEDx at BMU that stays with you even after it’s over.",
   },
   {
-    name: "Priya Mehta",
-    role: "Product Designer",
-    text: "I came in expecting a typical college event. I left with a completely different perspective on how I approach problems. Absolutely worth it.",
+    name: "Anu Hooda",
+    role: "Attendee",
+    text: "I attended it last year without many expectations, but it turned out to be a really meaningful experience.",
   },
   {
-    name: "Rohan Verma",
-    role: "Entrepreneur",
-    text: "The ideas shared at TEDxBMU were bold and thought-provoking. It pushed me to think beyond the conventional and take risks I had been avoiding.",
+    name: "Aryan Nair",
+    role: "Attendee",
+    text: "It’s one of the few events on campus that I genuinely look forward to.",
   },
   {
-    name: "Sneha Kapoor",
-    role: "MBA Student, BML Munjal University",
-    text: "An incredibly well-organized event. Every talk left me with something to think about. Can't wait for the next edition!",
+    name: "Maulik Gupta",
+    role: "Attendee",
+    text: "You can tell a lot of thought goes into curating the talks and the theme.",
   },
   {
-    name: "Karan Bhatia",
-    role: "Software Engineer",
-    text: "The atmosphere was unlike anything I've experienced at a student-run event. World-class execution and world-class ideas.",
+    name: "Narpender",
+    role: "Attendee",
+    text: "This year’s theme sounds interesting, I’m curious to see how it comes together.",
   },
   {
-    name: "Ananya Singh",
-    role: "Journalist",
-    text: "TEDxBMU brought together voices that needed to be heard. Powerful, diverse, and deeply relevant to our generation.",
+    name: "Saanvee Sharma",
+    role: "Attendee",
+    text: "It’s a calm yet impactful experience—something you don’t often find.",
+  },
+  {
+    name: "Tarushi",
+    role: "Attendee",
+    text: "There’s always at least one talk that really resonates with you.",
+  },
+  {
+    name: "Tejaswi",
+    role: "Attendee",
+    text: "I’ll definitely be attending again this year. It’s always worth it.",
+  },
+  {
+    name: "Harsha",
+    role: "Attendee",
+    text: "It’s a refreshing change from the usual fast-paced campus events.",
+  },
+  {
+    name: "Dhiren",
+    role: "Attendee",
+    text: "Looking forward to seeing how this year builds on the last one.",
+  },
+  {
+    name: "Gaurav Ghosh",
+    role: "Attendee",
+    text: "It’s one of those events where you end up paying attention the entire time without realizing it.",
+  },
+  {
+    name: "Harnoor",
+    role: "Attendee",
+    text: "I liked how it didn’t feel overwhelming, just simple and well put together.",
+  },
+  {
+    name: "Ridhi",
+    role: "Attendee",
+    text: "What stood out to me was how honest and real the talks felt.",
+  },
+  {
+    name: "Ajanta",
+    role: "Attendee",
+    text: "It gives you a chance to pause and reflect, which is rare during regular college days.",
+  },
+  {
+    name: "Siddharth Rawat",
+    role: "Attendee",
+    text: "It’s one of the few events where you don’t feel like checking your phone every few minutes.",
+  },
+  {
+    name: "Vaibhavi",
+    role: "Attendee",
+    text: "I like how it creates a space where people actually listen, not just sit through it.",
+  },
+  {
+    name: "Vibhu Gnan",
+    role: "Attendee",
+    text: "The storytelling feels very natural, not overdone or overly polished.",
+  },
+  {
+    name: "Vivek",
+    role: "Attendee",
+    text: "It’s paced really well you don’t feel drained even after multiple talks.",
+  },
+  {
+    name: "Yakshita",
+    role: "Attendee",
+    text: "It manages to feel both personal and thought-provoking at the same time.",
+  },
+  {
+    name: "Yash Tulsani",
+    role: "Attendee",
+    text: "It’s the kind of experience that grows on you the more you think about it later.",
   },
 ];
 
@@ -48,8 +118,8 @@ export default function Testimonials() {
           <div className="t-card" key={`${item.name}-${i}-${reverse ? "r" : "f"}`}>
             <div className="card-quote-icon">"</div>
             <p className="card-text">{item.text}</p>
-            <div className="card-divider" />
-            <div>
+            <div className="card-author-wrap">
+              <div className="card-divider" />
               <div className="card-author-name">{item.name}</div>
               <div className="card-author-role">{item.role}</div>
             </div>
@@ -121,14 +191,14 @@ export default function Testimonials() {
           display: flex;
           gap: 20px;
           width: max-content;
-          animation: scroll-left 32s linear infinite;
+          animation: scroll-left 20s linear infinite;
         }
 
         .track:hover { animation-play-state: paused; }
 
         .track-row2 {
           animation-direction: reverse;
-          animation-duration: 38s;
+          animation-duration: 20s;
         }
 
         @keyframes scroll-left {
@@ -138,6 +208,7 @@ export default function Testimonials() {
 
         .t-card {
           width: 320px;
+          height: 230px;
           flex-shrink: 0;
           background: rgba(255,255,255,0.04);
           border: 1px solid rgba(255,255,255,0.08);
@@ -145,7 +216,6 @@ export default function Testimonials() {
           padding: 28px 28px 24px;
           display: flex;
           flex-direction: column;
-          gap: 20px;
           position: relative;
           overflow: hidden;
           transition: border-color 0.35s, background 0.35s;
@@ -199,6 +269,13 @@ export default function Testimonials() {
 
         .t-card:hover .card-divider { background: rgba(230,43,30,0.3); }
 
+        .card-author-wrap {
+          margin-top: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
         .card-author-name {
           font-size: 13px;
           font-weight: 600;
@@ -211,7 +288,7 @@ export default function Testimonials() {
         .card-author-role {
           font-size: 11px;
           color: rgba(255,255,255,0.25);
-          margin-top: 2px;
+          margin-top: -8px;
           letter-spacing: 0.02em;
         }
 
@@ -219,7 +296,7 @@ export default function Testimonials() {
 
         @media (max-width: 720px) {
           .tedx-wrap { padding: 64px 24px; }
-          .t-card { width: 260px; padding: 24px 24px 20px; }
+          .t-card { width: 260px; height: 210px; padding: 24px 24px 20px; }
           .track { gap: 14px; }
           .track-outer::before,
           .track-outer::after { width: 72px; }
@@ -238,13 +315,13 @@ export default function Testimonials() {
         </div>
 
         <div className="track-outer">
-          {renderRow(row1, false, 32)}
+          {renderRow(row1, false, 100)}
         </div>
 
         <div className="rows-gap" />
 
         <div className="track-outer">
-          {renderRow(row2, true, 38)}
+          {renderRow(row2, true, 110)}
         </div>
       </section>
     </>

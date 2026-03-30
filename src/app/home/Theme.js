@@ -16,18 +16,18 @@ export default function ThemeDetail() {
   }, []);
 
   return (
-    <section ref={ref} className="relative bg-black text-white py-24 px-8 overflow-hidden">
+    <section ref={ref} className="relative bg-black text-white py-24 px-8 mt-[-1px]">
       
-      {/* Background Ambience */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-64 bg-[#e62b1e]/10 blur-[120px] rounded-full pointer-events-none" />
+      {/* Background Ambience — Reduced Radius & Spread */}
+      <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[110%] max-w-[1000px] h-[600px] bg-[#e62b1e]/15 blur-[120px] rounded-full pointer-events-none z-0" />
 
       <div className="max-w-6xl mx-auto flex flex-col gap-16 relative z-10">
 
         {/* TOP — Original Heading (No Changes) */}
         <div className={`flex flex-col items-center gap-4 text-center transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight uppercase leading-none px-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight uppercase leading-none px-4 drop-shadow-[0_0_30px_rgba(230,43,30,0.3)]">
             <span className="text-white">THE </span>
-            <span className="text-[#e62b1e]">UNSEEN </span>
+            <span className="text-[#e62b1e] drop-shadow-[0_0_20px_rgba(230,43,30,0.5)]">UNSEEN </span>
             <span className="text-white">STORIES</span>
           </h1>
         </div>
