@@ -89,7 +89,7 @@ return ( <footer className="bg-black text-white border-t border-white/5 relative
         </li>
         <li className="flex items-center gap-3 text-xs md:text-sm">
           <span className="text-[#e62b1e]">☎</span>
-          <a href="tel:+919810915857" className="text-white/50 hover:text-[#e62b1e]">
+          <a href="tel:+916350193201" className="text-white/50 hover:text-[#e62b1e]">
             +91 6350193201
           </a>
         </li>

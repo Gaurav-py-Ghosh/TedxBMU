@@ -96,7 +96,7 @@ export default function Testimonials() {
         }
 
         .tedx-title .r { color: #e62b1e; }
-        .tedx-title .d { color: rgba(255, 255, 255, 0.14); }
+        .tedx-title .d { color: rgba(255, 255, 255, 0.38); }
 
         .track-outer {
           overflow: hidden;
