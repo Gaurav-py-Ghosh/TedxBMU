@@ -69,6 +69,13 @@ export async function verifyPayment({
   });
 }
 
+export async function sendContactMessage({ firstName, lastName, email, message }) {
+  return apiFetch("/api/contact", {
+    method: "POST",
+    body: JSON.stringify({ firstName, lastName, email, message }),
+  });
+}
+
 export async function healthCheck() {
   return apiFetch("/health");
 }

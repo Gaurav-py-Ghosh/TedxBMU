@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { sendContactMessage } from "@/lib/api";
 
 function useVisible(threshold = 0.1) {
   const [visible, setVisible] = useState(false);
@@ -19,6 +20,8 @@ function useVisible(threshold = 0.1) {
 export default function ContactPage() {
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [headerRef, headerVisible] = useVisible(0.1);
   const [formRef, formVisible] = useVisible(0.1);
@@ -33,15 +36,34 @@ export default function ContactPage() {
     return e;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const e = validate();
     if (Object.keys(e).length > 0) { setErrors(e); return; }
+
+    setSubmitting(true);
+    setSubmitError("");
+
+    const result = await sendContactMessage({
+      firstName: form.firstName.trim(),
+      lastName: form.lastName.trim(),
+      email: form.email.trim(),
+      message: form.message.trim(),
+    });
+
+    setSubmitting(false);
+
+    if (!result.success) {
+      setSubmitError(result.error || "Unable to send message right now. Please try again.");
+      return;
+    }
+
     setSubmitted(true);
   };
 
   const handleChange = (field, value) => {
     setForm(prev => ({ ...prev, [field]: value }));
     setErrors(prev => ({ ...prev, [field]: "" }));
+    if (submitError) setSubmitError("");
   };
 
   return (
@@ -95,11 +117,18 @@ export default function ContactPage() {
             </div>
           ) : (
             <>
+              {submitError && (
+                <div className="border border-[#e62b1e]/60 bg-[#e62b1e]/10 rounded-lg px-3 py-2 text-[#ff9c95] text-xs">
+                  {submitError}
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 flex-shrink-0">
                 <div className="flex flex-col gap-1">
                   <label className="text-white/60 text-xs">First Name *</label>
                   <input type="text" placeholder="First name" value={form.firstName}
                     onChange={e => handleChange("firstName", e.target.value)}
+                    disabled={submitting}
                     className={`bg-transparent border rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none transition-colors duration-200 focus:border-[#e62b1e] ${errors.firstName ? "border-[#e62b1e]" : "border-white/20"}`}
                   />
                   {errors.firstName && <span className="text-[#e62b1e] text-xs">{errors.firstName}</span>}
@@ -108,6 +137,7 @@ export default function ContactPage() {
                   <label className="text-white/60 text-xs">Last Name *</label>
                   <input type="text" placeholder="Last name" value={form.lastName}
                     onChange={e => handleChange("lastName", e.target.value)}
+                    disabled={submitting}
                     className={`bg-transparent border rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none transition-colors duration-200 focus:border-[#e62b1e] ${errors.lastName ? "border-[#e62b1e]" : "border-white/20"}`}
                   />
                   {errors.lastName && <span className="text-[#e62b1e] text-xs">{errors.lastName}</span>}
@@ -118,6 +148,7 @@ export default function ContactPage() {
                 <label className="text-white/60 text-xs">Email Address *</label>
                 <input type="email" placeholder="Enter your email" value={form.email}
                   onChange={e => handleChange("email", e.target.value)}
+                  disabled={submitting}
                   className={`bg-transparent border rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none transition-colors duration-200 focus:border-[#e62b1e] ${errors.email ? "border-[#e62b1e]" : "border-white/20"}`}
                 />
                 {errors.email && <span className="text-[#e62b1e] text-xs">{errors.email}</span>}
@@ -128,22 +159,24 @@ export default function ContactPage() {
                 <textarea 
                   placeholder="Tell us how we can help you..." 
                   value={form.message}
-                  rows={16} // ✅ Physical size bada kar diya (arrows nahi aayenge)
+                  rows={16}
                   onChange={e => handleChange("message", e.target.value)}
+                  disabled={submitting}
                   className={`bg-transparent border rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none transition-colors duration-200 resize-none flex-1 min-h-0 overflow-hidden focus:border-[#e62b1e] ${errors.message ? "border-[#e62b1e]" : "border-white/20"}`}
                 />
                 {errors.message && <span className="text-[#e62b1e] text-xs">{errors.message}</span>}
               </div>
 
               <button onClick={handleSubmit}
+                disabled={submitting}
                 className="w-full bg-[#e62b1e] hover:bg-[#c0150f] text-white py-3 rounded-xl font-semibold text-sm tracking-wide flex-shrink-0
                   transition-all duration-300 flex items-center justify-center gap-2
-                  shadow-[0_0_30px_rgba(230,43,30,0.3)] hover:shadow-[0_0_50px_rgba(230,43,30,0.5)]"
+                  shadow-[0_0_30px_rgba(230,43,30,0.3)] hover:shadow-[0_0_50px_rgba(230,43,30,0.5)] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                   <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                Send Message
+                {submitting ? "Sending..." : "Send Message"}
               </button>
             </>
           )}

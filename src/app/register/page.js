@@ -13,7 +13,7 @@ export default function RegisterPage() {
     phone: "",
     college: "",
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -34,7 +34,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Client-side validation
     if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.college.trim()) {
       setError("All fields are required.");
@@ -115,7 +115,7 @@ export default function RegisterPage() {
                 type="text"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="John Doe"
+                placeholder="eg. Mehul Vig"
                 className="bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#e62b1e]/50 focus:ring-1 focus:ring-[#e62b1e]/50 transition-all"
                 disabled={loading}
               />
@@ -129,7 +129,7 @@ export default function RegisterPage() {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="john@example.com"
+                placeholder="eg. mehul@example.com"
                 className="bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#e62b1e]/50 focus:ring-1 focus:ring-[#e62b1e]/50 transition-all"
                 disabled={loading}
               />
@@ -143,7 +143,7 @@ export default function RegisterPage() {
                 type="tel"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="+91 9876543210"
+                placeholder="eg. +91 987xxxxxxx"
                 className="bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#e62b1e]/50 focus:ring-1 focus:ring-[#e62b1e]/50 transition-all"
                 disabled={loading}
               />
