@@ -39,6 +39,15 @@ const speakers = [
     number: "04",
     photo: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1775395406/Bhanu_Pathak_Tedx_Photo-Photoroom_hwmigh.png",
   },
+  {
+    id: 5,
+    name: "Sonal Katyal",
+    title: "Content Creator & Parenting Expert",
+    topic: "Topic to be Announced",
+    bio: "Sonal Katyal is a well-known content creator and parenting expert who has built a strong digital community by sharing the authentic, everyday realities of motherhood. Known for her relatable approach, she connects with parents nationwide to foster open conversations about the challenges and joys of modern parenting. Through her platforms, she inspires resilience and continues to serve as a supportive voice for families everywhere.",
+    number: "05",
+    photo: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1775409772/Sonal_Katyal_Tedx-Photoroom_zacpd4.png",
+  },
 ];
 
 export default function SpeakerSection() {
@@ -62,7 +71,7 @@ export default function SpeakerSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSpeaker((prev) => (prev + 1) % speakers.length);
-    }, 7000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
