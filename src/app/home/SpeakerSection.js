@@ -5,51 +5,39 @@ import { useRef, useEffect, useState } from "react";
 const speakers = [
   {
     id: 1,
-    name: "Arjun Mehta",
-    title: "Entrepreneur & Innovator",
-    topic: "The Art of Unlearning",
-    bio: "Arjun built three startups before the age of 30, each failure teaching him more than any classroom could. He believes the future belongs to those willing to discard what they think they know.",
+    name: "Shweta Kothari",
+    title: "Journalist & Media Educator",
+    topic: "Topic to be Announced",
+    bio: "Shweta Kothari is a journalist and media educator with over a decade of experience across broadcast and digital platforms. Currently an anchor and senior editor at News9 (TV9 Network), she has worked with leading organizations including CNBC-TV18, NDTV, and NewsX. A University of Sussex graduate, she also teaches journalism at Jamia Millia Islamia. Her work has been recognised with awards including the NT Award and the INMA Elevate Scholarship.",
     number: "01",
+    photo: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1775395406/Shweta_Kothari_tedx1-Photoroom_yhumos.png",
   },
   {
     id: 2,
-    name: "Priya Nair",
-    title: "Neuroscientist, AIIMS Delhi",
-    topic: "Your Brain is Lying to You",
-    bio: "Priya's groundbreaking research on cognitive bias has changed how we understand decision-making. She argues that the first step to thinking clearly is admitting we never do.",
+    name: "Shams Aalam",
+    title: "Para-swimmer & Accessibility Advocate",
+    topic: "Topic to be Announced",
+    bio: "Shams Aalam is a para-swimmer, engineer, and accessibility advocate who redefined his path after a life-altering spinal condition. A former karate champion turned world-record-holding swimmer, he is known for his open-sea swimming achievements. Beyond sports, he works on inclusive infrastructure and mobility solutions. A National Award winner and TEDx speaker, he continues to inspire resilience and innovation.",
     number: "02",
+    photo: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1775395406/Shams_Alam_Tedx-Photoroom_emsglr.png",
   },
   {
     id: 3,
-    name: "Rohan Kapoor",
-    title: "Climate Activist",
-    topic: "Beyond Carbon: The Real Crisis",
-    bio: "Rohan has spent a decade on the frontlines of environmental policy. His work bridges science and storytelling to move people from awareness to action.",
+    name: "Dr. Saarthak Bakshi",
+    title: "Healthcare Entrepreneur & CEO, Risaa IVF",
+    topic: "Topic to be Announced",
+    bio: "Dr. Saarthak Bakshi is a healthcare entrepreneur and CEO of Risaa IVF, recognized in the Forbes 30 Under 30 Asia list. With 14+ years of experience across fertility clinics in India, Nepal, and Bangladesh, he has helped build families for thousands. A Commonwealth Fellow and 40 Under 40 awardee, he brings together clinical expertise with a deeply human approach to care.",
     number: "03",
+    photo: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1775395406/saarthak_bakshi_tedx-Photoroom_xbcbrx.png",
   },
   {
     id: 4,
-    name: "Sneha Iyer",
-    title: "AI Researcher, IIT Bombay",
-    topic: "When Machines Dream",
-    bio: "Sneha works at the intersection of artificial intelligence and human creativity. She challenges us to ask not what AI can do for us, but what it reveals about us.",
+    name: "Bhanu Pathak",
+    title: "Finance Creator & Entrepreneur",
+    topic: "Topic to be Announced",
+    bio: "Bhanu Pathak is a finance creator and entrepreneur who has built a community of 2M+ by making wealth and personal finance simple. As the founder of Growshow Media, he translates complex finance into relatable, everyday advice. Through his podcast, Batlaiye, he uncovers the human side of success via candid conversations with top leaders. A TEDx speaker with 100+ sessions, he continues to bridge the gap between financial literacy and real-world impact.",
     number: "04",
-  },
-  {
-    id: 5,
-    name: "Vikram Das",
-    title: "Poet & Spoken Word Artist",
-    topic: "Language as Liberation",
-    bio: "Vikram uses words as weapons against silence. His performances have reached millions online, proving that poetry is not dead — it just moved to where the people are.",
-    number: "05",
-  },
-  {
-    id: 6,
-    name: "Ananya Sharma",
-    title: "Social Entrepreneur",
-    topic: "Building From the Margins",
-    bio: "Ananya's organization has impacted over 50,000 lives in rural India. She believes the most powerful ideas don't come from boardrooms — they come from the ground up.",
-    number: "06",
+    photo: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1775395406/Bhanu_Pathak_Tedx_Photo-Photoroom_hwmigh.png",
   },
 ];
 
@@ -57,23 +45,25 @@ export default function SpeakerSection() {
   const [activeSpeaker, setActiveSpeaker] = useState(0);
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef(null);
-  const stickyRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const sectionHeight = sectionRef.current.offsetHeight;
-      const windowHeight = window.innerHeight;
-      const scrolled = -rect.top;
-      const scrollableDistance = sectionHeight - windowHeight;
-      const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
-      const index = Math.min(Math.floor(progress * speakers.length), speakers.length - 1);
-      setActiveSpeaker(index);
-      setVisible(rect.top < windowHeight && rect.bottom > 0);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSpeaker((prev) => (prev + 1) % speakers.length);
+    }, 7000);
+    return () => clearInterval(interval);
   }, []);
 
   const speaker = speakers[activeSpeaker];
@@ -81,19 +71,17 @@ export default function SpeakerSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-black"
-      style={{ height: `${speakers.length * 100}vh` }}
+      className="relative bg-black w-full"
     >
       <div
-        ref={stickyRef}
-        className="sticky top-0 w-full h-screen flex flex-col overflow-hidden"
+        className="relative w-full min-h-[100svh] py-16 flex flex-col overflow-hidden"
       >
 
         {/* Background number */}
-        <div className="absolute inset-0 flex items-center justify-end pr-16 pointer-events-none select-none z-0">
+        <div className="absolute inset-0 flex flex-col items-center lg:items-end justify-center lg:pr-16 pointer-events-none select-none z-0 pt-32 lg:pt-0">
           <span
             key={speaker.number}
-            className="text-[25vw] font-black text-white/[0.03] leading-none"
+            className="text-[45vw] lg:text-[25vw] font-black text-white/[0.03] leading-none"
             style={{ animation: "fadeIn 0.6s ease" }}
           >
             {speaker.number}
@@ -112,54 +100,54 @@ export default function SpeakerSection() {
         <div className="absolute bottom-8 right-8 pointer-events-none z-0">
           <div className="w-12 h-12 border-b-2 border-r-2 border-[#e62b1e]/30" />
         </div>
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 h-48 w-[2px] bg-gradient-to-b from-transparent via-[#e62b1e]/40 to-transparent pointer-events-none z-0" />
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 h-48 w-[2px] bg-gradient-to-b from-transparent via-[#e62b1e]/40 to-transparent pointer-events-none z-0" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-[1px] bg-gradient-to-r from-transparent via-[#e62b1e]/40 to-transparent pointer-events-none z-0" />
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-[1px] bg-gradient-to-r from-transparent via-[#e62b1e]/40 to-transparent pointer-events-none z-0" />
-        <div className="absolute top-16 right-32 w-64 h-64 bg-[#e62b1e]/5 blur-[80px] rounded-full pointer-events-none z-0" />
-        <div className="absolute bottom-16 left-32 w-48 h-48 bg-[#e62b1e]/5 blur-[60px] rounded-full pointer-events-none z-0" />
-        <div className="absolute top-0 right-32 w-[1px] h-32 bg-gradient-to-b from-[#e62b1e]/40 to-transparent pointer-events-none z-0" style={{ transform: "rotate(30deg)", transformOrigin: "top" }} />
-        <div className="absolute bottom-0 left-32 w-[1px] h-32 bg-gradient-to-t from-[#e62b1e]/40 to-transparent pointer-events-none z-0" style={{ transform: "rotate(30deg)", transformOrigin: "bottom" }} />
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 h-48 w-[2px] bg-gradient-to-b from-transparent via-[#e62b1e]/40 to-transparent pointer-events-none z-0 hidden lg:block" />
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 h-48 w-[2px] bg-gradient-to-b from-transparent via-[#e62b1e]/40 to-transparent pointer-events-none z-0 hidden lg:block" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-[1px] bg-gradient-to-r from-transparent via-[#e62b1e]/40 to-transparent pointer-events-none z-0 hidden lg:block" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-[1px] bg-gradient-to-r from-transparent via-[#e62b1e]/40 to-transparent pointer-events-none z-0 hidden lg:block" />
+        <div className="absolute top-16 right-4 lg:right-32 w-48 lg:w-64 h-48 lg:h-64 bg-[#e62b1e]/5 blur-[60px] lg:blur-[80px] rounded-full pointer-events-none z-0" />
+        <div className="absolute bottom-16 left-4 lg:left-32 w-32 lg:w-48 h-32 lg:h-48 bg-[#e62b1e]/5 blur-[40px] lg:blur-[60px] rounded-full pointer-events-none z-0" />
+        <div className="absolute top-0 right-16 lg:right-32 w-[1px] h-24 lg:h-32 bg-gradient-to-b from-[#e62b1e]/40 to-transparent pointer-events-none z-0" style={{ transform: "rotate(30deg)", transformOrigin: "top" }} />
+        <div className="absolute bottom-0 left-16 lg:left-32 w-[1px] h-24 lg:h-32 bg-gradient-to-t from-[#e62b1e]/40 to-transparent pointer-events-none z-0" style={{ transform: "rotate(30deg)", transformOrigin: "bottom" }} />
 
-       {/* HEADER */}
-<div className={`relative z-10 max-w-7xl px-16 pt-16 w-full flex flex-row items-end justify-between transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-  <h2 className="text-6xl lg:text-7xl font-black leading-none tracking-tight uppercase">
-    <span className="text-white">OUR</span>{" "}
-    <span className="text-[#e62b1e]">SPEAK</span>
-    <span className="text-white">ERS</span>
-  </h2>
-  <p className="text-white/30 text-xs leading-relaxed max-w-xs mb-1">
-    Scroll to meet the voices that will challenge, inspire and push you beyond what you think.
-  </p>
-</div>
+        {/* HEADER */}
+        <div className={`relative z-10 max-w-7xl mx-auto px-6 lg:px-16 w-full flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4 lg:gap-0 transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <h2 className="text-5xl lg:text-7xl font-black leading-none tracking-tight uppercase">
+            <span className="text-white">OUR</span>{" "}
+            <span className="text-[#e62b1e]">SPEAK</span>
+            <span className="text-white">ERS</span>
+          </h2>
+          <p className="text-white/30 text-xs leading-relaxed max-w-xs lg:mb-1">
+            Meet the voices that will challenge, inspire and push you beyond what you think.
+          </p>
+        </div>
 
         {/* CONTENT */}
-        <div className="relative z-10 max-w-7xl px-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center flex-1 py-4 ">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-12 items-center flex-1 py-8 lg:py-4 mt-8 lg:mt-0">
 
           {/* LEFT — Speaker info */}
           <div
             key={speaker.id}
             style={{ animation: "fadeSlideIn 0.7s ease forwards" }}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-5 lg:gap-4 lg:pl-8 text-center lg:text-left items-center lg:items-start order-2 lg:order-1"
           >
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center gap-3 mb-2 lg:mb-5">
               <div className="h-px w-8 bg-[#e62b1e]" />
-              <span className="text-[#e62b1e] text-xs tracking-[0.4em] uppercase font-light">
+              <span className="text-[#e62b1e] text-[10px] lg:text-xs tracking-[0.4em] uppercase font-light">
                 Speakers · {speaker.number} of 0{speakers.length}
               </span>
             </div>
-            <h2 className="text-3xl font-black leading-tight tracking-tight text-white">
+            {/* <h2 className="text-3xl font-black leading-tight tracking-tight text-white">
               "{speaker.topic}"
-            </h2>
+            </h2> */}
             <div className="flex flex-col gap-0.5">
-              <p className="text-xl font-semibold text-white">{speaker.name}</p>
-              <p className="text-white/40 text-sm tracking-wide">{speaker.title}</p>
+              <p className="text-2xl lg:text-xl font-semibold text-white">{speaker.name}</p>
+              <p className="text-[#e62b1e] lg:text-white/40 text-sm lg:text-sm tracking-wide">{speaker.title}</p>
             </div>
-            <div className="h-px w-16 bg-[#e62b1e]/40" />
-            <p className="text-white/50 text-sm leading-relaxed max-w-md font-light">
+            <div className="h-px w-16 bg-[#e62b1e]/40 my-2 lg:my-0" />
+            <p className="text-white/60 lg:text-white/50 text-sm leading-relaxed max-w-md font-light px-4 lg:px-0 text-justify">
               {speaker.bio}
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-4 lg:mt-0">
               {speakers.map((_, i) => (
                 <div
                   key={i}
@@ -178,17 +166,25 @@ export default function SpeakerSection() {
           <div
             key={`img-${speaker.id}`}
             style={{ animation: "fadeSlideInRight 0.7s ease forwards" }}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center lg:justify-end pr-0 lg:pr-8 pb-4 lg:pb-0 order-1 lg:order-2"
           >
-            <div className="relative w-64 h-80 rounded-2xl overflow-hidden border border-[#e62b1e]/20 shadow-[0_0_60px_rgba(230,43,30,0.15)]">
-              <div className="w-full h-full bg-white/5 flex flex-col items-center justify-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-[#e62b1e]/20 border border-[#e62b1e]/30 flex items-center justify-center">
-                  <span className="text-[#e62b1e] text-lg font-black">
-                    {speaker.name.split(" ").map(n => n[0]).join("")}
-                  </span>
+            <div className="relative w-56 h-72 md:w-64 md:h-80 rounded-2xl overflow-hidden border border-[#e62b1e]/20 shadow-[0_0_60px_rgba(230,43,30,0.15)] bg-white/5 mx-auto lg:mx-0">
+              {speaker.photo ? (
+                <img
+                  src={speaker.photo}
+                  alt={speaker.name}
+                  className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-[#e62b1e]/20 border border-[#e62b1e]/30 flex items-center justify-center">
+                    <span className="text-[#e62b1e] text-lg font-black">
+                      {speaker.name.split(" ").map(n => n[0]).join("").substring(0, 2)}
+                    </span>
+                  </div>
+                  <span className="text-white/20 text-xs tracking-widest uppercase">Photo Coming Soon</span>
                 </div>
-                <span className="text-white/20 text-xs tracking-widest uppercase">Photo Coming Soon</span>
-              </div>
+              )}
               <div className="absolute bottom-0 left-0 w-16 h-16">
                 <div className="absolute bottom-0 left-0 w-full h-[2px] bg-[#e62b1e]" />
                 <div className="absolute bottom-0 left-0 w-[2px] h-full bg-[#e62b1e]" />
@@ -200,16 +196,6 @@ export default function SpeakerSection() {
           </div>
 
         </div>
-
-        {/* Scroll hint */}
-        {activeSpeaker === 0 && (
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20 text-xs tracking-widest uppercase animate-bounce z-10">
-            <span>Scroll to explore</span>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M6 1v10M1 6l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-        )}
 
       </div>
 
