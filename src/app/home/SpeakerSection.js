@@ -127,8 +127,8 @@ export default function SpeakerSection() {
           {/* LEFT — Speaker info */}
           <div
             key={speaker.id}
-            style={{ animation: "fadeSlideIn 0.7s ease forwards" }}
-            className="flex flex-col gap-5 lg:gap-4 lg:pl-8 text-center lg:text-left items-center lg:items-start order-2 lg:order-1"
+            style={{ animation: "fadeIn 0.7s ease forwards" }}
+            className="flex flex-col gap-5 lg:gap-4 lg:pl-8 text-center lg:text-left items-center lg:items-start order-2 lg:order-1 min-h-[22rem]"
           >
             <div className="flex items-center gap-3 mb-2 lg:mb-5">
               <div className="h-px w-8 bg-[#e62b1e]" />
@@ -165,15 +165,15 @@ export default function SpeakerSection() {
           {/* RIGHT — Speaker image */}
           <div
             key={`img-${speaker.id}`}
-            style={{ animation: "fadeSlideInRight 0.7s ease forwards" }}
-            className="relative flex items-center justify-center lg:justify-end pr-0 lg:pr-8 pb-4 lg:pb-0 order-1 lg:order-2"
+            style={{ animation: "fadeIn 0.7s ease forwards" }}
+            className="relative flex items-center justify-center pb-4 lg:pb-0 lg:-mt-20 order-1 lg:order-2"
           >
-            <div className="relative w-56 h-72 md:w-64 md:h-80 rounded-2xl overflow-hidden border border-[#e62b1e]/20 shadow-[0_0_60px_rgba(230,43,30,0.15)] bg-white/5 mx-auto lg:mx-0">
+            <div className="relative w-56 h-72 md:w-64 md:h-80 lg:w-[32rem] lg:h-[32rem] rounded-2xl overflow-hidden lg:overflow-visible border lg:border-none border-[#e62b1e]/20 lg:shadow-none shadow-[0_0_60px_rgba(230,43,30,0.15)] bg-white/5 lg:bg-transparent mx-auto">
               {speaker.photo ? (
                 <img
                   src={speaker.photo}
                   alt={speaker.name}
-                  className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-500"
+                  className="w-full h-full object-cover lg:object-contain object-bottom transition-all duration-500"
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-4">
@@ -185,7 +185,7 @@ export default function SpeakerSection() {
                   <span className="text-white/20 text-xs tracking-widest uppercase">Photo Coming Soon</span>
                 </div>
               )}
-              <div className="absolute bottom-0 left-0 w-16 h-16">
+              <div className="absolute bottom-0 left-0 w-16 h-16 lg:hidden">
                 <div className="absolute bottom-0 left-0 w-full h-[2px] bg-[#e62b1e]" />
                 <div className="absolute bottom-0 left-0 w-[2px] h-full bg-[#e62b1e]" />
               </div>
