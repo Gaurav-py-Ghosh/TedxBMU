@@ -12,6 +12,7 @@ export default function RegisterPage() {
     email: "",
     phone: "",
     college: "",
+    shift: "morning",
   });
 
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     // Client-side validation
-    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.college.trim()) {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.college.trim() || !formData.shift.trim()) {
       setError("All fields are required.");
       return;
     }
@@ -161,6 +162,21 @@ export default function RegisterPage() {
                 className="bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[#e62b1e]/50 focus:ring-1 focus:ring-[#e62b1e]/50 transition-all"
                 disabled={loading}
               />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="shift" className="text-white/60 text-xs font-semibold tracking-wide uppercase">Preferred Shift</label>
+              <select
+                id="shift"
+                name="shift"
+                value={formData.shift}
+                onChange={handleChange}
+                className="bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#e62b1e]/50 focus:ring-1 focus:ring-[#e62b1e]/50 transition-all appearance-none"
+                disabled={loading}
+              >
+                <option value="morning">Morning</option>
+                <option value="afternoon">Afternoon</option>
+              </select>
             </div>
 
             <button

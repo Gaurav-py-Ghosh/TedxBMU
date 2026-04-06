@@ -8,12 +8,12 @@ const paymentService = require("./payment.service");
  */
 const createOrder = async (req, res) => {
     try {
-        const { name, email, phone, college } = req.body;
+        const { name, email, phone, college, shift } = req.body;
 
         // ── Validate required fields ──
-        if (!name || !email || !phone || !college) {
+        if (!name || !email || !phone || !college || !shift) {
             return res.status(400).json({
-                message: "All fields are required: name, email, phone, college",
+                message: "All fields are required: name, email, phone, college, shift",
             });
         }
 
@@ -21,7 +21,8 @@ const createOrder = async (req, res) => {
             typeof name !== "string" ||
             typeof email !== "string" ||
             typeof phone !== "string" ||
-            typeof college !== "string"
+            typeof college !== "string" ||
+            typeof shift !== "string"
         ) {
             return res.status(400).json({ message: "All fields must be strings" });
         }
@@ -29,6 +30,7 @@ const createOrder = async (req, res) => {
         // ── Sanitize ──
         const cleanEmail = email.trim().toLowerCase();
         const cleanPhone = phone.trim();
+        const cleanShift = shift.trim();
 
         // ── Basic validation ──
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,11 +43,16 @@ const createOrder = async (req, res) => {
             return res.status(400).json({ message: "Invalid phone number" });
         }
 
+        if (cleanShift !== "morning" && cleanShift !== "afternoon") {
+            return res.status(400).json({ message: "Invalid shift selected." });
+        }
+
         const order = await paymentService.createOrder({
             name: name.trim(),
             email: cleanEmail,
             phone: cleanPhone,
             college: college.trim(),
+            shift: cleanShift,
         });
 
         return res.status(201).json({

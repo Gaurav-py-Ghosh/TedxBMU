@@ -17,12 +17,12 @@ const isValidPhone = (phone) => {
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, phone, college } = req.body;
+    const { name, email, phone, college, shift } = req.body;
 
     // ── Required field check ──
-    if (!name || !email || !phone || !college) {
+    if (!name || !email || !phone || !college || !shift) {
       return res.status(400).json({
-        message: "All fields are required: name, email, phone, college",
+        message: "All fields are required: name, email, phone, college, shift",
       });
     }
 
@@ -31,7 +31,8 @@ const registerUser = async (req, res) => {
       typeof name !== "string" ||
       typeof email !== "string" ||
       typeof phone !== "string" ||
-      typeof college !== "string"
+      typeof college !== "string" ||
+      typeof shift !== "string"
     ) {
       return res.status(400).json({
         message: "All fields must be strings",
@@ -43,11 +44,18 @@ const registerUser = async (req, res) => {
     const trimmedEmail = email.trim().toLowerCase();
     const trimmedPhone = phone.trim();
     const trimmedCollege = college.trim();
+    const trimmedShift = shift.trim();
 
     // ── Validate after trim ──
-    if (!trimmedName || !trimmedEmail || !trimmedPhone || !trimmedCollege) {
+    if (!trimmedName || !trimmedEmail || !trimmedPhone || !trimmedCollege || !trimmedShift) {
       return res.status(400).json({
         message: "Fields cannot be empty or whitespace-only",
+      });
+    }
+
+    if (trimmedShift !== "morning" && trimmedShift !== "afternoon") {
+      return res.status(400).json({
+        message: "Invalid shift selected. Choose either 'morning' or 'afternoon'.",
       });
     }
 
@@ -69,6 +77,7 @@ const registerUser = async (req, res) => {
       email: trimmedEmail,
       phone: trimmedPhone,
       college: trimmedCollege,
+      shift: trimmedShift,
     });
 
     res.status(201).json({

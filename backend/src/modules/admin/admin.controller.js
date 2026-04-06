@@ -65,7 +65,7 @@ const downloadRegistered = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("registrations")
-      .select("name, email, phone, college, ticket_id, payment_status, created_at")
+      .select("name, email, phone, college, shift, ticket_id, payment_status, created_at")
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -81,6 +81,7 @@ const downloadRegistered = async (req, res) => {
       { header: "Email", key: "email", width: 30 },
       { header: "Phone", key: "phone", width: 18 },
       { header: "College", key: "college", width: 30 },
+      { header: "Shift", key: "shift", width: 15 },
       { header: "Ticket ID", key: "ticket_id", width: 20 },
       { header: "Payment Status", key: "payment_status", width: 18 },
       { header: "Registered At", key: "created_at", width: 22 },
@@ -119,7 +120,7 @@ const downloadAttended = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("registrations")
-      .select("name, email, phone, college, ticket_id, created_at")
+      .select("name, email, phone, college, shift, ticket_id, created_at")
       .eq("attendance_marked", true)
       .order("created_at", { ascending: false });
 
@@ -136,6 +137,7 @@ const downloadAttended = async (req, res) => {
       { header: "Email", key: "email", width: 30 },
       { header: "Phone", key: "phone", width: 18 },
       { header: "College", key: "college", width: 30 },
+      { header: "Shift", key: "shift", width: 15 },
       { header: "Ticket ID", key: "ticket_id", width: 20 },
       { header: "Attended At", key: "created_at", width: 22 },
     ];

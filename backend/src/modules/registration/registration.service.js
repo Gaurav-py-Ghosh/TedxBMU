@@ -13,13 +13,14 @@ const syncToGoogleSheet = require("../../../utils/syncToGoogleSheet");
  * Rolls back QR on any failure.
  */
 const createRegistration = async (data) => {
-  const { name, email, phone, college, payment_id, order_id, amount, payment_status } = data;
+  const { name, email, phone, college, shift, payment_id, order_id, amount, payment_status } = data;
 
   // ── 1. Sanitize ──────────────────────────────────────────────
   const cleanEmail = email.trim().toLowerCase();
   const cleanName = name.trim();
   const cleanPhone = phone.trim();
   const cleanCollege = college.trim();
+  const cleanShift = shift.trim();
 
   // ── 2. Duplicate check (safety net) ──
   console.log("[REG] Checking for duplicate email:", cleanEmail);
@@ -107,6 +108,7 @@ const createRegistration = async (data) => {
         email: cleanEmail,
         phone: cleanPhone,
         college: cleanCollege,
+        shift: cleanShift,
         ticket_id,
         payment_status: payment_status || "free",
         payment_id: payment_id || null,

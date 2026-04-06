@@ -16,6 +16,7 @@ const syncToGoogleSheet = async (registrationData) => {
             email: registrationData.email,
             phone: registrationData.phone,
             college: registrationData.college,
+            shift: registrationData.shift,
             ticket_id: registrationData.ticket_id,
             payment_status: registrationData.payment_status || "free",
             created_at: registrationData.created_at || new Date().toISOString(),

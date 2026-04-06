@@ -40,17 +40,17 @@ async function apiFetch(endpoint, options = {}) {
  * ==============================
  */
 
-export async function registerUser({ name, email, phone, college }) {
+export async function registerUser({ name, email, phone, college, shift }) {
   return apiFetch("/api/registration", {
     method: "POST",
-    body: JSON.stringify({ name, email, phone, college }),
+    body: JSON.stringify({ name, email, phone, college, shift }),
   });
 }
 
-export async function createPaymentOrder({ name, email, phone, college }) {
+export async function createPaymentOrder({ name, email, phone, college, shift }) {
   return apiFetch("/api/payment/create-order", {
     method: "POST",
-    body: JSON.stringify({ name, email, phone, college }),
+    body: JSON.stringify({ name, email, phone, college, shift }),
   });
 }
 

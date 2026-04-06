@@ -26,7 +26,7 @@ const getRazorpay = () => {
  * @returns {{ order_id, amount, currency, key_id }}
  */
 const createOrder = async (userData) => {
-    const { name, email, phone, college } = userData;
+    const { name, email, phone, college, shift } = userData;
     const amount = parseInt(process.env.EVENT_PRICE) || 499;
 
     // ── Check for existing paid registration (duplicate prevention) ──
@@ -71,7 +71,7 @@ const createOrder = async (userData) => {
     const order = await razorpay.orders.create({
         amount: amountInPaise,
         currency: "INR",
-        notes: { name, email, phone, college },
+        notes: { name, email, phone, college, shift },
     });
 
     // ── Store in pending_orders so we can retrieve user data after payment ──
@@ -84,6 +84,7 @@ const createOrder = async (userData) => {
                 email,
                 phone,
                 college,
+                shift,
                 amount,
                 status: "created",
             },
@@ -160,6 +161,7 @@ const verifyAndRegister = async ({ razorpay_order_id, razorpay_payment_id, razor
         email: pendingOrder.email,
         phone: pendingOrder.phone,
         college: pendingOrder.college,
+        shift: pendingOrder.shift || "morning",
         payment_id: razorpay_payment_id,
         order_id: razorpay_order_id,
         amount: pendingOrder.amount,
