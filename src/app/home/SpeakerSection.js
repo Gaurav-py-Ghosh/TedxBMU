@@ -42,11 +42,20 @@ const speakers = [
   {
     id: 5,
     name: "Sonal Katyal",
-    title: "Content Creator & Parenting Expert",
+    title: "Digital Creator, Author & Entrepreneur",
     topic: "Topic to be Announced",
-    bio: "Sonal Katyal is a well-known content creator and parenting expert who has built a strong digital community by sharing the authentic, everyday realities of motherhood. Known for her relatable approach, she connects with parents nationwide to foster open conversations about the challenges and joys of modern parenting. Through her platforms, she inspires resilience and continues to serve as a supportive voice for families everywhere.",
+    bio: "Sonal Katyal is an influential digital creator, author, and entrepreneur best known for her platform Rollercoaster of Motherhood. With a community of over 315,000 followers and the Times of India’s Power Creator of the Year award, she has made a strong mark in the digital space. She is also a published author, conducting workshops and collaborating with global brands. From a small kitchen studio to a thriving professional journey, Sonal’s story reflects the power of authentic storytelling and modern digital entrepreneurship.",
     number: "05",
     photo: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1775409772/Sonal_Katyal_Tedx-Photoroom_zacpd4.png",
+  },
+  {
+    id: 6,
+    name: "Lt Gen Anil Malik",
+    title: "Former Lieutenant General, Indian Army",
+    topic: "Topic to be Announced",
+    bio: "Lt Gen Anil Malik is a former Lieutenant General of the Indian Army with nearly 38+ years of service (1975 to 2013) in strategic leadership and defence management. He has held senior roles including Director General at Army Headquarters and Director for Security Affairs at India’s Ministry of External Affairs. His global experience includes advising defence institutions in Africa and Eurasia. Today, he serves as an advisor to the Sakha Group of Companies and actively mentors organizations on leadership, governance, and national security perspectives.",
+    number: "06",
+    photo: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1775467364/Lt_Gen_Anil_malik_tedx-Photoroom_aietca.png",
   },
 ];
 
