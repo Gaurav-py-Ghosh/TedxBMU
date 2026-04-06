@@ -3,14 +3,19 @@ const supabase = require("../../config/db");
 const ExcelJS = require("exceljs");
 
 const loginAdmin = (req, res) => {
-  const { email, password } = req.body;
+  const email = (req.body?.email || "").trim().toLowerCase();
+  const password = (req.body?.password || "").trim();
 
-  const allowedEmails = (process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || "").split(",").map(e => e.trim());
+  const allowedEmails = (process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || "")
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
 
-  if (
-    allowedEmails.includes(email) &&
-    password === process.env.ADMIN_PASSWORD
-  ) {
+  if (!process.env.ADMIN_PASSWORD || !process.env.JWT_SECRET || allowedEmails.length === 0) {
+    return res.status(500).json({ message: "Admin auth is not configured on server" });
+  }
+
+  if (allowedEmails.includes(email) && password === process.env.ADMIN_PASSWORD.trim()) {
     const token = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: "6h",
     });
