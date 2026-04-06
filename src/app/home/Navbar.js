@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import NavLink from "./NavLink";
 
 export default function Navbar() {
@@ -120,6 +121,14 @@ style={{ height: scrolled ? "60px" : "80px" }}
       </li>
       <li onClick={() => setIsMenuOpen(false)}>
         <NavLink label="Contact" href="/contact" />
+      </li>
+      <li onClick={() => setIsMenuOpen(false)}>
+        <Link
+          href="/register"
+          className="inline-flex items-center justify-center rounded-full border border-[#e62b1e] bg-[#e62b1e] px-5 py-2 text-sm font-semibold tracking-wide text-white transition-colors duration-200 hover:bg-transparent"
+        >
+          Register
+        </Link>
       </li>
     </ul>
   </div>

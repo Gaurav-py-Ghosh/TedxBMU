@@ -2,6 +2,16 @@ const { getEmailConfig } = require("../../services/email");
 
 const CONTACT_SUBJECT = "New Contact Form Message | TEDxBMU";
 
+const getRecipientList = () => {
+  const raw = process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || "";
+  const recipients = raw
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  return recipients;
+};
+
 const buildHtmlBody = ({ firstName, lastName, email, message }) => {
   const safeMessage = message.replace(/\n/g, "<br />");
 
@@ -29,13 +39,20 @@ const buildTextBody = ({ firstName, lastName, email, message }) => {
 };
 
 const sendContactMessage = async ({ firstName, lastName, email, message }) => {
+  const recipients = getRecipientList();
+
+  if (!recipients.length) {
+    const err = new Error("No admin email configured");
+    err.code = "CONTACT_RECIPIENT_MISSING";
+    throw err;
+  }
+
   const emailConfig = getEmailConfig();
   const transporter = emailConfig.getClient();
 
   const mailOptions = {
     from: emailConfig.getFromAddress(),
-    to: "tedxbmu@bmu.edu.in",
-    bcc: "mehulvig6@gmai.com",
+    to: recipients.join(","),
     replyTo: email,
     subject: CONTACT_SUBJECT,
     html: buildHtmlBody({ firstName, lastName, email, message }),
