@@ -139,7 +139,10 @@ const createRegistration = async (data) => {
   }
 
   // ── 6. Sync to Google Sheet (non-blocking) ─────────────────
-  syncToGoogleSheet(result[0]);
+  syncToGoogleSheet({
+    ...result[0],
+    shift: cleanShift,
+  });
 
   return {
     ...result[0],
