@@ -3,20 +3,21 @@
 import { useEffect, useRef } from "react";
 
 const TEAM = [
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531097/Akshat_Kabra__Licensee_bbdoeb.jpg", name: "Akshat Kabra", role: "Licensee", linkedin: "https://www.linkedin.com/in/akshatkabra1" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Rhea_Singh_Sud_Co-Licensee_rpigrd.jpg", name: "Rhea Singh Sud", role: "Co-Licensee", linkedin: "https://www.linkedin.com/in/rhea-singh-sud" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/GauravWebsite_lyvk3n.jpg", name: "Gaurav", role: "Website Lead", linkedin: "https://www.linkedin.com/in/gaurav-ghosh-9531132b3/" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531099/Radhika_Goel_Design_b8msdh.jpg", name: "Radhika Goel", role: "Design Lead", linkedin: "https://www.linkedin.com/in/goelradhika" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531101/YakshitaYadav_Design_j8xiqy.jpg", name: "Yakshita Yadav", role: "Design Lead", linkedin: "https://www.linkedin.com/in/yakshita-yadav/" },
+
+ {image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775496635/DSC_0107_tkjhpd.jpg",name: "Akshat Kabra", role: "Licensee",linkedin: "https://www.linkedin.com/in/akshatkabra1"},
+{ image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775497800/copy_of_dsc_0115_fdawmm_8bcf6d.jpg", name: "Rhea Singh Sud", role: "Co-Licensee", linkedin: "https://www.linkedin.com/in/rhea-singh-sud" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775496771/DSC_0111_hozndp.jpg", name: "Gaurav", role: "Website Lead", linkedin: "https://www.linkedin.com/in/gaurav-ghosh-9531132b3/" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775496788/DSC_0180_wy8sau.jpg", name: "Radhika Goel", role: "Design Lead", linkedin: "https://www.linkedin.com/in/goelradhika" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775501589/DSC_0183_grecqa.jpg", name: "Yakshita Yadav", role: "Design Lead", linkedin: "https://www.linkedin.com/in/yakshita-yadav/" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774689267/Priyal_Khullar_Content_h1gfnv.jpg", name: "Priyal Khullar", role: "Content Lead", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Aryan_Nair_Curation_vph79x.jpg", name: "Aryan Nair", role: "Curation Lead", linkedin: "https://www.linkedin.com/in/aryannair1" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Bhavyanshi_Singh_Curation_yuqulz.jpg", name: "Bhavyanshi Singh", role: "Curation Lead", linkedin: "https://www.linkedin.com/in/bhavyanshi-singh-68288a293" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775501574/DSC_0039_iivenp.jpg", name: "Aryan Nair", role: "Curation Lead", linkedin: "https://www.linkedin.com/in/aryannair1" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775496725/DSC_0050_lqg5xv.jpg", name: "Bhavyanshi Singh", role: "Curation Lead", linkedin: "https://www.linkedin.com/in/bhavyanshi-singh-68288a293" },
   
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/BayyapureddyVibhugnan_Marketing_tzixjg.jpg", name: "Bayyapureddy Vibhugnan", role: "Marketing Lead", linkedin: "https://www.linkedin.com/in/bayyapureddy-vibhu-gnan-82a60128a" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/saanvee_socialmedia_irwhph.jpg", name: "Saanvee", role: "Marketing Lead", linkedin: "https://www.linkedin.com/in/saanveesharma/" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775496736/DSC_0113_rbhjra.jpg", name: "Bayyapureddy Vibhugnan", role: "Marketing Lead", linkedin: "https://www.linkedin.com/in/bayyapureddy-vibhu-gnan-82a60128a" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775496755/DSC_0154_a8dvnj.jpg", name: "Saanvee", role: "Marketing Lead", linkedin: "https://www.linkedin.com/in/saanveesharma/" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Dhiren_Video_Production_nnynjg.jpg", name: "Dhiren", role: "Video Production Lead", linkedin: "https://www.linkedin.com/in/dhiren-421198297" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/Tanuj_Dhakad__event_management__uwfdqy.jpg", name: "Tanuj Dhakad", role: "Event Management Lead", linkedin: "https://www.linkedin.com/in/tanuj-dhakad-b1b238290" },
-  { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531100/SanyamJain_eventmanagement_s5qpx0.png", name: "Sanyam Jain", role: "Event Management Lead", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775496743/DSC_0140_gnltpm.jpg", name: "Tanuj Dhakad", role: "Event Management Lead", linkedin: "https://www.linkedin.com/in/tanuj-dhakad-b1b238290" },
+  { image: "https://res.cloudinary.com/dq43tb53r/image/upload/v1775501604/DSC_0145_vhpvnh.jpg", name: "Sanyam Jain", role: "Event Management Lead", linkedin: "https://www.linkedin.com/in/sanyam-jain-a15034294" },
   { image: "https://res.cloudinary.com/dhf3vdsqn/image/upload/v1774531098/Ansh_Gagneja_BBA_MBA_Integrated_2_hbrnsc.png", name: "Ansh Gagneja", role: "Sponsorship Lead", linkedin: "https://www.linkedin.com/in/ansh-gagneja-42730b282/" },
 ];
 
