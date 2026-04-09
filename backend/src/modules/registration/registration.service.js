@@ -3,7 +3,7 @@ const generateQR = require("../../../utils/generateQR");
 const { uploadQR, deleteQR } = require("../../../utils/uploadQR");
 const supabase = require("../../config/db");
 const { getEmailService } = require("../../services/email");
-const syncToGoogleSheet = require("../../../utils/syncToGoogleSheet");
+const { syncToGoogleSheet } = require("../../../utils/syncToGoogleSheet");
 
 /**
  * Create a full registration.

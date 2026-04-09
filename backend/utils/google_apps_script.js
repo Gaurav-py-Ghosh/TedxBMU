@@ -27,12 +27,19 @@ function doPost(e) {
                 "Email",
                 "Phone",
                 "College",
+                "Shift",
                 "Ticket ID",
                 "Payment Status",
+                "Payment ID",
+                "Order ID",
+                "Amount",
+                "QR Code URL",
+                "Email Sent",
+                "Attendance Marked",
                 "Registered At",
             ]);
             // Bold the header row
-            sheet.getRange(1, 1, 1, 7).setFontWeight("bold");
+            sheet.getRange(1, 1, 1, 14).setFontWeight("bold");
         }
 
         // Handle bulk sync (array of registrations)
@@ -59,17 +66,50 @@ function doPost(e) {
 }
 
 function appendRegistration(sheet, row) {
-    sheet.appendRow([
+    var ticketId = row.ticket_id || "";
+    var existingRow = findRowByTicketId(sheet, ticketId);
+    var values = [
         row.name || "",
         row.email || "",
         row.phone || "",
         row.college || "",
+        row.shift || "",
         row.ticket_id || "",
         row.payment_status || "",
+        row.payment_id || "",
+        row.order_id || "",
+        row.amount || "",
+        row.qr_code_url || "",
+        String(Boolean(row.email_sent)),
+        String(Boolean(row.attendance_marked)),
         row.created_at
             ? new Date(row.created_at).toLocaleString("en-IN", {
                 timeZone: "Asia/Kolkata",
             })
             : new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
-    ]);
+    ];
+
+    // Upsert by ticket ID to avoid duplicate rows during periodic backfill.
+    if (existingRow > 0) {
+        sheet.getRange(existingRow, 1, 1, values.length).setValues([values]);
+    } else {
+        sheet.appendRow(values);
+    }
+}
+
+function findRowByTicketId(sheet, ticketId) {
+    if (!ticketId || sheet.getLastRow() <= 1) {
+        return -1;
+    }
+
+    // Ticket ID is column 6 in the current sheet schema.
+    var values = sheet.getRange(2, 6, sheet.getLastRow() - 1, 1).getValues();
+
+    for (var i = 0; i < values.length; i++) {
+        if (String(values[i][0]) === String(ticketId)) {
+            return i + 2;
+        }
+    }
+
+    return -1;
 }
