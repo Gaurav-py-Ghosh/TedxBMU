@@ -138,8 +138,8 @@ const createRegistration = async (data) => {
     throw new Error(`DB Insert Error: ${insertError.message}`);
   }
 
-  // ── 6. Sync to Google Sheet (non-blocking) ─────────────────
-  syncToGoogleSheet({
+  // ── 6. Sync to Google Sheet (best-effort, awaited for serverless) ───────
+  await syncToGoogleSheet({
     ...result[0],
     shift: cleanShift,
   });

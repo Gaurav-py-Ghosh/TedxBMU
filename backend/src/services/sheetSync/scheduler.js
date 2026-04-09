@@ -1,48 +1,22 @@
 const supabase = require("../../config/db");
 const { syncToGoogleSheet } = require("../../../utils/syncToGoogleSheet");
 
-const SYNC_INTERVAL_MS = Number(process.env.SHEET_SYNC_INTERVAL_MS || 10 * 60 * 1000);
-const SAFETY_OVERLAP_MS = 2 * 60 * 1000;
-const DEFAULT_LOOKBACK_MS = 15 * 60 * 1000;
 const PAGE_SIZE = Number(process.env.SHEET_SYNC_PAGE_SIZE || 500);
+const SELECT_COLUMNS =
+  "name, email, phone, college, shift, ticket_id, payment_status, payment_id, order_id, amount, qr_code_url, email_sent, attendance_marked, created_at";
 
-let lastSuccessfulSyncAt = null;
-
-const getSyncStartIso = () => {
-  const now = Date.now();
-
-  if (!lastSuccessfulSyncAt) {
-    return new Date(now - DEFAULT_LOOKBACK_MS).toISOString();
-  }
-
-  return new Date(lastSuccessfulSyncAt - SAFETY_OVERLAP_MS).toISOString();
-};
-
-const syncRecentRegistrations = async () => {
-  if (!process.env.GOOGLE_SHEET_SCRIPT_URL) {
-    return;
-  }
-
-  const syncStartIso = getSyncStartIso();
-
+const syncPagedQuery = async (buildQuery, modeLabel) => {
   let from = 0;
   let pageCount = 0;
   let totalRowsSynced = 0;
 
   while (true) {
     const to = from + PAGE_SIZE - 1;
-
-    const { data, error } = await supabase
-      .from("registrations")
-      .select(
-        "name, email, phone, college, shift, ticket_id, payment_status, payment_id, order_id, amount, qr_code_url, email_sent, attendance_marked, created_at"
-      )
-      .gte("created_at", syncStartIso)
-      .order("created_at", { ascending: true })
-      .range(from, to);
+    const query = buildQuery(to, from);
+    const { data, error } = await query;
 
     if (error) {
-      throw new Error(`Sheet scheduler fetch failed: ${error.message}`);
+      throw new Error(`Sheet ${modeLabel} fetch failed: ${error.message}`);
     }
 
     if (!data || data.length === 0) {
@@ -61,36 +35,31 @@ const syncRecentRegistrations = async () => {
     from += PAGE_SIZE;
   }
 
-  lastSuccessfulSyncAt = Date.now();
-
-  if (totalRowsSynced > 0) {
-    console.log(
-      `[SHEET SYNC] Synced ${totalRowsSynced} registrations in ${pageCount} page(s). Start=${syncStartIso}`
-    );
-  }
+  return { totalRowsSynced, pageCount };
 };
 
-const startSheetSyncScheduler = () => {
+const syncAllRegistrations = async () => {
   if (!process.env.GOOGLE_SHEET_SCRIPT_URL) {
-    console.log("[SHEET SYNC] GOOGLE_SHEET_SCRIPT_URL missing. Scheduler disabled.");
-    return;
+    throw new Error("GOOGLE_SHEET_SCRIPT_URL missing");
   }
 
-  console.log(`[SHEET SYNC] Scheduler enabled. Interval=${SYNC_INTERVAL_MS}ms`);
+  const { totalRowsSynced, pageCount } = await syncPagedQuery(
+    (to, from) =>
+      supabase
+        .from("registrations")
+        .select(SELECT_COLUMNS)
+        .order("created_at", { ascending: true })
+        .range(from, to),
+    "full backfill"
+  );
 
-  // Initial best-effort backfill on startup.
-  syncRecentRegistrations().catch((err) => {
-    console.error("[SHEET SYNC] Initial sync failed:", err.message);
-  });
+  console.log(
+    `[SHEET SYNC] Full backfill complete. Rows=${totalRowsSynced}, Pages=${pageCount}`
+  );
 
-  setInterval(() => {
-    syncRecentRegistrations().catch((err) => {
-      console.error("[SHEET SYNC] Periodic sync failed:", err.message);
-    });
-  }, SYNC_INTERVAL_MS);
+  return { totalRowsSynced, pageCount };
 };
 
 module.exports = {
-  startSheetSyncScheduler,
-  syncRecentRegistrations,
+  syncAllRegistrations,
 };

@@ -1,5 +1,4 @@
 require("dotenv").config();
-const { startSheetSyncScheduler } = require("./services/sheetSync/scheduler");
 
 // --- Startup env validation ---
 const requiredEnvVars = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "EMAIL_FROM", "QR_SECRET", "JWT_SECRET"];
@@ -30,7 +29,4 @@ app.listen(PORT, async () => {
   } catch (err) {
     console.error("[STARTUP] ⚠️ Email service failed to initialize:", err.message);
   }
-
-  // Keep Google Sheet in sync with recent registrations every interval.
-  startSheetSyncScheduler();
 });

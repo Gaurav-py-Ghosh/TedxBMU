@@ -13,33 +13,47 @@
 // 6. Paste the URL as GOOGLE_SHEET_SCRIPT_URL in backend/.env
 // 7. Copy the Google Sheet URL and paste as
 //    NEXT_PUBLIC_GOOGLE_SHEET_URL in tedx/.env.local
+//
+// Notes:
+// - This works with serverless backend flow where each successful registration
+//   sends one sync request immediately.
+// - It also supports optional bulk backfill payloads (array of registrations).
 // =============================================================
+
+var HEADERS = [
+    "Name",
+    "Email",
+    "Phone",
+    "College",
+    "Shift",
+    "Ticket ID",
+    "Payment Status",
+    "Payment ID",
+    "Order ID",
+    "Amount",
+    "QR Code URL",
+    "Email Sent",
+    "Attendance Marked",
+    "Registered At",
+];
 
 function doPost(e) {
     try {
         var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+        if (!e || !e.postData || !e.postData.contents) {
+            return ContentService.createTextOutput(
+                JSON.stringify({ status: "error", message: "Empty request body" })
+            ).setMimeType(ContentService.MimeType.JSON);
+        }
+
         var data = JSON.parse(e.postData.contents);
 
-        // Auto-create headers if the sheet is empty
-        if (sheet.getLastRow() === 0) {
-            sheet.appendRow([
-                "Name",
-                "Email",
-                "Phone",
-                "College",
-                "Shift",
-                "Ticket ID",
-                "Payment Status",
-                "Payment ID",
-                "Order ID",
-                "Amount",
-                "QR Code URL",
-                "Email Sent",
-                "Attendance Marked",
-                "Registered At",
-            ]);
-            // Bold the header row
-            sheet.getRange(1, 1, 1, 14).setFontWeight("bold");
+        ensureHeaders(sheet);
+
+        if (!data) {
+            return ContentService.createTextOutput(
+                JSON.stringify({ status: "error", message: "Invalid payload" })
+            ).setMimeType(ContentService.MimeType.JSON);
         }
 
         // Handle bulk sync (array of registrations)
@@ -65,6 +79,13 @@ function doPost(e) {
     }
 }
 
+function ensureHeaders(sheet) {
+    if (sheet.getLastRow() === 0) {
+        sheet.appendRow(HEADERS);
+        sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold");
+    }
+}
+
 function appendRegistration(sheet, row) {
     var ticketId = row.ticket_id || "";
     var existingRow = findRowByTicketId(sheet, ticketId);
@@ -80,8 +101,8 @@ function appendRegistration(sheet, row) {
         row.order_id || "",
         row.amount || "",
         row.qr_code_url || "",
-        String(Boolean(row.email_sent)),
-        String(Boolean(row.attendance_marked)),
+        toBooleanString(row.email_sent),
+        toBooleanString(row.attendance_marked),
         row.created_at
             ? new Date(row.created_at).toLocaleString("en-IN", {
                 timeZone: "Asia/Kolkata",
@@ -112,4 +133,8 @@ function findRowByTicketId(sheet, ticketId) {
     }
 
     return -1;
+}
+
+function toBooleanString(value) {
+    return String(value === true || value === "true" || value === 1 || value === "1");
 }
