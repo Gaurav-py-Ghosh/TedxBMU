@@ -161,6 +161,17 @@ export default function Hero() {
                 <span className="text-white text-sm md:text-base font-black ml-1 text-nowrap">April 2026</span>
               </div>
             </div>
+
+            {/* Register button - desktop */}
+            <div className="mt-8">
+              <Link
+                href="/register"
+                className="inline-flex items-center justify-center rounded-full border border-[#e62b1e] bg-[#e62b1e] px-8 py-3 text-sm font-semibold tracking-wide text-white transition-colors duration-200 hover:bg-black/50"
+              >
+                Register Now
+              </Link>
+            </div>
+
           </div>
         )}
       </motion.div>

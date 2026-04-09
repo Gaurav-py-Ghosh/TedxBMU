@@ -80,7 +80,7 @@ export default function SpeakerSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSpeaker((prev) => (prev + 1) % speakers.length);
-    }, 3500);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
