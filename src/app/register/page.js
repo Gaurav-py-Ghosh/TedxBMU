@@ -12,7 +12,7 @@ export default function RegisterPage() {
     email: "",
     phone: "",
     college: "",
-    shift: "morning",
+    shift: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -174,6 +174,7 @@ export default function RegisterPage() {
                 className="bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#e62b1e]/50 focus:ring-1 focus:ring-[#e62b1e]/50 transition-all appearance-none"
                 disabled={loading}
               >
+                <option value="">Select shift</option>
                 <option value="morning">Morning (10:00 AM to 12:30 PM)</option>
                 <option value="afternoon">Afternoon (1:15 PM to 3:00 PM)</option>
                 <option value="both">Both (10:00 AM to 3:00 PM)</option>
