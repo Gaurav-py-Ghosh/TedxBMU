@@ -53,9 +53,9 @@ const registerUser = async (req, res) => {
       });
     }
 
-    if (trimmedShift !== "morning" && trimmedShift !== "afternoon") {
+    if (trimmedShift !== "morning" && trimmedShift !== "afternoon" && trimmedShift !== "both") {
       return res.status(400).json({
-        message: "Invalid shift selected. Choose either 'morning' or 'afternoon'.",
+        message: "Invalid shift selected. Choose 'morning', 'afternoon', or 'both'.",
       });
     }
 

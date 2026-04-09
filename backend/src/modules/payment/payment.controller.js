@@ -43,7 +43,7 @@ const createOrder = async (req, res) => {
             return res.status(400).json({ message: "Invalid phone number" });
         }
 
-        if (cleanShift !== "morning" && cleanShift !== "afternoon") {
+        if (cleanShift !== "morning" && cleanShift !== "afternoon" && cleanShift !== "both") {
             return res.status(400).json({ message: "Invalid shift selected." });
         }
 
