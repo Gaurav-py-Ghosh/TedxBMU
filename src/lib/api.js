@@ -76,6 +76,13 @@ export async function sendContactMessage({ firstName, lastName, email, message }
   });
 }
 
+export async function submitFeedback({ name, email, phone, rating, feedback }) {
+  return apiFetch("/api/feedback", {
+    method: "POST",
+    body: JSON.stringify({ name, email, phone, rating, feedback }),
+  });
+}
+
 export async function healthCheck() {
   return apiFetch("/health");
 }

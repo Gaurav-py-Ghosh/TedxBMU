@@ -6,6 +6,7 @@ const adminRoutes = require("./modules/admin/admin.routes");
 const attendanceRoutes = require("./modules/attendance/attendance.routes");
 const paymentRoutes = require("./modules/payment/payment.routes");
 const contactRoutes = require("./modules/contact/contact.routes");
+const feedbackRoutes = require("./modules/feedback/feedback.routes");
 const app = express();
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
@@ -39,6 +40,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/feedback", feedbackRoutes);
 app.get("/health", (req, res) => {
   res.status(200).json({ message: "Backend running" });
 });

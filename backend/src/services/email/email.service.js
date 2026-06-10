@@ -9,6 +9,10 @@ const {
   generateTicketEmail,
   generateTicketEmailText,
 } = require("./templates/ticket.template");
+const {
+  generateCertificateEmail,
+  generateCertificateEmailText,
+} = require("./templates/certificate.template");
 
 /**
  * Email Service Logger
@@ -118,6 +122,44 @@ class EmailService {
 
     if (!college || typeof college !== "string" || college.trim().length === 0) {
       errors.push("Invalid or missing college name");
+    }
+
+    if (errors.length > 0) {
+      throw new EmailError(
+        `Validation failed: ${errors.join(", ")}`,
+        "VALIDATION_ERROR"
+      );
+    }
+  }
+
+  /**
+   * Validate certificate email parameters
+   * @private
+   * @param {Object} params
+   * @throws {EmailError}
+   */
+  _validateCertificateParams(params) {
+    const { to, name, role, certificatePath, certificateBuffer } = params;
+
+    const errors = [];
+
+    if (!to || !this._validateEmail(to)) {
+      errors.push("Invalid recipient email address");
+    }
+
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
+      errors.push("Invalid or missing name");
+    }
+
+    if (!role || typeof role !== "string" || role.trim().length === 0) {
+      errors.push("Invalid or missing role");
+    }
+
+    if (
+      !certificateBuffer &&
+      (!certificatePath || typeof certificatePath !== "string")
+    ) {
+      errors.push("Invalid or missing certificate attachment");
     }
 
     if (errors.length > 0) {
@@ -247,6 +289,100 @@ class EmailService {
 
       // Determine error type and message
       let errorMessage = "Failed to send email";
+      let errorCode = "SEND_ERROR";
+
+      if (error instanceof EmailError) {
+        errorMessage = error.message;
+        errorCode = error.code;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
+      return {
+        success: false,
+        emailId: null,
+        error: errorMessage,
+        code: errorCode,
+      };
+    }
+  }
+
+  /**
+   * Send certificate email to user
+   * @param {Object} params
+   * @param {string} params.to - Recipient email
+   * @param {string} params.name - Recipient name
+   * @param {string} params.role - Certificate role
+   * @param {Buffer} params.certificateBuffer - Certificate file buffer
+   * @param {string} params.certificatePath - Local path to certificate file, for dev fallback
+   * @param {string} params.certificateFile - Certificate filename
+   * @returns {Promise<{success: boolean, emailId: string|null, error: string|null}>}
+   */
+  async sendCertificateEmail({ to, name, role, certificateBuffer, certificatePath, certificateFile }) {
+    const startTime = Date.now();
+
+    try {
+      this._validateCertificateParams({
+        to,
+        name,
+        role,
+        certificateBuffer,
+        certificatePath,
+      });
+
+      EmailLogger.info("Sending certificate email", {
+        to,
+        role,
+        certificateFile,
+      });
+
+      const htmlContent = generateCertificateEmail({ name, role });
+      const textContent = generateCertificateEmailText({ name, role });
+
+      const attachment = {
+        filename: certificateFile || "TEDxBMU Certificate.png",
+        contentType: "image/png",
+        ...(certificateBuffer
+          ? { content: certificateBuffer }
+          : { path: certificatePath }),
+      };
+
+      const mailOptions = {
+        from: this.config.getFromAddress(),
+        to,
+        subject: "Your TEDxBMU Certificate of Appreciation",
+        html: htmlContent,
+        text: textContent,
+        attachments: [attachment],
+      };
+
+      const info = await this._sendWithRetry(mailOptions);
+      const duration = Date.now() - startTime;
+
+      EmailLogger.info("Certificate email sent successfully", {
+        to,
+        role,
+        messageId: info.messageId,
+        duration: `${duration}ms`,
+      });
+
+      return {
+        success: true,
+        emailId: info.messageId || null,
+        error: null,
+      };
+    } catch (error) {
+      const duration = Date.now() - startTime;
+
+      EmailLogger.error("Failed to send certificate email", {
+        to,
+        role,
+        error: error.message,
+        code: error.code,
+        duration: `${duration}ms`,
+      });
+
+      let errorMessage = "Failed to send certificate email";
       let errorCode = "SEND_ERROR";
 
       if (error instanceof EmailError) {

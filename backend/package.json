@@ -9,6 +9,7 @@
     "dev:api": "nodemon src/server.js",
     "dev:frontend": "cd frontend && npm run dev",
     "sheet:backfill": "node src/scripts/backfillGoogleSheet.js",
+    "certificates:upload": "node src/scripts/uploadCertificatesToSupabase.js",
     "install:all": "npm install && cd frontend && npm install",
     "build:frontend": "cd frontend && npm run build"
   },
