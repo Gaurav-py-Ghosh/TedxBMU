@@ -171,4 +171,34 @@ const downloadAttended = async (req, res) => {
   }
 };
 
-module.exports = { loginAdmin, getStats, downloadRegistered, downloadAttended };
+const getFeedbackSubmissions = async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("feedback_submissions")
+      .select(
+        "name, email, phone, rating, feedback, recipient_name, recipient_role, match_type, certificate_file, certificate_sent, certificate_email_id, created_at"
+      )
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Feedback query error:", error);
+      return res.status(500).json({ message: "Failed to fetch feedback" });
+    }
+
+    return res.json({
+      feedback: data,
+      total_feedback: data.length,
+    });
+  } catch (err) {
+    console.error("Feedback error:", err.message || err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = {
+  loginAdmin,
+  getStats,
+  downloadRegistered,
+  downloadAttended,
+  getFeedbackSubmissions,
+};
