@@ -1,10 +1,11 @@
 /**
- * Push registration data to Google Sheets via Apps Script web app.
+ * Push registration or feedback data to Google Sheets via Apps Script web app.
  * Supports single object and array payloads.
  * Fire-and-forget safe: logs errors but does not throw.
  */
 
 const mapRegistration = (registrationData) => ({
+    kind: "registration",
     name: registrationData.name,
     email: registrationData.email,
     phone: registrationData.phone,
@@ -19,6 +20,22 @@ const mapRegistration = (registrationData) => ({
     email_sent: Boolean(registrationData.email_sent),
     attendance_marked: Boolean(registrationData.attendance_marked),
     created_at: registrationData.created_at || new Date().toISOString(),
+});
+
+const mapFeedback = (feedbackData) => ({
+    kind: "feedback",
+    name: feedbackData.name,
+    email: feedbackData.email,
+    phone: feedbackData.phone,
+    rating: feedbackData.rating,
+    feedback: feedbackData.feedback,
+    recipient_name: feedbackData.recipient_name || feedbackData.recipientName || "",
+    recipient_role: feedbackData.recipient_role || feedbackData.recipientRole || "",
+    match_type: feedbackData.match_type || feedbackData.matchType || "",
+    certificate_file: feedbackData.certificate_file || feedbackData.certificateFile || "",
+    certificate_sent: Boolean(feedbackData.certificate_sent),
+    certificate_email_id: feedbackData.certificate_email_id || "",
+    created_at: feedbackData.created_at || new Date().toISOString(),
 });
 
 const postToSheet = async (payload) => {
@@ -37,17 +54,16 @@ const postToSheet = async (payload) => {
     }
 };
 
-const syncToGoogleSheet = async (registrationDataOrArray) => {
+const syncToGoogleSheet = async (data) => {
     const scriptUrl = process.env.GOOGLE_SHEET_SCRIPT_URL;
 
-    if (!scriptUrl || !registrationDataOrArray) {
+    if (!scriptUrl || !data) {
         return;
     }
 
     try {
-        const payload = Array.isArray(registrationDataOrArray)
-            ? registrationDataOrArray.map(mapRegistration)
-            : mapRegistration(registrationDataOrArray);
+        const mapper = data && typeof data === "object" && "feedback" in data ? mapFeedback : mapRegistration;
+        const payload = Array.isArray(data) ? data.map(mapper) : mapper(data);
 
         await postToSheet(payload);
     } catch (err) {
@@ -58,4 +74,5 @@ const syncToGoogleSheet = async (registrationDataOrArray) => {
 module.exports = {
     syncToGoogleSheet,
     mapRegistration,
+    mapFeedback,
 };

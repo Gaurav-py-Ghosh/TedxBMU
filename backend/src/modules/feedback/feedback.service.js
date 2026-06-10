@@ -1,4 +1,5 @@
 const supabase = require("../../config/db");
+const { syncToGoogleSheet } = require("../../../utils/syncToGoogleSheet");
 const { getEmailService } = require("../../services/email");
 const { findCertificateRecipient } = require("./certificateRecipients");
 const { getCertificateBuffer } = require("./certificateStorage");
@@ -18,22 +19,22 @@ const saveFeedbackSubmission = async ({
   recipient,
   emailResult,
 }) => {
+  const row = {
+    name,
+    email,
+    phone,
+    rating,
+    feedback,
+    recipient_name: recipient.name,
+    recipient_role: recipient.role,
+    match_type: recipient.matchType,
+    certificate_file: recipient.certificateFile,
+    certificate_sent: emailResult.success,
+    certificate_email_id: emailResult.emailId || null,
+  };
+
   try {
-    const { error } = await supabase.from("feedback_submissions").insert([
-      {
-        name,
-        email,
-        phone,
-        rating,
-        feedback,
-        recipient_name: recipient.name,
-        recipient_role: recipient.role,
-        match_type: recipient.matchType,
-        certificate_file: recipient.certificateFile,
-        certificate_sent: emailResult.success,
-        certificate_email_id: emailResult.emailId || null,
-      },
-    ]);
+    const { error } = await supabase.from("feedback_submissions").insert([row]);
 
     if (error) {
       console.error("[FEEDBACK] Feedback DB insert failed:", error.message || error);
@@ -41,6 +42,8 @@ const saveFeedbackSubmission = async ({
   } catch (error) {
     console.error("[FEEDBACK] Feedback DB insert exception:", error.message || error);
   }
+
+  return row;
 };
 
 const processFeedback = async ({ name, email, phone, rating, feedback }) => {
@@ -71,7 +74,7 @@ const processFeedback = async ({ name, email, phone, rating, feedback }) => {
     certificateFile: recipient.certificateFile,
   });
 
-  await saveFeedbackSubmission({
+  const savedRow = await saveFeedbackSubmission({
     name,
     email,
     phone,
@@ -79,6 +82,11 @@ const processFeedback = async ({ name, email, phone, rating, feedback }) => {
     feedback,
     recipient,
     emailResult,
+  });
+
+  await syncToGoogleSheet({
+    ...savedRow,
+    created_at: savedRow.created_at || new Date().toISOString(),
   });
 
   if (!emailResult.success) {

@@ -20,7 +20,7 @@
 // - It also supports optional bulk backfill payloads (array of registrations).
 // =============================================================
 
-var HEADERS = [
+var REGISTRATION_HEADERS = [
     "Name",
     "Email",
     "Phone",
@@ -37,6 +37,21 @@ var HEADERS = [
     "Registered At",
 ];
 
+var FEEDBACK_HEADERS = [
+    "Name",
+    "Email",
+    "Phone",
+    "Rating",
+    "Feedback",
+    "Recipient Name",
+    "Recipient Role",
+    "Match Type",
+    "Certificate File",
+    "Certificate Sent",
+    "Certificate Email ID",
+    "Submitted At",
+];
+
 function doPost(e) {
     try {
         var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -48,26 +63,37 @@ function doPost(e) {
 
         var data = JSON.parse(e.postData.contents);
 
-        ensureHeaders(sheet);
-
         if (!data) {
             return ContentService.createTextOutput(
                 JSON.stringify({ status: "error", message: "Invalid payload" })
             ).setMimeType(ContentService.MimeType.JSON);
         }
 
+        if (data.kind === "feedback") {
+            var feedbackSheet = getOrCreateSheet("Feedback");
+            ensureHeaders(feedbackSheet, FEEDBACK_HEADERS);
+            appendFeedback(feedbackSheet, data);
+
+            return ContentService.createTextOutput(
+                JSON.stringify({ status: "ok", sheet: "Feedback" })
+            ).setMimeType(ContentService.MimeType.JSON);
+        }
+
         // Handle bulk sync (array of registrations)
         if (Array.isArray(data)) {
+            var registrationSheet = getOrCreateSheet("Registrations");
+            ensureHeaders(registrationSheet, REGISTRATION_HEADERS);
             data.forEach(function (row) {
-                appendRegistration(sheet, row);
+                appendRegistration(registrationSheet, row);
             });
             return ContentService.createTextOutput(
                 JSON.stringify({ status: "ok", count: data.length })
             ).setMimeType(ContentService.MimeType.JSON);
         }
 
-        // Single registration
-        appendRegistration(sheet, data);
+        var registrationSheet = getOrCreateSheet("Registrations");
+        ensureHeaders(registrationSheet, REGISTRATION_HEADERS);
+        appendRegistration(registrationSheet, data);
 
         return ContentService.createTextOutput(
             JSON.stringify({ status: "ok" })
@@ -79,10 +105,21 @@ function doPost(e) {
     }
 }
 
-function ensureHeaders(sheet) {
+function getOrCreateSheet(sheetName) {
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = spreadsheet.getSheetByName(sheetName);
+
+    if (!sheet) {
+        sheet = spreadsheet.insertSheet(sheetName);
+    }
+
+    return sheet;
+}
+
+function ensureHeaders(sheet, headers) {
     if (sheet.getLastRow() === 0) {
-        sheet.appendRow(HEADERS);
-        sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold");
+        sheet.appendRow(headers);
+        sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
     }
 }
 
@@ -116,6 +153,29 @@ function appendRegistration(sheet, row) {
     } else {
         sheet.appendRow(values);
     }
+}
+
+function appendFeedback(sheet, row) {
+    var values = [
+        row.name || "",
+        row.email || "",
+        row.phone || "",
+        row.rating || "",
+        row.feedback || "",
+        row.recipient_name || "",
+        row.recipient_role || "",
+        row.match_type || "",
+        row.certificate_file || "",
+        toBooleanString(row.certificate_sent),
+        row.certificate_email_id || "",
+        row.created_at
+            ? new Date(row.created_at).toLocaleString("en-IN", {
+                timeZone: "Asia/Kolkata",
+            })
+            : new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+    ];
+
+    sheet.appendRow(values);
 }
 
 function findRowByTicketId(sheet, ticketId) {
